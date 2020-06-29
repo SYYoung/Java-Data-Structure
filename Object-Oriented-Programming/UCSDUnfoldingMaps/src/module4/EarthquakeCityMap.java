@@ -80,7 +80,7 @@ public class EarthquakeCityMap extends PApplet {
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
 		//earthquakesURL = "test1.atom";
-		earthquakesURL = "test2.atom";
+		//earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
 		//earthquakesURL = "quiz1.atom";
@@ -145,6 +145,7 @@ public class EarthquakeCityMap extends PApplet {
 		textSize(12);
 		text("Earthquake Key", 50, 75);
 		
+		// draw : cityMarker, land quake and ocean quake
 		fill(color(255, 0, 0));
 		float radius = 5;
 		float x1 = 50, y1 = 100;
@@ -152,12 +153,23 @@ public class EarthquakeCityMap extends PApplet {
 		fill(color(255, 255, 255));
 		ellipse(x1, y1+space, radius*2, radius*2);
 		rect(x1-radius, y1+2*space, radius*2, radius*2);
+		// draw: shallow, intermediate, deep
+		fill(color(255, 255, 0));
+		ellipse(x1, y1+4*space, radius*2, radius*2);
+		fill(color(0, 0, 255));
+		ellipse(x1, y1+5*space, radius*2, radius*2);
+		fill(color(255, 0, 0));
+		ellipse(x1, y1+6*space, radius*2, radius*2);
 		
 		fill(0, 0, 0);
 		text("City Marker", 75, y1);
 		text("Land Quake", 75, y1+space);
 		text("Ocean Quake", 75, y1+2*space);
 		text("Size ~ Magnitude", x1-radius, y1+3*space);
+		// write: shallow, intermediate, deep
+		text("Shallow", 75, y1+4*space);
+		text("Intermediate", 75, y1+5*space);
+		text("Deep", 75, y1+6*space);
 		/*
 		fill(color(255, 0, 0));
 		ellipse(50, 125, 15, 15);
