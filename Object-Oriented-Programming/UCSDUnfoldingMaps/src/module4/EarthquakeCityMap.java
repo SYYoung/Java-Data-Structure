@@ -11,8 +11,10 @@ import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.AbstractShapeMarker;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
+import de.fhpotsdam.unfolding.providers.AbstractMapProvider;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
@@ -68,7 +70,8 @@ public class EarthquakeCityMap extends PApplet {
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			AbstractMapProvider provider = new OpenStreetMap.OpenStreetMapProvider();
+			map = new UnfoldingMap(this, 200, 50, 650, 600, provider);
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
 		}
@@ -77,7 +80,7 @@ public class EarthquakeCityMap extends PApplet {
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
 		//earthquakesURL = "test1.atom";
-		//earthquakesURL = "test2.atom";
+		earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
 		//earthquakesURL = "quiz1.atom";
@@ -162,7 +165,6 @@ public class EarthquakeCityMap extends PApplet {
 	// set this "country" property already.  Otherwise it returns false.
 	private boolean isLand(PointFeature earthquake) {
 		
-		
 		// Loop over all the country markers.  
 		// For each, check if the earthquake PointFeature is in the 
 		// country in m.  Notice that isInCountry takes a PointFeature
@@ -170,7 +172,8 @@ public class EarthquakeCityMap extends PApplet {
 		// If isInCountry ever returns true, isLand should return true.
 		for (Marker m : countryMarkers) {
 			// TODO: Finish this method using the helper method isInCountry
-			
+			if (isInCountry(earthquake, m))
+				return true;
 		}
 		
 		
@@ -210,7 +213,24 @@ public class EarthquakeCityMap extends PApplet {
 		//  * If you know your Marker, m, is a LandQuakeMarker, then it has a "country" 
 		//      property set.  You can get the country with:
 		//        String country = (String)m.getProperty("country");
-		
+			for (Marker cm : countryMarkers) {
+				int quakeCounter = 0;
+				String quakeCountry = "";
+				String cname = "";
+				for (Marker qm: quakeMarkers) {
+					if (qm instanceof EarthquakeMarker) {
+						EarthquakeMarker em = (EarthquakeMarker)qm;
+						if (em.isOnLand()) {
+							quakeCountry = (String)em.getProperty("country");
+							cname = (String)cm.getProperty("name");
+							if (cname.equals(quakeCountry))
+								quakeCounter++;
+						}
+					}
+				}
+				if (quakeCounter >= 1)
+					System.out.println(cname + ":\t" + quakeCounter);
+			}
 		
 	}
 	

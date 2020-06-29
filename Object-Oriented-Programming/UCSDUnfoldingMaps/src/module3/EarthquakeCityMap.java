@@ -151,7 +151,7 @@ public class EarthquakeCityMap extends PApplet {
 	public void draw() {
 		background(10);
 	    map.draw();
-	    //addKey();
+	    addKey();
 	}
 
 
@@ -160,13 +160,14 @@ public class EarthquakeCityMap extends PApplet {
 	private void addKey() 
 	{	int	xSpace = 20;
 		int ySpace = 20;
-		int xOrig = 30;
+		int xOrig = 20;
 		int yOrig = 50;
 		// Remember you can use Processing's graphics methods here
 		// 1. a legend area
-		rect(xOrig, yOrig, 130, 250);
-		textSize(5);
-		fill(10);
-		text("Earthquake Key", xOrig+xSpace, yOrig+ySpace);
+		fill(255, 255, 255);
+		rect(xOrig, yOrig, 150, 250);
+		textSize(12);
+		fill(0, 0, 0);
+		text("Earthquake Key", 30, 80);
 	}
 }
