@@ -1,0 +1,7 @@
+Marker (Interface)
+	1. AbstractMarker		
+	2. SimplePointMarker
+		1. EarthquakeMarker
+			a. LandQuakeMarker
+			b. OceanQuakeMarker
+		2. CityMarker							
