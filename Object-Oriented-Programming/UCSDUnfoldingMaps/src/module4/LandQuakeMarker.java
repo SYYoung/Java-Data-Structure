@@ -41,6 +41,12 @@ public class LandQuakeMarker extends EarthquakeMarker {
 			pg.ellipse(x, y, medium, medium);
 		else
 			pg.ellipse(x, y, large, large);
+		// if it is past day, draw an 'X'
+		/*
+		String age = getAge();
+		if (age.equals("Past Day"))
+			pg.text("X", x, y);
+		*/
 	}
 	
 

@@ -83,7 +83,7 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
-		//earthquakesURL = "quiz1.atom";
+		earthquakesURL = "quiz1.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -111,6 +111,7 @@ public class EarthquakeCityMap extends PApplet {
 		  else {
 		    quakeMarkers.add(new OceanQuakeMarker(feature));
 		  }
+	    	
 	    }
 
 	    // could be used for debugging
@@ -241,8 +242,10 @@ public class EarthquakeCityMap extends PApplet {
 		//  * If you know your Marker, m, is a LandQuakeMarker, then it has a "country" 
 		//      property set.  You can get the country with:
 		//        String country = (String)m.getProperty("country");
+			int quakeCounter = 0, oceanQuakeCounter = 0;
 			for (Marker cm : countryMarkers) {
-				int quakeCounter = 0;
+				quakeCounter = 0;
+				oceanQuakeCounter = 0;
 				String quakeCountry = "";
 				String cname = "";
 				for (Marker qm: quakeMarkers) {
@@ -254,11 +257,14 @@ public class EarthquakeCityMap extends PApplet {
 							if (cname.equals(quakeCountry))
 								quakeCounter++;
 						}
+						else
+							oceanQuakeCounter++;
 					}
 				}
 				if (quakeCounter >= 1)
 					System.out.println(cname + ":\t" + quakeCounter);
 			}
+			System.out.println("Ocean:\t" + oceanQuakeCounter);
 		
 	}
 	

@@ -117,5 +117,8 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		return isOnLand;
 	}
 	
-	
+	public String getAge() {
+		return (String) getProperty("age");	
+		
+	}
 }
