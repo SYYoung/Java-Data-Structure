@@ -62,7 +62,7 @@ public class EarthquakeCityMap extends PApplet {
 	
 	// NEW IN MODULE 5
 	private CommonMarker lastSelected;
-	private CommonMarker lastClicked;
+	private CommonMarker lastClicked = null;
 	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
@@ -75,7 +75,7 @@ public class EarthquakeCityMap extends PApplet {
 			AbstractMapProvider provider = new OpenStreetMap.OpenStreetMapProvider();
 			map = new UnfoldingMap(this, 200, 50, 650, 600, provider);
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
-		    //earthquakesURL = "2.5_week.atom";
+		   earthquakesURL = "2.5_week.atom";
 		}
 		MapUtils.createDefaultEventDispatcher(this, map);
 		
@@ -172,18 +172,84 @@ public class EarthquakeCityMap extends PApplet {
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
+		// 1. tests whether lastClick refers to a null object or not
+		if (lastClicked != null) {
+			lastClicked.setSelected(false);
+			unhideMarkers();
+			lastClicked = null;
+		}
+		else {
+			Marker clickedMarker = whichMarker(quakeMarkers, mouseX, mouseY);
+			if (clickedMarker != null) {
+				// an earthquake marker is clicked
+				hideAllMarkers(true);
+				lastClicked = (CommonMarker) clickedMarker;
+				clickedMarker.setHidden(false);
+				double dist = ((EarthquakeMarker)clickedMarker).threatCircle();
+				chooseSurroundingMarkers(clickedMarker.getLocation(), dist, cityMarkers);
+			}	
+			else {
+				clickedMarker = whichMarker(cityMarkers, mouseX, mouseY);
+				if (clickedMarker != null) {
+					hideAllMarkers(true);
+					lastClicked = (CommonMarker) clickedMarker;
+					clickedMarker.setHidden(false);
+					chooseSurroundingEQ(clickedMarker.getLocation(), quakeMarkers);
+				}
+			}
+		}
+	}
+
+	private void chooseSurroundingEQ(Location loc, List<Marker> markers) {
+		for (Marker mark : markers) {
+			double threatDist = ((EarthquakeMarker)mark).threatCircle();
+			double d = mark.getDistanceTo(loc);
+			if (d <= threatDist) {
+				mark.setHidden(false);
+				System.out.println("there is surrounding earthquake.");
+			}
+			else
+				mark.setHidden(true);
+		}
 	}
 	
+	private void chooseSurroundingMarkers(Location loc, double threatDist, List<Marker> markers) {
+		for (Marker mark : markers) {
+			double d = mark.getDistanceTo(loc);
+			if (d <= threatDist) {
+				mark.setHidden(false);
+				System.out.println("there is surrounding city.");
+			}
+			else
+				mark.setHidden(true);
+		}
+	}
 	
-	// loop over and unhide all markers
-	private void unhideMarkers() {
+	private Marker whichMarker(List<Marker> markers, float x, float y) {
+		Marker chosenMarker = null;
+		for (Marker marker : markers) {
+			if (marker.isInside(map, x, y)) {
+				chosenMarker = marker;
+				System.out.println("whichMarker is selected.");
+				break;
+			}
+		}
+		return chosenMarker;
+	}
+		
+	private void hideAllMarkers(boolean toHide) {
 		for(Marker marker : quakeMarkers) {
-			marker.setHidden(false);
+			marker.setHidden(toHide);
 		}
 			
 		for(Marker marker : cityMarkers) {
-			marker.setHidden(false);
+			marker.setHidden(toHide);
 		}
+	}
+		
+	// loop over and unhide all markers
+	private void unhideMarkers() {
+		hideAllMarkers(false);
 	}
 	
 	// helper method to draw key in GUI
