@@ -1,0 +1,6 @@
+SimplePointMarker
+	CommonMarker
+		CityMarker
+		EarthquakeMarkerr
+			LandQuakeMarker
+			OceanQuakeMarker

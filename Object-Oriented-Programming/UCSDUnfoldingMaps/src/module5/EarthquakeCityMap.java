@@ -11,8 +11,10 @@ import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.AbstractShapeMarker;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
+import de.fhpotsdam.unfolding.providers.AbstractMapProvider;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
@@ -70,7 +72,8 @@ public class EarthquakeCityMap extends PApplet {
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			AbstractMapProvider provider = new OpenStreetMap.OpenStreetMapProvider();
+			map = new UnfoldingMap(this, 200, 50, 650, 600, provider);
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
 		}
@@ -146,6 +149,16 @@ public class EarthquakeCityMap extends PApplet {
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
 		// TODO: Implement this method
+		// 1. check if the location is inside a marker
+		for (Marker mark : markers) {
+			if (mark.isInside(map, mouseX, mouseY)) {
+				if (lastSelected == null) {
+					lastSelected = (CommonMarker) mark;
+					lastSelected.setSelected(true);
+					break;
+				}
+			}
+		}
 	}
 	
 	/** The event handler for mouse clicks
