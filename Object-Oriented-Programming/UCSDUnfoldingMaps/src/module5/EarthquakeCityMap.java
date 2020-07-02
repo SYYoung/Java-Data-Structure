@@ -1,6 +1,7 @@
 package module5;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -116,6 +117,15 @@ public class EarthquakeCityMap extends PApplet {
 	    map.addMarkers(quakeMarkers);
 	    map.addMarkers(cityMarkers);
 	    
+	    // build the threat circles for each earthquake
+	    for (Marker mark : quakeMarkers) {
+	    	double dist = ((EarthquakeMarker)mark).threatCircle();
+	    	buildThreatCircle(mark, dist, cityMarkers);
+	    }
+	    for (Marker mark : cityMarkers) {
+	    	buildThreatEQ(mark, quakeMarkers);
+	    }
+	    
 	}  // End setup
 	
 	
@@ -185,8 +195,11 @@ public class EarthquakeCityMap extends PApplet {
 				hideAllMarkers(true);
 				lastClicked = (CommonMarker) clickedMarker;
 				clickedMarker.setHidden(false);
-				double dist = ((EarthquakeMarker)clickedMarker).threatCircle();
-				chooseSurroundingMarkers(clickedMarker.getLocation(), dist, cityMarkers);
+				//double dist = ((EarthquakeMarker)clickedMarker).threatCircle();
+				//chooseSurroundingMarkers(clickedMarker.getLocation(), dist, cityMarkers);
+				ArrayList<Marker> affectedArea = (ArrayList<Marker>)clickedMarker.getProperty("threatedArea");
+				for (Marker mark : affectedArea)
+					mark.setHidden(false);
 			}	
 			else {
 				clickedMarker = whichMarker(cityMarkers, mouseX, mouseY);
@@ -194,12 +207,45 @@ public class EarthquakeCityMap extends PApplet {
 					hideAllMarkers(true);
 					lastClicked = (CommonMarker) clickedMarker;
 					clickedMarker.setHidden(false);
-					chooseSurroundingEQ(clickedMarker.getLocation(), quakeMarkers);
+					//chooseSurroundingEQ(clickedMarker.getLocation(), quakeMarkers);
+					ArrayList<Marker> affectedArea = (ArrayList<Marker>)clickedMarker.getProperty("threatedArea");
+					for (Marker mark : affectedArea)
+						mark.setHidden(false);
 				}
 			}
 		}
 	}
+	
+	private void buildThreatCircle(Marker theMarker, 
+									double threatDist, List<Marker> markers) {
+		HashMap<String, Object> prop = theMarker.getProperties();
+		ArrayList<Marker> affectedArea = new ArrayList<Marker>();
+		for (Marker mark : markers) {
+			double d = mark.getDistanceTo(theMarker.getLocation());
+			if (d <= threatDist) {
+				affectedArea.add(mark);
+				System.out.println("add one more affected city.");
+			}
+		}
+		prop.put("threatedArea", affectedArea);
+		theMarker.setProperties(prop);
+	}
 
+	private void buildThreatEQ(Marker theMarker, List<Marker> markers) {
+		HashMap<String, Object> prop = theMarker.getProperties();
+		ArrayList<Marker> affectedArea = new ArrayList<Marker>();
+		for (Marker mark : markers) {
+			double threatDist = ((EarthquakeMarker)mark).threatCircle();
+			double d = mark.getDistanceTo(theMarker.getLocation());
+			if (d <= threatDist) {
+				affectedArea.add(mark);
+			}
+		}
+		prop.put("threatedArea", affectedArea);
+		theMarker.setProperties(prop);
+	}
+	
+	
 	private void chooseSurroundingEQ(Location loc, List<Marker> markers) {
 		for (Marker mark : markers) {
 			double threatDist = ((EarthquakeMarker)mark).threatCircle();
