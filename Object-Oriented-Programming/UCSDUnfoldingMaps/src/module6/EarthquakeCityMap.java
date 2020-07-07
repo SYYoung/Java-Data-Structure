@@ -2,6 +2,7 @@ package module6;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -12,8 +13,10 @@ import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.AbstractShapeMarker;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
+import de.fhpotsdam.unfolding.providers.AbstractMapProvider;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
@@ -23,8 +26,9 @@ import processing.core.PApplet;
  * Author: UC San Diego Intermediate Software Development MOOC team
  * @author Your name here
  * Date: July 17, 2015
+ * @param <T>
  * */
-public class EarthquakeCityMap extends PApplet {
+public class EarthquakeCityMap<T> extends PApplet {
 	
 	// We will use member variables, instead of local variables, to store the data
 	// that the setUp and draw methods will need to access (as well as other methods)
@@ -73,7 +77,8 @@ public class EarthquakeCityMap extends PApplet {
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			AbstractMapProvider provider = new OpenStreetMap.OpenStreetMapProvider();
+			map = new UnfoldingMap(this, 200, 50, 650, 600, provider);
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
 		}
@@ -85,7 +90,7 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
-		//earthquakesURL = "quiz2.atom";
+		earthquakesURL = "quiz2.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -124,6 +129,9 @@ public class EarthquakeCityMap extends PApplet {
 	    map.addMarkers(quakeMarkers);
 	    map.addMarkers(cityMarkers);
 	    
+	    // test: sortAndPrint
+	    System.out.println("Test: sortAndPrint.");
+	    sortAndPrint(20);
 	    
 	}  // End setup
 	
@@ -139,6 +147,17 @@ public class EarthquakeCityMap extends PApplet {
 	// TODO: Add the method:
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
+	private void sortAndPrint(int numToPrint) {
+		EarthquakeMarker quakers[] = quakeMarkers.toArray
+									(new EarthquakeMarker[quakeMarkers.size()]);
+		List<EarthquakeMarker> quakeList = Arrays.asList(quakers);
+		Collections.sort(quakeList);
+		int theRange = min(quakeList.size(), numToPrint);
+		for (int k=0; k<theRange; k++) {
+			System.out.println(quakeList.get(k) +" , earthquake magnitude: " + 
+								quakeList.get(k).getMagnitude());	
+		}
+	}
 	
 	/** Event handler that gets called automatically when the 
 	 * mouse moves.
