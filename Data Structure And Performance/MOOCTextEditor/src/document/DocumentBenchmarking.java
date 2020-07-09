@@ -28,7 +28,7 @@ public class DocumentBenchmarking {
 
 		// The number of steps to run.  
 		// You can play around with this.
-		int numSteps = 20;
+		int numSteps = 30;
 		
 		// THe number of characters to start with. 
 		// You can play around with this.
@@ -37,6 +37,7 @@ public class DocumentBenchmarking {
 		// TODO: Fill in the rest of this method so that it runs two loops
 		// and prints out timing results as described in the assignment 
 		// instructions and following the pseudocode below.
+		System.out.println("NumChars\tBasicDocument\tEfficientDocument");
 		for (int numToCheck = start; numToCheck < numSteps*increment + start; 
 				numToCheck += increment)
 		{
@@ -58,7 +59,30 @@ public class DocumentBenchmarking {
 			 * 6. Print out the time it took to complete the loop in step 5 
 			 *      (on the same line as the first print statement) followed by a newline (\n) 
 			 */  
-			 
+			System.out.print(numToCheck +"\t");
+			String text = getStringFromFile(textfile, numToCheck);
+			long startTime = 0, endTime = 0, estTime = 0;
+			double score = 0.0;
+			
+			// for BasicDocument
+			startTime = System.nanoTime();
+			for (int k=0; k<trials; k++) {
+				BasicDocument basicDoc = new BasicDocument(text);
+				score = basicDoc.getFleschScore();
+			}
+			endTime = System.nanoTime();
+			estTime = (endTime - startTime)/1000000; // in msec
+			System.out.print(estTime +"\t");
+			
+			// for EfficientDocument
+			startTime = System.nanoTime();
+			for (int k=0; k<trials; k++) {
+				EfficientDocument effDoc = new EfficientDocument(text);
+				score = effDoc.getFleschScore();
+			}
+			endTime = System.nanoTime();
+			estTime = (endTime - startTime)/1000000; // in msec			
+			System.out.println(estTime);
 		}
 	
 	}

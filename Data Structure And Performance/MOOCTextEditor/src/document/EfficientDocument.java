@@ -54,6 +54,28 @@ public class EfficientDocument extends Document {
 		
 		// TODO: Finish this method.  Remember the countSyllables method from 
 		// Document.  That will come in handy here.  isWord defined above will also help.
+		numWords = 0;
+		numSentences = 0;
+		numSyllables = 0;
+		//for (int i=0; i<tokens.size(); i++) {
+		for (String token : tokens) {
+			//String token = tokens.get(i);
+			if (isWord(token)) {
+				numWords++;
+				numSyllables += countSyllables(token);
+			}
+			else
+				numSentences++;
+		}
+		// check if the last token is a punctuation or not.
+		if (numWords > 0) {
+			String lastWord = tokens.get(tokens.size()-1);
+			boolean punct = lastWord.endsWith("!") ||
+							lastWord.endsWith("?") ||
+							lastWord.endsWith(".");
+			if (!punct)
+				numSentences++;
+		}
 	}
 
 	
@@ -73,7 +95,8 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumSentences() {
 		//TODO: write this method.  Hint: It's simple
-		return 0;
+		// check if the last sentence ends with punctuation. 
+		return numSentences;
 	}
 
 	
@@ -94,7 +117,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumWords() {
 		//TODO: write this method.  Hint: It's simple
-	    return 0;
+	    return numWords;
 	}
 
 
@@ -116,7 +139,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumSyllables() {
         //TODO: write this method.  Hint: It's simple
-        return 0;
+        return numSyllables;
 	}
 	
 	// Can be used for testing
