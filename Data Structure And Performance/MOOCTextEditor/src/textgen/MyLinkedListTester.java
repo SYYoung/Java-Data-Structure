@@ -109,11 +109,33 @@ public class MyLinkedListTester {
 	@Test
 	public void testRemove()
 	{
+		// remove 1 element
+		System.out.println("Before remove:, list1 = "+ list1);
 		int a = list1.remove(0);
+		System.out.println("after remove 0:" +list1);
 		assertEquals("Remove: check a is correct ", 65, a);
 		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
 		assertEquals("Remove: check size is correct ", 2, list1.size());
-		
+		// remove 2 element
+		a = list1.remove(1);
+		assertEquals("Remove: again", 42, a);
+		assertEquals("Remove: check element 0:", (Integer)21, list1.get(0));
+		try {
+			list1.remove(2);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		}
+		// remove last element
+		a = list1.remove(0);
+		assertEquals("Remove again:", 21, a);
+		// remove element: empty list
+		try {
+			list1.remove(0);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		}
 		// TODO: Add more tests here
 	}
 	

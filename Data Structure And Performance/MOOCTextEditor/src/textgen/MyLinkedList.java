@@ -1,6 +1,7 @@
 package textgen;
 
 import java.util.AbstractList;
+import java.util.ArrayList;
 
 
 /** A class that implements a doubly linked list
@@ -88,6 +89,24 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		// 2. if the index is a valid index
 		if ((index < 0) || (index > size))
 			throw new IndexOutOfBoundsException();
+		
+		if (index == size) {
+			LLNode<E> prevNode = tail.prev;
+			LLNode<E> nextNode = tail;
+			LLNode<E> newNode = new LLNode<E>(element, prevNode, nextNode);
+			size++;
+		}
+		else {
+			LLNode<E> curNode = head;
+			for (int k=0; k<= index; k++) {
+				curNode = curNode.next;
+			}
+			LLNode<E> prevNode = curNode.prev;
+			LLNode<E> nextNode = curNode.next;
+			LLNode<E> newNode = new LLNode<E>(element, prevNode, nextNode);
+			size++;
+		}
+		/*
 		LLNode<E> newNode = new LLNode<E>(element);
 
 		if (index == size) { // add to last existing list
@@ -110,6 +129,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 			curNode.prev = newNode;
 			size++;
 		}
+		*/
 		
 	}
 
@@ -146,6 +166,17 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		curNode.prev = null;
 		curNode.next = null;
 		return curNode.data;
+	}
+	
+	public String toString() 
+	{
+		StringBuilder theList = new StringBuilder();
+		LLNode<E> curNode = head.next;
+		for (int k=0; k<size; k++) {
+			theList.append(", " +curNode.data);
+			curNode = curNode.next;
+		}
+		return theList.toString();
 	}
 
 	/**
@@ -187,6 +218,16 @@ class LLNode<E>
 		this.data = e;
 		this.prev = null;
 		this.next = null;
+	}
+	
+	public LLNode(E e, LLNode<E> prevNode, LLNode<E> nextNode)
+	{
+		this(e);
+		this.next = nextNode;
+		this.prev = prevNode;
+		prevNode.next = this;
+		nextNode.prev = this;
+		
 	}
 
 }
