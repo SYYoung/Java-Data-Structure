@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public class MyLinkedListTester {
 
-	private static final int LONG_LIST_LENGTH =10; 
+	private static final int LONG_LIST_LENGTH =100; 
 
 	MyLinkedList<String> shortList;
 	MyLinkedList<Integer> emptyList;
@@ -124,7 +124,16 @@ public class MyLinkedListTester {
 	public void testAddEnd()
 	{
         // TODO: implement this test
+		try {
+			shortList.add(null);
+			fail("Try to add new pointer");
+		}
+		catch (NullPointerException e) {
 		
+		}
+		list1.add(100);
+		int a = list1.get(3);
+		assertEquals("Check the last added", 100, a);
 	}
 
 	
@@ -133,6 +142,17 @@ public class MyLinkedListTester {
 	public void testSize()
 	{
 		// TODO: implement this test
+		int ans = emptyList.size;
+		assertEquals("Check empty list size", 0, ans);
+		
+		ans = shortList.size;
+		assertEquals("Check short list size", 2, ans);
+		
+		ans = list1.size;
+		assertEquals("Check list1 size", 3, ans);
+		
+		ans = longerList.size;
+		assertEquals("Check short list size", LONG_LIST_LENGTH, ans);
 	}
 
 	
@@ -145,7 +165,15 @@ public class MyLinkedListTester {
 	public void testAddAtIndex()
 	{
         // TODO: implement this test
-		
+		System.out.println("Inside testAddAtIndex.");
+		MyLinkedList<Integer> addList = new MyLinkedList<Integer>();
+		for (int i = 0; i < LONG_LIST_LENGTH; i++)
+		{
+			addList.add(i,i);
+		}
+		for(int i = 0; i<LONG_LIST_LENGTH; i++ ) {
+			assertEquals("Check "+i+ " element", (Integer)i, addList.get(i));
+		}
 	}
 	
 	/** Test setting an element in the list */
@@ -153,6 +181,24 @@ public class MyLinkedListTester {
 	public void testSet()
 	{
 	    // TODO: implement this test
+		try {
+			emptyList.set(0, 5);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+			
+		}
+		
+		try {
+			list1.set(3, 5);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+			
+		}
+		int prevData = list1.set(2, 5);
+		assertEquals("list1.set: ", 42, prevData);
+		assertEquals("list1.set: ", 5, (int)list1.get(2));
 	    
 	}
 	
