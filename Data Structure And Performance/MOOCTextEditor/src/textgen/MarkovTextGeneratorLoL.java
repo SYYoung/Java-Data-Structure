@@ -47,6 +47,11 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	{
 		// the instruction is listed in the pdf
 		// 1. set starter
+		//System.out.println("Inside train, length of wordList = " +wordList.size());
+		if (wordList.size() > 0) {// no need to train
+			System.out.println("it has been trained. no need to train.");
+			return;
+		}
 		String[] inputList = sourceText.split(" +");
 		starter =new String(inputList[0]);
 		// 2. set prevWord = stater;
@@ -114,6 +119,10 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	public void retrain(String sourceText)
 	{
 		// TODO: Implement this method.
+		// re-initialize all variables
+		starter = "";
+		wordList.clear();
+		train(sourceText);
 	}
 	
 	// TODO: Add any private helper methods you need here.
@@ -130,12 +139,6 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		MarkovTextGeneratorLoL gen = new MarkovTextGeneratorLoL(new Random(42));
 		String textString1a = "Hello.  Hello there.  This is a test.  Hello there.  Hello Bob.  Test again.";
 		String textString1b = "hi there hi Leo";
-		String textString = textString1a;
-		System.out.println(textString);
-		gen.train(textString);
-		System.out.println(gen);
-		System.out.println(gen.generateText(20));
-		/*
 		String textString2 = "You say yes, I say no, "+
 				"You say stop, and I say go, go, go, "+
 				"Oh no. You say goodbye and I say hello, hello, hello, "+
@@ -160,11 +163,16 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 				"I don't know why you say goodbye, I say hello, hello, hello, "+
 				"I don't know why you say goodbye, I say hello, hello, hello, "+
 				"I don't know why you say goodbye, I say hello, hello, hello,";
-		System.out.println(textString2);
-		gen.retrain(textString2);
-		System.out.println(gen);
-		System.out.println(gen.generateText(20));
-		*/
+
+		String textString3 = "";
+		String[] inputList = {textString1a, textString1b, textString2};
+		for (String textString : inputList) {
+			System.out.println(textString);
+			gen.retrain(textString);
+			System.out.println(gen);
+			System.out.println(gen.generateText(20));
+		}
+		gen.train(textString2);
 	}
 
 }
