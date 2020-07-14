@@ -19,9 +19,24 @@ public class DictionaryLL implements Dictionary
      * @param word The word to add
      * @return true if the word was added to the dictionary 
      * (it wasn't already there). */
+	public DictionaryLL()
+	{
+		dict = new LinkedList<String>();
+	}
+	
     public boolean addWord(String word) {
     	// TODO: Implement this method
-        return false;
+    	String lowerWord = new String(word.toLowerCase());
+    	boolean isNewWord = true;
+    	for (String dictWord: dict) {
+    		if (dictWord.equals(lowerWord)) {
+    			isNewWord = false;
+    			break;
+    		}
+    	}
+    	if (isNewWord)
+    		dict.add(lowerWord);
+        return isNewWord;
     }
 
 
@@ -29,13 +44,21 @@ public class DictionaryLL implements Dictionary
     public int size()
     {
         // TODO: Implement this method
-        return 0;
+        return dict.size();
     }
 
     /** Is this a word according to this dictionary? */
     public boolean isWord(String s) {
         //TODO: Implement this method
-        return false;
+    	String lowerWord = new String(s.toLowerCase());
+    	boolean found = false;
+    	for (String dictWord: dict) {
+    		if (dictWord.equals(lowerWord)) {
+    			found = true;
+    			break;
+    		}
+    	}
+        return found;
     }
 
     
