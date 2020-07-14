@@ -20,6 +20,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
     public AutoCompleteDictionaryTrie()
 	{
 		root = new TrieNode();
+		size = 0;
 	}
 	
 	
@@ -40,7 +41,25 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public boolean addWord(String word)
 	{
 	    //TODO: Implement this method.
-	    return false;
+		String lowerWord = word.toLowerCase();
+		TrieNode curNode = root;
+		boolean toBeAdded = false;
+		for (char ch : lowerWord.toCharArray()) {
+			Set<Character> charSet = curNode.getValidNextCharacters();
+			if (charSet.contains(ch)) { 
+				curNode = curNode.getChild(ch);
+			}
+			else { // if it doesn't exist, insert an node
+				curNode.insert(ch);
+				curNode = curNode.getChild(ch);
+				toBeAdded = true;
+			}
+		}
+		if (toBeAdded || !curNode.endsWord()) {
+			curNode.setEndsWord(true);
+			this.size++;
+		}
+	    return toBeAdded;
 	}
 	
 	/** 
@@ -50,7 +69,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public int size()
 	{
 	    //TODO: Implement this method
-	    return 0;
+	    return size;
 	}
 	
 	
@@ -60,7 +79,23 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public boolean isWord(String s) 
 	{
 	    // TODO: Implement this method
-		return false;
+		String lowerWord = s.toLowerCase();
+		TrieNode curNode = root;
+		boolean found = true;
+		for (char ch : lowerWord.toCharArray()) {
+			Set<Character> charSet = curNode.getValidNextCharacters();
+			if (charSet.contains(ch)) { 
+				curNode = curNode.getChild(ch);
+			}
+			else { // the char does not exist
+				found = false;
+				break;
+			}
+		}
+		if (found)
+			return curNode.endsWord();
+		else
+			return false;
 	}
 
 	/** 

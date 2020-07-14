@@ -42,6 +42,8 @@ public class AutoCompleteDictionaryTrieTester {
 		smallDict.addWord("hey");
 		smallDict.addWord("a");
 		smallDict.addWord("subsequent");
+		smallDict.printTree();
+		System.out.println("smallDict size: " + smallDict.size());
 		
 		DictionaryLoader.loadDictionary(largeDict, dictFile);
 	}
