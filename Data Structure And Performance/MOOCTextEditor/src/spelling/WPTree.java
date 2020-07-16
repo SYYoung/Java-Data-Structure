@@ -42,7 +42,35 @@ public class WPTree implements WordPath {
 	public List<String> findPath(String word1, String word2) 
 	{
 	    // TODO: Implement this method.
-	    return new LinkedList<String>();
+		LinkedList<WPTreeNode> queue = new LinkedList<WPTreeNode>();
+		HashSet<String> visited = new HashSet<String>();
+		List<String> retList = new LinkedList<String>();
+		
+		this.root = new WPTreeNode(word1, null);
+		visited.add(word1);
+		queue.add(this.root);
+		boolean found = false;
+		
+		while ((queue.size() > 0) && (!found)) {
+			WPTreeNode curNode = queue.remove();
+			String curWord = curNode.getWord();
+			List<String> neighborList = nw.distanceOne(curWord, true);
+			for (String neighbor : neighborList) {
+				if (!visited.contains(neighbor)) {
+					WPTreeNode childNode = curNode.addChild(neighbor);
+					visited.add(neighbor);
+					queue.add(childNode);
+					if (word2.equals(neighbor)) {
+						found = true;
+						retList = childNode.buildPathToRoot();
+					}
+				}
+			}
+		}
+		if (found)
+			return retList;
+		else
+			return null;
 	}
 	
 	// Method to print a list of WPTreeNodes (useful for debugging)
