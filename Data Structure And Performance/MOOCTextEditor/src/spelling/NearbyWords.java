@@ -17,7 +17,7 @@ public class NearbyWords implements SpellingSuggest {
 	// THRESHOLD to determine how many words to look through when looking
 	// for spelling suggestions (stops prohibitively long searching)
 	// For use in the Optional Optimization in Part 2.
-	private static final int THRESHOLD = 1000; 
+	private static final int THRESHOLD = 30000; 
 
 	Dictionary dict;
 
@@ -123,7 +123,7 @@ public class NearbyWords implements SpellingSuggest {
 	public List<String> suggestions(String word, int numSuggestions) {
 
 		// initial variables
-		List<String> queue = new LinkedList<String>();     // String to explore
+		LinkedList<String> queue = new LinkedList<String>();     // String to explore
 		HashSet<String> visited = new HashSet<String>();   // to avoid exploring the same  
 														   // string multiple times
 		List<String> retList = new LinkedList<String>();   // words to return
@@ -134,7 +134,26 @@ public class NearbyWords implements SpellingSuggest {
 		visited.add(word);
 					
 		// TODO: Implement the remainder of this method, see assignment for algorithm
-		
+		int totalSuggestion = 0;
+		// for optimization, only check 1000 'possible' words
+		int totalCheck = 0;
+		while ((queue.size() > 0) && (totalSuggestion < numSuggestions) &&
+				(totalCheck < THRESHOLD)) {
+			String curWord = queue.remove();
+			List<String> neighborList = distanceOne(curWord, false);
+			for (String neighbor : neighborList) {
+				if (!visited.contains(neighbor)) {
+					totalCheck++;
+					visited.add(neighbor);
+					queue.add(neighbor);
+					if (dict.isWord(neighbor)) {
+						retList.add(neighbor);
+						totalSuggestion++;
+					}
+				}
+			}
+		}
+		System.out.println("Total number of searching : " +totalCheck);
 		return retList;
 
 	}	
@@ -152,12 +171,13 @@ public class NearbyWords implements SpellingSuggest {
 	   System.out.println("One away word Strings for for \""+word+"\" are:");
 	   System.out.println(l+"\n");
 	   
-	   /*
-	   word = "tailo";
+	   
+	   // word = "tailo";
+	   word = "kangaro";
 	   List<String> suggest = w.suggestions(word, 10);
 	   System.out.println("Spelling Suggestions for \""+word+"\" are:");
 	   System.out.println(suggest);
-	   */
+	   
    }
 
 }
