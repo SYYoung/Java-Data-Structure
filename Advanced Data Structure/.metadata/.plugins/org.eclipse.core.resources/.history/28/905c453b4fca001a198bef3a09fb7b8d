@@ -122,12 +122,7 @@ public abstract class Graph {
 	 */
 	public List<Integer> degreeSequence() {
 		// XXX: Implement in part 1 of week 2
-		ArrayList<Integer> totalDegree = new ArrayList<Integer>();
-		for (int v = 0; v < numVertices; v++) {
-			totalDegree.add(this.getNeighbors(v).size() + this.getInNeighbors(v).size());
-			Collections.sort(totalDegree, Collections.reverseOrder());
-		}
-		return totalDegree;
+		return null;
 	}
 	
 	/**
@@ -247,27 +242,14 @@ public abstract class Graph {
 		System.out.println("Roads / intersections:");
 		GraphAdjList graphFromFile = new GraphAdjList();
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", graphFromFile);
-		System.out.println("From AdjList:");
 		System.out.println(graphFromFile);
 		
-		System.out.println("Observe all degrees are <= 15.");
-		System.out.println("****");
-
-		System.out.println("\n****");
-		
-		// added
-		GraphAdjMatrix graphFromFileM = new GraphAdjMatrix();
-		GraphLoader.loadRoadMap("data/testdata/simpletest.map", graphFromFileM);
-		System.out.println("From AdjMatrix");
-		System.out.println(graphFromFileM);
-		
-		System.out.println("Observe all degrees are <= 15.");
+		System.out.println("Observe all degrees are <= 12.");
 		System.out.println("****");
 
 		System.out.println("\n****");
 		
 		// You can test with real road data here.  Use the data files in data/maps
-		/*
 		
 		System.out.println("Flight data:");
 		GraphAdjList airportGraph = new GraphAdjList();
@@ -280,7 +262,7 @@ public abstract class Graph {
 		// Test your distance2 code here.
 		System.out.println("Testing distance-two methods on sample graphs...");
 		System.out.println("Goal: implement method using two approaches.");
-		*/
+
 
 		
 	}

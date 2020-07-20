@@ -247,21 +247,9 @@ public abstract class Graph {
 		System.out.println("Roads / intersections:");
 		GraphAdjList graphFromFile = new GraphAdjList();
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", graphFromFile);
-		System.out.println("From AdjList:");
 		System.out.println(graphFromFile);
 		
-		System.out.println("Observe all degrees are <= 15.");
-		System.out.println("****");
-
-		System.out.println("\n****");
-		
-		// added
-		GraphAdjMatrix graphFromFileM = new GraphAdjMatrix();
-		GraphLoader.loadRoadMap("data/testdata/simpletest.map", graphFromFileM);
-		System.out.println("From AdjMatrix");
-		System.out.println(graphFromFileM);
-		
-		System.out.println("Observe all degrees are <= 15.");
+		System.out.println("Observe all degrees are <= 12.");
 		System.out.println("****");
 
 		System.out.println("\n****");

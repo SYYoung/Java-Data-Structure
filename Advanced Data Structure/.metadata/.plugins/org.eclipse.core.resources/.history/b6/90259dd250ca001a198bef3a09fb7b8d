@@ -250,7 +250,7 @@ public abstract class Graph {
 		System.out.println("From AdjList:");
 		System.out.println(graphFromFile);
 		
-		System.out.println("Observe all degrees are <= 15.");
+		System.out.println("Observe all degrees are <= 0.");
 		System.out.println("****");
 
 		System.out.println("\n****");
@@ -261,7 +261,7 @@ public abstract class Graph {
 		System.out.println("From AdjMatrix");
 		System.out.println(graphFromFileM);
 		
-		System.out.println("Observe all degrees are <= 15.");
+		System.out.println("Observe all degrees are <= 0.");
 		System.out.println("****");
 
 		System.out.println("\n****");
