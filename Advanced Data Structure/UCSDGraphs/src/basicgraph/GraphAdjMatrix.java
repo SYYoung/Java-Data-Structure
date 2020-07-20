@@ -87,6 +87,8 @@ public class GraphAdjMatrix extends Graph {
 	 */
 	public List<Integer> getInNeighbors(int v) {
 		List<Integer> inNeighbors = new ArrayList<Integer>();
+		if (!this.hasVertex(v))
+			return null;
 		for (int i = 0; i < getNumVertices(); i ++) {
 			for (int j=0; j< adjMatrix[i][v]; j++) {
 				inNeighbors.add(i);
@@ -105,7 +107,15 @@ public class GraphAdjMatrix extends Graph {
 	 */	
 	public List<Integer> getDistance2(int v) {
 		// XXX Implement this method in week 2
-		return null;
+		
+		 List<Integer> dist2Neighbor = new ArrayList<Integer>();
+		 if (!this.hasVertex(v))
+				return dist2Neighbor;
+		 List<Integer> dist1Neighbor = this.getNeighbors(v);
+		 for (int neigh : dist1Neighbor) {
+			dist2Neighbor.addAll(this.getNeighbors(neigh));
+		 }
+		 return dist2Neighbor;
 	}
 	
 	/**

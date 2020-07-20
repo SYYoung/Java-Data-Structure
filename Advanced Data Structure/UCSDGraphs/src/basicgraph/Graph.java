@@ -267,7 +267,7 @@ public abstract class Graph {
 		System.out.println("\n****");
 		
 		// You can test with real road data here.  Use the data files in data/maps
-		/*
+		
 		
 		System.out.println("Flight data:");
 		GraphAdjList airportGraph = new GraphAdjList();
@@ -276,12 +276,32 @@ public abstract class Graph {
 		System.out.println("Observe most degrees are small (1-30), eight are over 100.");
 		System.out.println("****");
 		
+		System.out.println("UCSD data:");
+		GraphAdjList ucsdGraph = new GraphAdjList();
+		GraphLoader.loadRoadMap("data/maps/ucsd.map", ucsdGraph);
+		System.out.println(ucsdGraph);
+		System.out.println("****");
+		
+		
+		
 		//For testing Part 2 functionality
 		// Test your distance2 code here.
 		System.out.println("Testing distance-two methods on sample graphs...");
 		System.out.println("Goal: implement method using two approaches.");
-		*/
-
+		
+		int testVertex = 7;
+		List<Integer> dist2AdjList = graphFromFile.getDistance2(testVertex);
+		System.out.println("From AdjList, distance2 from vertex " +testVertex);
+		for (int i : dist2AdjList)
+			System.out.print(i +", ");
+		System.out.println();
+		
+		List<Integer> dist2AdjMat = graphFromFileM.getDistance2(testVertex);
+		System.out.println("From AdjMatrix, distance2 from vertex " +testVertex);
+		for (int i : dist2AdjMat)
+			System.out.print(i +", ");
+		System.out.println();
+		
 		
 	}
 }
