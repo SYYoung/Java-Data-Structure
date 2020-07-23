@@ -60,7 +60,7 @@ public class MapGraph {
 	public Set<GeographicPoint> getVertices()
 	{
 		//TODO: Implement this method in WEEK 3
-		return (Set)nodeMap.values();
+		return nodeMap.keySet();
 	}
 	
 	/**
