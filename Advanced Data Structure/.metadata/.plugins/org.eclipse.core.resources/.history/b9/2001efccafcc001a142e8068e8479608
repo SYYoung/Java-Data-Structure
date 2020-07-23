@@ -192,7 +192,7 @@ public class MapGraph {
 		boolean done = false;
 		GeographicPoint curPoint = goal;
 		while (!done) {
-			route.add(0, curPoint);
+			route.add(curPoint);
 			if ((curPoint.getX() == start.getX()) &&
 					(curPoint.getY() == start.getY()))
 				done = true;
@@ -295,11 +295,8 @@ public class MapGraph {
 		MapGraph simpleTestMap = new MapGraph();
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", simpleTestMap);
 		
-		GeographicPoint point1 = new GeographicPoint(4.0, 0.0);
-		GeographicPoint point2 = new GeographicPoint(1.0, 1.0);
-		GeographicPoint point3 = new GeographicPoint(8.0, -1.0);
-		GeographicPoint testStart = point1;
-		GeographicPoint testEnd = point3;
+		GeographicPoint testStart = new GeographicPoint(1.0, 1.0);
+		GeographicPoint testEnd = new GeographicPoint(8.0, -1.0);
 		
 		System.out.println("Test 0 using simpletest: bsf");
 		List<GeographicPoint> testroute = simpleTestMap.bfs(testStart,testEnd);
