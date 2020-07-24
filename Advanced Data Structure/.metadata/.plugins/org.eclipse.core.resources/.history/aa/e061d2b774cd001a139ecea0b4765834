@@ -248,39 +248,27 @@ public class MapGraph {
 		MapNode curNode = nodeMap.get(start);
 		curNode.setDistSoFar(0);
 		queue.add(curNode);
-		int totalNodeVisited = 0;
 		
 		while (queue.size() > 0) {
 			curNode = queue.remove();
-			// if this node has been visited before. if yes, no need to include it again
-			if (!visitedLoc.contains(curNode.getLoc()))
-			{
-				visitedLoc.add(curNode.getLoc());
-				totalNodeVisited++;
-				if (curNode.equals(goal))
-					break;
-				double curDistSoFar = curNode.getDistSoFar();
-				for (MapEdge edge : curNode.getOutEdge()) {
-					GeographicPoint endPoint = edge.getEndPoint();
-					if (!visitedLoc.contains(endPoint)) {
-						MapNode endNode = nodeMap.get(endPoint);
-						if (endNode.getDistSoFar() > curDistSoFar + edge.getDistance())
-						{
-							endNode.setDistSoFar(curDistSoFar+edge.getDistance());
-							queue.add(nodeMap.get(endPoint));
-							parentMap.put(endPoint, curNode.getLoc());
-							nodeSearched.accept(endPoint);
-						}
-					}
+			if (curNode.equals(goal))
+				break;
+			for (MapEdge edge : curNode.getOutEdge()) {
+				GeographicPoint endPoint = edge.getEndPoint();
+				if (!visitedLoc.contains(endPoint)) {
+					visitedLoc.add(endPoint);
+					queue.add(nodeMap.get(endPoint));
+					parentMap.put(endPoint, curNode.getLoc());
+					nodeSearched.accept(endPoint);
 				}
 			}
 		}
-		
-		System.out.println("Under Dijkstra, total nodes visisted: " +totalNodeVisited);
+
 		if (parentMap.get(goal) != null)
 			path = constructPath(start, goal, parentMap);
 		return path;
 		
+		return null;
 	}
 
 	/** Find the path from start to goal using A-Star search
@@ -346,7 +334,7 @@ public class MapGraph {
 		GeographicPoint point1 = new GeographicPoint(4.0, 0.0);
 		GeographicPoint point2 = new GeographicPoint(1.0, 1.0);
 		GeographicPoint point3 = new GeographicPoint(8.0, -1.0);
-		GeographicPoint testStart = point2;
+		GeographicPoint testStart = point1;
 		GeographicPoint testEnd = point3;
 		
 		System.out.println("Test 0 using simpletest: bsf");
@@ -355,15 +343,9 @@ public class MapGraph {
 			System.out.println(pt);
 		}
 		
-		
-		System.out.println("Test 1 using simpletest: Dijkstra should be 9 and AStar should be 5");
-		testroute = simpleTestMap.dijkstra(testStart,testEnd);
-		System.out.println("Test 0 using simpletest: Dijkstra");
-		for (GeographicPoint pt : testroute) {
-			System.out.println(pt);
-		}
-		
 		/*
+		System.out.println("Test 1 using simpletest: Dijkstra should be 9 and AStar should be 5");
+		List<GeographicPoint> testroute = simpleTestMap.dijkstra(testStart,testEnd);
 		List<GeographicPoint> testroute2 = simpleTestMap.aStarSearch(testStart,testEnd);
 		
 		

@@ -8,8 +8,12 @@
 package roadgraph;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -28,6 +32,7 @@ public class MapGraph {
 	HashMap<GeographicPoint, MapNode> nodeMap;
 	int numNode;
 	int numEdge;
+	HashMap<GeographicPoint, Double> curDistance;
 	
 	/** 
 	 * Create a new empty MapGraph 
@@ -38,6 +43,7 @@ public class MapGraph {
 		nodeMap = new HashMap<GeographicPoint, MapNode>();
 		numNode = 0;
 		numEdge = 0;
+		curDistance = new HashMap<GeographicPoint, Double>();
 	}
 	
 	/**
@@ -57,7 +63,7 @@ public class MapGraph {
 	public Set<GeographicPoint> getVertices()
 	{
 		//TODO: Implement this method in WEEK 3
-		return (Set)nodeMap.values();
+		return nodeMap.keySet();
 	}
 	
 	/**
@@ -82,7 +88,17 @@ public class MapGraph {
 	public boolean addVertex(GeographicPoint location)
 	{
 		// TODO: Implement this method in WEEK 3
-		return false;
+		// 1. check this vertex has been in the graph or not
+		if (nodeMap.get(location) == null) {
+			MapNode newNode = new MapNode(location);
+			nodeMap.put(location, newNode);
+			numNode++;
+			// update the curDistance of this vertex
+			curDistance.put(location, Double.MAX_VALUE);
+			return true;
+		}
+		else 
+			return false;
 	}
 	
 	/**
@@ -101,7 +117,15 @@ public class MapGraph {
 			String roadType, double length) throws IllegalArgumentException {
 
 		//TODO: Implement this method in WEEK 3
+		// 1. verification of the arguments
+		if ((from == null) || (to == null) || (roadName == null) ||(roadType == null)
+				|| (nodeMap.get(from) == null) || (nodeMap.get(to)==null) ||
+				(length < 0))
+			throw new IllegalArgumentException();	
 		
+		MapNode fromNode = nodeMap.get(from);
+		fromNode.addEdge(from, to, roadName, roadType, length);
+		numEdge++;
 	}
 	
 
@@ -133,10 +157,55 @@ public class MapGraph {
 		
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
+		List<MapNode> queue = new LinkedList<MapNode>();
+		HashSet<GeographicPoint> visitedLoc = new HashSet<GeographicPoint>();
+		HashMap<GeographicPoint, GeographicPoint> parentMap = 
+				new HashMap<GeographicPoint, GeographicPoint>();
+		List<GeographicPoint> path = new ArrayList<GeographicPoint>();
+		
+		// check if the start point and end point are valid vertex
+		if ((nodeMap.get(start) == null) || (nodeMap.get(goal)==null))
+			return path; // return an empty path
+		
+		MapNode curNode = nodeMap.get(start);
+		visitedLoc.add(curNode.getLoc());
+		queue.add(curNode);
+		while (queue.size() > 0) {
+			curNode = queue.remove(0);
+			if (curNode.equals(goal))
+				break;
+			for (MapEdge edge : curNode.getOutEdge()) {
+				GeographicPoint endPoint = edge.getEndPoint();
+				if (!visitedLoc.contains(endPoint)) {
+					visitedLoc.add(endPoint);
+					queue.add(nodeMap.get(endPoint));
+					parentMap.put(endPoint, curNode.getLoc());
+					nodeSearched.accept(endPoint);
+				}
+			}
+		}
 
-		return null;
+		if (parentMap.get(goal) != null)
+			path = constructPath(start, goal, parentMap);
+		return path;
 	}
 	
+	private List<GeographicPoint> constructPath(GeographicPoint start, 
+					GeographicPoint goal, HashMap<GeographicPoint, GeographicPoint> parentMap)
+	{
+		List<GeographicPoint> route = new LinkedList<GeographicPoint>();
+		boolean done = false;
+		GeographicPoint curPoint = goal;
+		while (!done) {
+			route.add(0, curPoint);
+			if ((curPoint.getX() == start.getX()) &&
+					(curPoint.getY() == start.getY()))
+				done = true;
+			GeographicPoint prev = parentMap.get(curPoint);
+			curPoint = prev;
+		}
+		return route;
+	}
 
 	/** Find the path from start to goal using Dijkstra's algorithm
 	 * 
@@ -203,7 +272,13 @@ public class MapGraph {
 		return null;
 	}
 
-	
+	public void printGraph() 
+	{
+		System.out.println("Print the graph.");
+		for (MapNode eachNode : nodeMap.values()) {
+			eachNode.printNode();
+		}
+	}
 	
 	public static void main(String[] args)
 	{
@@ -211,6 +286,7 @@ public class MapGraph {
 		MapGraph firstMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", firstMap);
+		//firstMap.printGraph();
 		System.out.println("DONE.");
 		
 		// You can use this method for testing.  
@@ -220,13 +296,23 @@ public class MapGraph {
 		 * the Week 3 End of Week Quiz, EVEN IF you score 100% on the 
 		 * programming assignment.
 		 */
-		/*
+		
 		MapGraph simpleTestMap = new MapGraph();
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", simpleTestMap);
 		
-		GeographicPoint testStart = new GeographicPoint(1.0, 1.0);
-		GeographicPoint testEnd = new GeographicPoint(8.0, -1.0);
+		GeographicPoint point1 = new GeographicPoint(4.0, 0.0);
+		GeographicPoint point2 = new GeographicPoint(1.0, 1.0);
+		GeographicPoint point3 = new GeographicPoint(8.0, -1.0);
+		GeographicPoint testStart = point1;
+		GeographicPoint testEnd = point3;
 		
+		System.out.println("Test 0 using simpletest: bsf");
+		List<GeographicPoint> testroute = simpleTestMap.bfs(testStart,testEnd);
+		for (GeographicPoint pt : testroute) {
+			System.out.println(pt);
+		}
+		
+		/*
 		System.out.println("Test 1 using simpletest: Dijkstra should be 9 and AStar should be 5");
 		List<GeographicPoint> testroute = simpleTestMap.dijkstra(testStart,testEnd);
 		List<GeographicPoint> testroute2 = simpleTestMap.aStarSearch(testStart,testEnd);
@@ -275,13 +361,89 @@ class MapNode {
 	GeographicPoint loc;
 	String name;
 	List<MapEdge> outEdge;
+	double distSoFar; // it is for searching algorithm
 	
-	public MapNode(GeographicPoint point) {
+	public MapNode(GeographicPoint point) 
+	{
 		loc = new GeographicPoint(point.getX(), point.getY());
 		name = "";
+		outEdge = new ArrayList<MapEdge>();
+		distSoFar = Double.MAX_VALUE;
+	}
+	
+	public void addEdge(GeographicPoint from, GeographicPoint to, String roadName,
+			String roadType, double length) 
+	{
+		MapEdge newEdge = new MapEdge(from, to, roadName, roadType, length);
+		outEdge.add(newEdge);
+		
+	}
+	
+	@Override 
+	public int hashCode() 
+	{
+		return Objects.hash(distSoFar);
+	}
+	
+	public void printNode() 
+	{
+		System.out.println("Node: " +name +",\t" +loc +",\t" );
+		for (MapEdge eachEdge : outEdge) {
+			System.out.println("\t\tEdge:" +eachEdge);
+		}
+		System.out.println();
+	}
+	
+	public GeographicPoint getLoc() 
+	{
+		return loc;
+	}
+	
+	public List<MapEdge> getOutEdge()
+	{
+		return outEdge;
+	}
+	
+	public boolean equals(GeographicPoint point)
+	{
+		if ((loc.getX() == point.getX()) && (loc.getY() == point.getY()))
+			return true;
+		else
+			return false;
 	}
 }
 
 class MapEdge {
+	GeographicPoint fromNode;
+	GeographicPoint endNode;
+	String edgeName;
+	String edgeType;
+	double length;
 	
+	public MapEdge(GeographicPoint from, GeographicPoint to, String roadName,
+			String roadType, double dist) 
+	{
+		this.fromNode = new GeographicPoint(from.getX(), from.getY());
+		this.endNode = new GeographicPoint(to.getX(), to.getY());
+		this.edgeName = roadName;
+		this.edgeType = roadType;
+		this.length = dist;
+		
+	}
+	
+	public String toString() 
+	{
+		String outStr = endNode + ",\t" + edgeName + ",\t"  +",\t" +length;
+		return outStr;
+	}
+	
+	public GeographicPoint getEndPoint()
+	{
+		return endNode;
+	}
+	
+	public double getDistance()
+	{
+		return length;
+	}
 }
