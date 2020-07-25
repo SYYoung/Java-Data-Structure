@@ -237,7 +237,6 @@ public class MapGraph {
 		return path;
 	}
 	
-	/*
 	public List<GeographicPoint> dijkstraOld(GeographicPoint start, 
 										  GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
@@ -292,33 +291,23 @@ public class MapGraph {
 		return path;
 		
 	}
-	*/
 
-	private double calculateStartCost(double curDistance, MapEdge edge)
+	private double calculateCost(double curDistance, MapEdge edge,
+							MapNode endNode, GeographicPoint goal, int searchType)
 	{
-		double startCost = 0;
-		
-		startCost = curDistance + edge.getDistance();
-		return startCost;
-	}
-	
-	private double calculatePredictedCost(double curDistance, MapEdge edge,
-			MapNode endNode, GeographicPoint goal, int searchType)
-	{
-		double predictCost = 0;
+		double totalCost = 0;
 		double startCost = 0;
 		startCost = curDistance + edge.getDistance();
 		if (searchType == DIJKSTRA)
 		{
-			predictCost = startCost;
+			totalCost = startCost;
 		}
 		else if (searchType == ASTAR)
 		{
-			predictCost = startCost + endNode.getLoc().distance(goal);
+			totalCost = startCost + endNode.getLoc().distance(goal);
 		}
-		return predictCost;
+		return totalCost;
 	}
-	
 	
 	public List<GeographicPoint> searchPathWithCost(GeographicPoint start, 
 			  GeographicPoint goal, Consumer<GeographicPoint> nodeSearched, int searchType)
@@ -359,13 +348,11 @@ public class MapGraph {
 					GeographicPoint endPoint = edge.getEndPoint();
 					if (!visitedLoc.contains(endPoint)) {
 						MapNode endNode = nodeMap.get(endPoint);
-						double startCost = calculateStartCost(curDistSoFar, edge);
-						double predictCost = calculatePredictedCost(curDistSoFar, edge, endNode,
-													goal, searchType);
-						if (endNode.getDistSoFar() > startCost)
+						double totalCost = calculateCost(curDistSoFar, edge, endNode, goal,
+														searchType);
+						if (endNode.getDistSoFar() > totalCost)
 						{
-							endNode.setDistSoFar(startCost);
-							endNode.setPredictedDist(predictCost);
+							endNode.setDistSoFar(totalCost);
 							queue.add(nodeMap.get(endPoint));
 							parentMap.put(endPoint, curNode.getLoc());
 							nodeSearched.accept(endPoint);
@@ -546,13 +533,11 @@ class MapNode implements Comparable<MapNode> {
 		
 	}
 	
-	/*
 	@Override 
 	public int hashCode() 
 	{
 		return Objects.hash(distSoFar);
 	}
-	*/
 	
 	// Compare two nodes of the distSoFar. it is for the priority queue
 	@Override

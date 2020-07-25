@@ -33,9 +33,10 @@ public class MapGraph {
 	HashMap<GeographicPoint, MapNode> nodeMap;
 	int numNode;
 	int numEdge;
-	HashMap<GeographicPoint, Double> curDistance;
+	HashMap<MapNode, Double> distSoFar;
 	final int DIJKSTRA = 0; // it affects the cost function
 	final int ASTAR = 1;
+	int searchAlg;
 	
 	/** 
 	 * Create a new empty MapGraph 
@@ -46,7 +47,7 @@ public class MapGraph {
 		nodeMap = new HashMap<GeographicPoint, MapNode>();
 		numNode = 0;
 		numEdge = 0;
-		curDistance = new HashMap<GeographicPoint, Double>();
+		distSoFar = new HashMap<MapNode, Double>();
 	}
 	
 	/**
@@ -96,6 +97,7 @@ public class MapGraph {
 			MapNode newNode = new MapNode(location);
 			nodeMap.put(location, newNode);
 			numNode++;
+			distSoFar.put(newNode, Double.MAX_VALUE);
 			return true;
 		}
 		else 
@@ -237,7 +239,6 @@ public class MapGraph {
 		return path;
 	}
 	
-	/*
 	public List<GeographicPoint> dijkstraOld(GeographicPoint start, 
 										  GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
@@ -250,6 +251,8 @@ public class MapGraph {
 		HashMap<GeographicPoint, GeographicPoint> parentMap = 
 				new HashMap<GeographicPoint, GeographicPoint>();
 		List<GeographicPoint> path = new ArrayList<GeographicPoint>();
+		
+		searchAlg = DIJKSTRA;
 		
 		// check if the start point and end point are valid vertex
 		if ((nodeMap.get(start) == null) || (nodeMap.get(goal)==null))
@@ -292,33 +295,23 @@ public class MapGraph {
 		return path;
 		
 	}
-	*/
 
-	private double calculateStartCost(double curDistance, MapEdge edge)
+	private double calculateCost(double curDistance, MapEdge edge,
+							MapNode endNode, GeographicPoint goal, int searchType)
 	{
-		double startCost = 0;
-		
-		startCost = curDistance + edge.getDistance();
-		return startCost;
-	}
-	
-	private double calculatePredictedCost(double curDistance, MapEdge edge,
-			MapNode endNode, GeographicPoint goal, int searchType)
-	{
-		double predictCost = 0;
+		double totalCost = 0;
 		double startCost = 0;
 		startCost = curDistance + edge.getDistance();
 		if (searchType == DIJKSTRA)
 		{
-			predictCost = startCost;
+			totalCost = startCost;
 		}
 		else if (searchType == ASTAR)
 		{
-			predictCost = startCost + endNode.getLoc().distance(goal);
+			totalCost = startCost + endNode.getLoc().distance(goal);
 		}
-		return predictCost;
+		return totalCost;
 	}
-	
 	
 	public List<GeographicPoint> searchPathWithCost(GeographicPoint start, 
 			  GeographicPoint goal, Consumer<GeographicPoint> nodeSearched, int searchType)
@@ -359,13 +352,11 @@ public class MapGraph {
 					GeographicPoint endPoint = edge.getEndPoint();
 					if (!visitedLoc.contains(endPoint)) {
 						MapNode endNode = nodeMap.get(endPoint);
-						double startCost = calculateStartCost(curDistSoFar, edge);
-						double predictCost = calculatePredictedCost(curDistSoFar, edge, endNode,
-													goal, searchType);
-						if (endNode.getDistSoFar() > startCost)
+						double totalCost = calculateCost(curDistSoFar, edge, endNode, goal,
+														searchType);
+						if (endNode.getDistSoFar() > totalCost)
 						{
-							endNode.setDistSoFar(startCost);
-							endNode.setPredictedDist(predictCost);
+							endNode.setDistSoFar(totalCost);
 							queue.add(nodeMap.get(endPoint));
 							parentMap.put(endPoint, curNode.getLoc());
 							nodeSearched.accept(endPoint);
@@ -522,7 +513,6 @@ class MapNode implements Comparable<MapNode> {
 	String name;
 	List<MapEdge> outEdge;
 	double distSoFar; // it is for searching algorithm
-	double predictedDist;
 	
 	public MapNode(GeographicPoint point) 
 	{
@@ -530,12 +520,11 @@ class MapNode implements Comparable<MapNode> {
 		name = "";
 		outEdge = new ArrayList<MapEdge>();
 		distSoFar = Double.MAX_VALUE;
-		predictedDist = Double.MAX_VALUE;
 	}
 	
 	public void resetCost() {
 		distSoFar = Double.MAX_VALUE;
-		predictedDist = Double.MAX_VALUE;
+		
 	}
 
 	public void addEdge(GeographicPoint from, GeographicPoint to, String roadName,
@@ -546,21 +535,19 @@ class MapNode implements Comparable<MapNode> {
 		
 	}
 	
-	/*
 	@Override 
 	public int hashCode() 
 	{
 		return Objects.hash(distSoFar);
 	}
-	*/
 	
 	// Compare two nodes of the distSoFar. it is for the priority queue
 	@Override
 	public int compareTo(MapNode node2)
 	{
-		if (this.predictedDist > node2.predictedDist)
+		if (this.distSoFar > node2.distSoFar)
 			return 1;
-		else if (this.predictedDist < node2.predictedDist)
+		else if (this.distSoFar < node2.distSoFar)
 			return -1;
 		else
 			return 0;
@@ -602,17 +589,6 @@ class MapNode implements Comparable<MapNode> {
 	{
 		distSoFar = val;
 	}
-	
-	public double getPredictedDist()
-	{
-		return predictedDist;
-	}
-	
-	public void setPredictedDist(double val)
-	{
-		predictedDist = val;
-	}
-	
 }
 
 class MapEdge {

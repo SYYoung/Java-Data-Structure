@@ -359,13 +359,11 @@ public class MapGraph {
 					GeographicPoint endPoint = edge.getEndPoint();
 					if (!visitedLoc.contains(endPoint)) {
 						MapNode endNode = nodeMap.get(endPoint);
-						double startCost = calculateStartCost(curDistSoFar, edge);
-						double predictCost = calculatePredictedCost(curDistSoFar, edge, endNode,
-													goal, searchType);
-						if (endNode.getDistSoFar() > startCost)
+						double totalCost = calculateCost(curDistSoFar, edge, endNode, goal,
+														searchType);
+						if (endNode.getDistSoFar() > totalCost)
 						{
-							endNode.setDistSoFar(startCost);
-							endNode.setPredictedDist(predictCost);
+							endNode.setDistSoFar(totalCost);
 							queue.add(nodeMap.get(endPoint));
 							parentMap.put(endPoint, curNode.getLoc());
 							nodeSearched.accept(endPoint);
