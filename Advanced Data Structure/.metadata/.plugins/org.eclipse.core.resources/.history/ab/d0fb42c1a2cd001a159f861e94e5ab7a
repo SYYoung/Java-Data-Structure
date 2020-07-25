@@ -326,9 +326,6 @@ public class MapGraph {
 		if ((nodeMap.get(start) == null) || (nodeMap.get(goal)==null))
 			return path; // return an empty path
 		
-		// reset the cost inside each node
-		resetNodeCost();
-		
 		MapNode curNode = nodeMap.get(start);
 		curNode.setDistSoFar(0);
 		queue.add(curNode);
@@ -352,7 +349,7 @@ public class MapGraph {
 														searchType);
 						if (endNode.getDistSoFar() > totalCost)
 						{
-							endNode.setDistSoFar(totalCost);
+							endNode.setDistSoFar(curDistSoFar+edge.getDistance());
 							queue.add(nodeMap.get(endPoint));
 							parentMap.put(endPoint, curNode.getLoc());
 							nodeSearched.accept(endPoint);
@@ -362,17 +359,10 @@ public class MapGraph {
 			}
 		}
 		
-		System.out.println("Under " +searchType + ", total nodes visisted: " +totalNodeVisited);
+		System.out.println("Under Dijkstra, total nodes visisted: " +totalNodeVisited);
 		if (parentMap.get(goal) != null)
 			path = constructPath(start, goal, parentMap);
 		return path;
-		
-	}
-
-	private void resetNodeCost() {
-		// TODO Auto-generated method stub
-		for (MapNode eachNode : nodeMap.values())
-			eachNode.resetCost();
 		
 	}
 
@@ -456,13 +446,6 @@ public class MapGraph {
 			System.out.println(pt);
 		}
 		
-		System.out.println("Test 1 using simpletest: Dijkstra should be 9 and AStar should be 5");
-		testroute = simpleTestMap.aStarSearch(testStart, testEnd);
-		System.out.println("Test 0 using simpletest: A*");
-		for (GeographicPoint pt : testroute) {
-			System.out.println(pt);
-		}
-		
 		/*
 		List<GeographicPoint> testroute2 = simpleTestMap.aStarSearch(testStart,testEnd);
 		
@@ -520,11 +503,6 @@ class MapNode implements Comparable<MapNode> {
 		distSoFar = Double.MAX_VALUE;
 	}
 	
-	public void resetCost() {
-		distSoFar = Double.MAX_VALUE;
-		
-	}
-
 	public void addEdge(GeographicPoint from, GeographicPoint to, String roadName,
 			String roadType, double length) 
 	{

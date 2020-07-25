@@ -1,5 +1,4 @@
 INDEX VERSION 1.130+/Users/kilingcheung/iCloud Drive (Archive)/Desktop/Desktop/Coursera/Java-Data-Structure/Advanced Data Structure/.metadata/.plugins/org.eclipse.jdt.core
-2401283352.index
 3404917195.index
 1271342938.index
 57265586.index
