@@ -166,7 +166,8 @@ public class MapGraph {
 		
 		// check if the start point and end point are valid vertex
 		if ((nodeMap.get(start) == null) || (nodeMap.get(goal)==null))
-			return path; // return an empty path
+			//return path; // return an empty path
+			return null;
 		
 		MapNode curNode = nodeMap.get(start);
 		visitedLoc.add(curNode.getLoc());
@@ -187,8 +188,13 @@ public class MapGraph {
 		}
 
 		if (parentMap.get(goal) != null)
+		{
 			path = constructPath(start, goal, parentMap);
-		return path;
+			return path;
+		}
+		else // there is no such path
+			return null;
+		
 	}
 	
 	private List<GeographicPoint> constructPath(GeographicPoint start, 
@@ -350,6 +356,9 @@ public class MapGraph {
 			// if this node has been visited before. if yes, no need to include it again
 			if (!visitedLoc.contains(curNode.getLoc()))
 			{
+				// for debugging:
+				//curNode.printRoute();
+				
 				visitedLoc.add(curNode.getLoc());
 				totalNodeVisited++;
 				if (curNode.equals(goal))
@@ -573,6 +582,12 @@ class MapNode implements Comparable<MapNode> {
 			System.out.println("\t\tEdge:" +eachEdge);
 		}
 		System.out.println();
+	}
+	
+	public void printRoute()
+	{
+		System.out.println("Node: " +name +",\t" +loc +",\t start distance" +
+							+distSoFar +",\t predicted distance" +predictedDist);
 	}
 	
 	public GeographicPoint getLoc() 
