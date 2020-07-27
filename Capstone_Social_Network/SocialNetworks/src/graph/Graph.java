@@ -1,5 +1,7 @@
 package graph;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public interface Graph {
@@ -7,6 +9,8 @@ public interface Graph {
 	public void addVertex(int num);
 	
 	public void addEdge(int from, int to);
+	
+	public HashMap<Integer, HashSet<Integer>> exportGraph();
 	
 	public Graph getEgonet(int center);
 	
