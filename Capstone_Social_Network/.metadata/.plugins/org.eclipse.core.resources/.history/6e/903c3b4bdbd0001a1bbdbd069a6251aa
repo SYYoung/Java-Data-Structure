@@ -154,7 +154,7 @@ public class CapGraph implements Graph {
 	
 	private List<HashSet> getConnectedNode() {
 		List<HashSet> newList = new ArrayList<HashSet>();
-		for (HashSet<Integer> each : strongConnected)
+		for (HashSet<Integer> each : newList)
 			newList.add(new HashSet<Integer>(each));
 		return newList;
 	}

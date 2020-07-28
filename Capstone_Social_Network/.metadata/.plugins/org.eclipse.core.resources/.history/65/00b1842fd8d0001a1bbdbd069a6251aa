@@ -92,21 +92,18 @@ public class CapGraph implements Graph {
 	public Stack DFS(Stack vertices, boolean scc) {
 		HashSet<Integer> visited = new HashSet<Integer>();
 		Stack finished = new Stack();
-		
+		HashSet<Integer> connectedList = new HashSet<Integer>();
 		
 		//initial set visited and stack finished
 		while (!vertices.empty()) {
 			int v = (int)vertices.pop();
 			System.out.println("poped node: " +v);
-			HashSet<Integer> connectedList = new HashSet<Integer>();
 			if (!visited.contains(v)) {
 				if (scc)
 					connectedList.add(v);
 				DFS_Visit(v, visited, finished, scc, connectedList);
-				if (scc) {
+				if (scc)
 					strongConnected.add(connectedList);
-					System.out.println("scc list: " +connectedList);
-				}
 			}
 			System.out.println("DFS finished: finished = " +finished);
 		}
@@ -152,33 +149,17 @@ public class CapGraph implements Graph {
 		return newGraph;
 	}
 	
-	private List<HashSet> getConnectedNode() {
-		List<HashSet> newList = new ArrayList<HashSet>();
-		for (HashSet<Integer> each : strongConnected)
-			newList.add(new HashSet<Integer>(each));
-		return newList;
-	}
-	
-	private static void testSCC(CapGraph testGraph) {
-		/* test DFS */
-		Stack finished = testGraph.DFS(testGraph.getVertices(), false);
-		System.out.println("test DFS.");
-		System.out.println(finished);
-		CapGraph newGraph = testGraph.graphTranspose();
-		newGraph.printGraph();
-		Stack another = newGraph.DFS(finished, true);
-		List<HashSet> connectedList = newGraph.getConnectedNode();
-		for (HashSet each : connectedList)
-			System.out.println("connected list: " +each);
-	}
-	
 	public static void main(String[] args){
 		CapGraph testGraph = new CapGraph();
 		GraphLoader.loadGraph(testGraph, "data/note_graph5.txt");
 		testGraph.printGraph();
 		
 		/* test DFS */
-		testSCC(testGraph);
+		Stack finished = testGraph.DFS(testGraph.getVertices(), false);
+		System.out.println("test DFS.");
+		System.out.println(finished);
+		CapGraph newGraph = testGraph.graphTranspose();
+		newGraph.printGraph();
 	}
 
 }

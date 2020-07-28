@@ -13,12 +13,10 @@ import util.GraphLoader;
 public class CapGraph implements Graph {
 	HashMap<Integer, HashSet<Integer>> nodeMap;
 	int numVertex;
-	List<HashSet<Integer>> strongConnected;
 	
 	public CapGraph() {
 		nodeMap = new HashMap<Integer, HashSet<Integer>>();
 		numVertex = 0;
-		strongConnected = new ArrayList<HashSet<Integer>>();
 	}
 	
 	@Override
@@ -70,7 +68,7 @@ public class CapGraph implements Graph {
 		// 1. perform DFS with the original graph
 		Stack finished = DFS(getVertices(), false);
 		CapGraph transposeGraph = graphTranspose();
-		Stack reverseFinish = transposeGraph.DFS(finished, true);
+		Stack reverseFinish = DFS(finished, true);
 		return null;
 	}
 	
@@ -93,37 +91,24 @@ public class CapGraph implements Graph {
 		HashSet<Integer> visited = new HashSet<Integer>();
 		Stack finished = new Stack();
 		
-		
 		//initial set visited and stack finished
 		while (!vertices.empty()) {
 			int v = (int)vertices.pop();
 			System.out.println("poped node: " +v);
-			HashSet<Integer> connectedList = new HashSet<Integer>();
-			if (!visited.contains(v)) {
-				if (scc)
-					connectedList.add(v);
-				DFS_Visit(v, visited, finished, scc, connectedList);
-				if (scc) {
-					strongConnected.add(connectedList);
-					System.out.println("scc list: " +connectedList);
-				}
-			}
+			if (!visited.contains(v))
+				DFS_Visit(v, visited, finished);
 			System.out.println("DFS finished: finished = " +finished);
 		}
 		return finished;
 	}
 
-	private void DFS_Visit(int v, HashSet<Integer> visited, Stack finished,
-							boolean scc, HashSet<Integer> connectedList) {
+	private void DFS_Visit(int v, HashSet<Integer> visited, Stack finished) {
 		// TODO Auto-generated method stub
 		visited.add(v);
 		System.out.println("Inside DFS_Visited, visited node: " +v);
 		for (int n : nodeMap.get(v)) {
-			if (!visited.contains(n)) {
-				if (scc)
-					connectedList.add(n);
-				DFS_Visit(n, visited, finished, scc, connectedList);
-			}
+			if (!visited.contains(n))
+				DFS_Visit(n, visited, finished);
 		}
 		finished.push(v);
 	}
@@ -152,33 +137,17 @@ public class CapGraph implements Graph {
 		return newGraph;
 	}
 	
-	private List<HashSet> getConnectedNode() {
-		List<HashSet> newList = new ArrayList<HashSet>();
-		for (HashSet<Integer> each : strongConnected)
-			newList.add(new HashSet<Integer>(each));
-		return newList;
-	}
-	
-	private static void testSCC(CapGraph testGraph) {
-		/* test DFS */
-		Stack finished = testGraph.DFS(testGraph.getVertices(), false);
-		System.out.println("test DFS.");
-		System.out.println(finished);
-		CapGraph newGraph = testGraph.graphTranspose();
-		newGraph.printGraph();
-		Stack another = newGraph.DFS(finished, true);
-		List<HashSet> connectedList = newGraph.getConnectedNode();
-		for (HashSet each : connectedList)
-			System.out.println("connected list: " +each);
-	}
-	
 	public static void main(String[] args){
 		CapGraph testGraph = new CapGraph();
 		GraphLoader.loadGraph(testGraph, "data/note_graph5.txt");
 		testGraph.printGraph();
 		
 		/* test DFS */
-		testSCC(testGraph);
+		Stack finished = testGraph.DFS(testGraph.getVertices(), false);
+		System.out.println("test DFS.");
+		System.out.println(finished);
+		CapGraph newGraph = testGraph.graphTranspose();
+		newGraph.printGraph();
 	}
 
 }

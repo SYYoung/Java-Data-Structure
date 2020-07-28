@@ -154,22 +154,9 @@ public class CapGraph implements Graph {
 	
 	private List<HashSet> getConnectedNode() {
 		List<HashSet> newList = new ArrayList<HashSet>();
-		for (HashSet<Integer> each : strongConnected)
+		for (HashSet<Integer> each : newList)
 			newList.add(new HashSet<Integer>(each));
 		return newList;
-	}
-	
-	private static void testSCC(CapGraph testGraph) {
-		/* test DFS */
-		Stack finished = testGraph.DFS(testGraph.getVertices(), false);
-		System.out.println("test DFS.");
-		System.out.println(finished);
-		CapGraph newGraph = testGraph.graphTranspose();
-		newGraph.printGraph();
-		Stack another = newGraph.DFS(finished, true);
-		List<HashSet> connectedList = newGraph.getConnectedNode();
-		for (HashSet each : connectedList)
-			System.out.println("connected list: " +each);
 	}
 	
 	public static void main(String[] args){
@@ -178,7 +165,12 @@ public class CapGraph implements Graph {
 		testGraph.printGraph();
 		
 		/* test DFS */
-		testSCC(testGraph);
+		Stack finished = testGraph.DFS(testGraph.getVertices(), false);
+		System.out.println("test DFS.");
+		System.out.println(finished);
+		CapGraph newGraph = testGraph.graphTranspose();
+		newGraph.printGraph();
+		Stack another = newGraph.DFS(finished, true);
 	}
 
 }

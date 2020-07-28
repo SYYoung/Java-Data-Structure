@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="CapGraphTest" project="SocialNetworks" tests="5" started="5" failures="0" errors="0" ignored="0">
-  <testsuite name="graph.CapGraphTest" time="0.0">
-    <testcase name="testAddEdge" classname="graph.CapGraphTest" time="0.0"/>
-    <testcase name="testPrintGraph" classname="graph.CapGraphTest" time="0.0"/>
-    <testcase name="testAddVertex" classname="graph.CapGraphTest" time="0.0"/>
-    <testcase name="testGetEgonet" classname="graph.CapGraphTest" time="0.0"/>
-    <testcase name="testExportGraph" classname="graph.CapGraphTest" time="0.0"/>
-  </testsuite>
-</testrun>
