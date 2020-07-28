@@ -36,7 +36,30 @@ public class CapGraph implements Graph {
 	@Override
 	public Graph getEgonet(int center) {
 		// TODO Auto-generated method stub
-		return null;
+		CapGraph newGraph = new CapGraph();
+		// 1. get the edge list of the center node
+		HashSet<Integer> edgeList = nodeMap.get(center);
+		if (edgeList == null)
+			return newGraph; // the center is not a valid node
+		
+		newGraph.addVertex(center);
+		for (int outNode : edgeList) {
+			newGraph.addVertex(outNode);
+			newGraph.addEdge(center, outNode);
+		}
+		HashSet<Integer> newNodeList = new HashSet<Integer>(edgeList);
+		newNodeList.add(center);
+		
+		// 2. for each new node, add the corresponding edges inside this subgraph
+		for (int outnode : edgeList) {
+			HashSet<Integer> curEdgeList = nodeMap.get(outnode);
+			for (int node : curEdgeList) {
+				if (newNodeList.contains(node)) {
+					newGraph.addEdge(outnode, node);
+				}
+			}
+		}
+		return newGraph;
 	}
 
 	@Override

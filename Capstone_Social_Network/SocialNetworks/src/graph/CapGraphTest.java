@@ -33,17 +33,30 @@ public class CapGraphTest {
 		
 		testGraph.addEdge(32, 50);
 		testGraph.addEdge(32, 44);
+		
 		testGraph.addEdge(44, 50);
+		testGraph.addEdge(44, 18);
+		testGraph.addEdge(44, 32);
+		
+		testGraph.addEdge(50, 32);
+		testGraph.addEdge(50, 44);
+		testGraph.addEdge(50, 23);
 		
 		testGraph.addEdge(25, 23);
 		testGraph.addEdge(25, 65);
 		testGraph.addEdge(25, 18);
 		
 		testGraph.addEdge(65, 23);
-		testGraph.addEdge(44, 18);
+		testGraph.addEdge(65, 25);
+		
 		testGraph.addEdge(18, 23);
+		testGraph.addEdge(18, 25);
+		testGraph.addEdge(18, 44);
+		
 		testGraph.addEdge(23, 25);
 		testGraph.addEdge(23, 18);
+		testGraph.addEdge(23, 50);
+		testGraph.addEdge(23, 65);
  
 	}
 
@@ -66,26 +79,33 @@ public class CapGraphTest {
 		testGraph.printGraph();
 	}
 
-	/*
+	
 	@Test
 	public void testGetEgonet() {
 		
-		// test for correctness of egonet centered at 2
-		Graph newgraph = testGraph.getEgonet(25);
+		// test for correctness of egonet centered at 25
+		Graph newgraph = testGraph.getEgonet(50);
+		System.out.println("Inside new graph:");
+		newgraph.printGraph();
+		/*
 		assertEquals("Test for egonet of 25", 4, newgraph.exportGraph().size());
 		assertEquals("Test for egonet of 25", true, newgraph.exportGraph().get(25).contains(23));
 		assertEquals("Test for egonet of 25", true, newgraph.exportGraph().get(25).contains(18));
 		assertEquals("Test for egonet of 25", true, newgraph.exportGraph().get(25).contains(65));
 		assertEquals("Test for egonet of 25", true, newgraph.exportGraph().get(18).contains(23));
 		assertEquals("Test for egonet of 25", true, newgraph.exportGraph().get(65).contains(23));
-		assertEquals("Test for egonet of 25", false, newgraph.exportGraph().get(65).contains(25));
+		assertEquals("Test for egonet of 25", true, newgraph.exportGraph().get(65).contains(25));
+		System.out.println("print new graph.");
+		newgraph.printGraph();
 		
 		// test for empty graph when egonet vertex is not in the graph
 		Graph nullgraph = testGraph.getEgonet(10);
 		assertEquals("Test for empty egonet", 0, nullgraph.exportGraph().size());
+		*/
 		
 	}
 
+	/*
 	@Test
 	public void testGetSCCs() {
 		
