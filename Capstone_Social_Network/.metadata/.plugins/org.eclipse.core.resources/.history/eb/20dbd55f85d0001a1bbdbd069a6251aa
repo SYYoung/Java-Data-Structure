@@ -43,14 +43,19 @@ public class CapGraph implements Graph {
 			return newGraph; // the center is not a valid node
 		
 		newGraph.addVertex(center);
-		for (int outNode : edgeList) 
+		for (int outNode : edgeList) {
 			newGraph.addVertex(outNode);
-
+			newGraph.addEdge(center, outNode);
+		}
+		HashSet<Integer> newNodeList = new HashSet<Integer>(edgeList);
+		newNodeList.add(center);
+		
 		// 2. for each new node, add the corresponding edges inside this subgraph
-		for (int from : newGraph.nodeMap.keySet()) {
-			for (int to : newGraph.nodeMap.keySet()) {
-				if (nodeMap.get(from).contains(to)) {
-					newGraph.addEdge(from, to);
+		for (int outnode : edgeList) {
+			HashSet<Integer> curEdgeList = nodeMap.get(outnode);
+			for (int node : curEdgeList) {
+				if (newNodeList.contains(node)) {
+					newGraph.addEdge(outnode, node);
 				}
 			}
 		}
