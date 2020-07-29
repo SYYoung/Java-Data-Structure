@@ -1,0 +1,144 @@
+1. Project I:  Information flow
+Description: a list of nodes determine to switch or not
+if p > b/(a+b) 
+whereas p: fraction of his friends use a specific project
+b: the benefit of current product
+a: the benefit of new prooduct
+
+then if the specific nodes switch, the whole network will evolve several generations until
+equilibrium reaches
+
+
+2. Project II: broadcasting to a Twitter network
+If we want to make an announcement which reaches everyone, how many people need to
+announce it?
+Problem: given a graph, find the smallest subset of vertices, S, such that every 
+vertex not in S is adjacent to at least one vertex in S.
+Minimum dominating set:
+given a graph G=(V,E) find the smallest dominating set, where the dominating set, D,
+is a subset of vertices such that every vertex not in D is adjacent to at least one
+vertex in D.
+It is a NP-hard problem.
+
+greedy algorithm
+1. mark all vertices as uncovered
+2. initialize an empty dominant set
+3. while there are uncovered vertices:
+	a. find the vertex, v, which would cover the most uncovered vertices
+	b. add v to the dominant set
+	c. mark that vertex and all of its uncovered neihgbors as covered
+
+
+3. Project III: detecting communities
+Basic algorithm:
+a. compute betweeness of all edges
+	for each node v: O(V)
+		1. BSF of graph starting at v  O(V+E)
+		2. compute # shortest paths from v to each other node O(V+E)
+		3. distribute flow to edges along these paths O(V+E)
+b. remove edge(s) of highest betweenness
+c. repeatuntil there are no more edges, or until have separated graph into desired 
+number of components
+
+the shortest part can be found vis BSF.
+
+
+Anticipate risks:
+1. will algorithm give correct answer?
+	what does that mean?
+2. will algorithm be practical for data set?
+	approximation?
+3. will algorithm terminate?
+	simulation? equilibrium?
+
+
+Project 1: may never reach equilibrium. the program never stops.
+Project 2: it is NP-complete problem. there is no efficient algorithm. is it ok for us
+	to have a sub-optimal solution?
+Project 3: how we define community? is such structure a well-defined community in the 
+	context of our project?
+
+Anticipate risks:
+1. class design
+2. library function research
+3. data structure
+4. algorithm
+
+
+
+Report:
+I. Overview:
+	This project investigates the communities within a social network. The first part of
+the project will look at the relationships betweeen a user's friends (specifically, are they
+all connected as friends too). In the second part, the goal will be to identify sub-
+communities within a larger social network.
+
+II. Data: 
+	The provided UCSD facebook data (1000 nodes of a main connected component
+	extracted).
+
+
+III. Question (easier):
+	For a given user, which of their friends aren't connected as friends? For example,
+if the given user, Maria, is friends with both Jamaal and Huang, if Jamaal and Huang are
+not friends, we will suggest them as potential friends.
+
+
+IV. Algorithms, data structures, and answer to your questions:
+Input: Specific user (u)
+Output: List of pairs of unconnected potential friends
+
+create a list of friends (vertices) of u (just explore all edges of u)
+create a return list of parirs of users
+for each friend x in the list:
+	for each friends y in the list
+		if (x and y are not the same and x is not already friend with y)
+			add pair<x,y> to the return list
+return the return list
+
+
+V. Algorithm analysis:
+Asymptotic time
+
+VI. Testing
+	saimple test cases?
+	automated testing?
+
+
+VII. Reflection
+What worked well?
+What didn't work well?
+What did you change?
+
+
+VIII. Code review:
+	Class: network graph
+	purpose and description of class: represents the network graph. Stores a list of
+vertices. Standard method exist for building the graph and querying facets of teh graph.
+but also added the method 'suggestFriendsOfFriends" for the easy part of this assignment.
+
+	Design justification
+
+
+
+Coding criteria:
+I. Coding
+
+a. design
+appropriate number of classes?
+objects make sense?
+data and methods go together?
+clean class interfaces?
+no private data exposed?
+choice of data structures
+
+b. readability
+no redundant code
+meaningful variable names
+identation and spacing
+methods short and well-structured
+
+c. correctness
+normal cases?
+edge cases?
+any bugs stand out?

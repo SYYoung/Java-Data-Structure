@@ -1,0 +1,74 @@
+1. Project I:  Information flow
+Description: a list of nodes determine to switch or not
+if p > b/(a+b) 
+whereas p: fraction of his friends use a specific project
+b: the benefit of current product
+a: the benefit of new prooduct
+
+then if the specific nodes switch, the whole network will evolve several generations until
+equilibrium reaches
+
+
+2. Project II: broadcasting to a Twitter network
+If we want to make an announcement which reaches everyone, how many people need to
+announce it?
+Problem: given a graph, find the smallest subset of vertices, S, such that every 
+vertex not in S is adjacent to at least one vertex in S.
+Minimum dominating set:
+given a graph G=(V,E) find the smallest dominating set, where the dominating set, D,
+is a subset of vertices such that every vertex not in D is adjacent to at least one
+vertex in D.
+It is a NP-hard problem.
+
+greedy algorithm
+1. mark all vertices as uncovered
+2. initialize an empty dominant set
+3. while there are uncovered vertices:
+	a. find the vertex, v, which would cover the most uncovered vertices
+	b. add v to the dominant set
+	c. mark that vertex and all of its uncovered neihgbors as covered
+
+
+3. Project III: detecting communities
+Basic algorithm:
+a. compute betweeness of all edges
+	for each node v: O(V)
+		1. BSF of graph starting at v  O(V+E)
+		2. compute # shortest paths from v to each other node O(V+E)
+		3. distribute flow to edges along these paths O(V+E)
+b. remove edge(s) of highest betweenness
+c. repeatuntil there are no more edges, or until have separated graph into desired 
+number of components
+
+the shortest part can be found vis BSF.
+
+
+Anticipate risks:
+1. will algorithm give correct answer?
+	what does that mean?
+2. will algorithm be practical for data set?
+	approximation?
+3. will algorithm terminate?
+	simulation? equilibrium?
+
+
+Project 1: may never reach equilibrium. the program never stops.
+Project 2: it is NP-complete problem. there is no efficient algorithm. is it ok for us
+	to have a sub-optimal solution?
+Project 3: how we define community? is such structure a well-defined community in the 
+	context of our project?
+
+Anticipate risks:
+1. class design
+2. library function research
+3. data structure
+4. algorithm
+
+
+
+Report:
+I. Overview:
+	This project investigates the communities within a social network. The first part of
+the project will look at the relationships betweeen a user's friends (specifically, are they
+all connected as friends too). In the second part, the goal will be to identify sub-
+communities within a larger social network.
