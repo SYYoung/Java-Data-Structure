@@ -68,41 +68,14 @@ public class CapGraph implements Graph {
 	public List<Graph> getSCCs() {
 		// TODO Auto-generated method stub
 		// 1. perform DFS with the original graph
-		List<Graph> listOfSCC = new ArrayList<Graph>();
-		
 		Stack finished = DFS(getVertices(), false);
 		CapGraph transposeGraph = graphTranspose();
 		Stack reverseFinish = transposeGraph.DFS(finished, true);
 		List<HashSet> connectedList = transposeGraph.getConnectedNode();
-		// copy the connectedList from transposeGraph to the original graph
-		for (HashSet each: connectedList)
-			strongConnected.add(new HashSet<Integer>(each));
 		for (HashSet each : connectedList)
 			System.out.println("connected list: " +each);
+		return null;
 		
-		// build a new graph for each set of connected nodes
-		for (HashSet eachSet : connectedList) {
-			listOfSCC.add(buildNewGraphFromNodes(eachSet));
-		}
-		return listOfSCC;
-		
-	}
-	
-	private CapGraph buildNewGraphFromNodes(HashSet<Integer> nodes) {
-		CapGraph newGraph = new CapGraph();
-		
-		// build vertices first
-		for (int eachNode: nodes)
-			newGraph.addVertex(eachNode);
-		// build each edge
-		for (int from : nodes) {
-			for (int to : nodes) {
-				if (nodeMap.get(from).contains(to)) {
-					newGraph.addEdge(from, to);
-				}
-			}
-		}
-		return newGraph;
 	}
 	
 	public HashMap<Integer, HashSet<Integer>> exportGraph()
@@ -209,12 +182,7 @@ public class CapGraph implements Graph {
 		testGraph.printGraph();
 		
 		/* test DFS */
-		List<Graph> resultGraphs = testGraph.getSCCs();
-		System.out.println("Print out each sub graph:");
-		for (Graph eachGraph : resultGraphs) {
-			System.out.println("Subgraph:");
-			eachGraph.printGraph();
-		}
+		testSCC(testGraph);
 	}
 
 }
