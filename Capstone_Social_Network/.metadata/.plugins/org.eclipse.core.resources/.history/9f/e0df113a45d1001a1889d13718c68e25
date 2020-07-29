@@ -122,9 +122,11 @@ public class CapGraph implements Graph {
 		HashSet<Integer> visited = new HashSet<Integer>();
 		Stack finished = new Stack();
 		
+		
 		//initial set visited and stack finished
 		while (!vertices.empty()) {
 			int v = (int)vertices.pop();
+			System.out.println("poped node: " +v);
 			HashSet<Integer> connectedList = new HashSet<Integer>();
 			if (!visited.contains(v)) {
 				if (scc)
@@ -132,8 +134,10 @@ public class CapGraph implements Graph {
 				DFS_Visit(v, visited, finished, scc, connectedList);
 				if (scc) {
 					strongConnected.add(connectedList);
+					System.out.println("scc list: " +connectedList);
 				}
 			}
+			System.out.println("DFS finished: finished = " +finished);
 		}
 		return finished;
 	}
@@ -142,6 +146,7 @@ public class CapGraph implements Graph {
 							boolean scc, HashSet<Integer> connectedList) {
 		// TODO Auto-generated method stub
 		visited.add(v);
+		System.out.println("Inside DFS_Visited, visited node: " +v);
 		for (int n : nodeMap.get(v)) {
 			if (!visited.contains(n)) {
 				if (scc)

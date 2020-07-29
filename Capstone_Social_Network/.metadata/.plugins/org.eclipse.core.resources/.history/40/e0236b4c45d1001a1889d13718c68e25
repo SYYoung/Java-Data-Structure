@@ -142,6 +142,7 @@ public class CapGraph implements Graph {
 							boolean scc, HashSet<Integer> connectedList) {
 		// TODO Auto-generated method stub
 		visited.add(v);
+		System.out.println("Inside DFS_Visited, visited node: " +v);
 		for (int n : nodeMap.get(v)) {
 			if (!visited.contains(n)) {
 				if (scc)
