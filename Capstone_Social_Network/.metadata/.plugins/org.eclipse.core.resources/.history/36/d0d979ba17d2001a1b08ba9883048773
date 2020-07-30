@@ -60,8 +60,7 @@ public class Friend {
 		String fname1 = "data/scc/test_2.txt";
 		String fname2 = "data/facebook_1000.txt";
 		String fname3 = "data/facebook_2000.txt";
-		String fname4 = "data/facebook_ucsd.txt";
-		Friend myFriend = new Friend(fname4);
+		Friend myFriend = new Friend(fname3);
 		int user = 732;
 		HashMap<Integer, HashSet<Integer>> recList = 
 							myFriend.recommendFriendL(user);
