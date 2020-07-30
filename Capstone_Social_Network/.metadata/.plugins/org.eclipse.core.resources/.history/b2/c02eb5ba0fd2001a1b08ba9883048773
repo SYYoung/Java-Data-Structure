@@ -1,0 +1,46 @@
+package Facebook;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+import graph.CapGraph;
+import util.GraphLoader;
+
+public class Friend {
+	CapGraph socialGraph;
+	
+	public Friend() {
+		socialGraph = new CapGraph();
+	}
+	
+	public Friend(String fname) {
+		socialGraph = new CapGraph();
+		GraphLoader.loadGraph(socialGraph, fname);
+	}
+	
+	public HashMap<Integer, HashSet<Integer>> recommendFriendL(int user) {
+		// get the friend list of user
+		HashMap<Integer, HashSet<Integer>> nodeMap = socialGraph.exportGraph();
+		Set<Integer> neighbor = nodeMap.get(user);
+		HashMap<Integer, HashSet<Integer>> recFriendL = 
+				new HashMap<Integer, HashSet<Integer>>();
+		for (int person : neighbor) {
+			recFriendL.put(person, new HashSet<Integer>());
+			for (int another: neighbor) {
+				if (!nodeMap.get(person).contains(another)) 
+					recFriendL.get(person).add(another);
+			}
+		}
+		return ecFriendL;
+	}
+	
+	public static void main(String[] args) {
+		String fname1 = "data/scc/test_2.txt";
+		Friend myFriend = new Friend(fname1);
+		int user = 1;
+		Set<Integer> recList = myFriend.recommendFriendL(user);
+		System.out.println("The recommended friend among user " +user);
+		System.out.println(recList);
+	}
+}

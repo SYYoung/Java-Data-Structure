@@ -198,16 +198,26 @@ public class CapGraph implements Graph {
 	
 	public static void main(String[] args){
 		CapGraph testGraph = new CapGraph();
-		GraphLoader.loadGraph(testGraph, "data/note_graph5.txt");
-		testGraph.printGraph();
+		String fname1 = "data/note_graph5.txt";
+		String fname2= "data/facebook_1000.txt";
+		String fname3 = "data/facebook_2000.txt";
+		String fname = fname2;
+		GraphLoader.loadGraph(testGraph, fname3);
+		//testGraph.printGraph();
 		
 		/* test DFS */
 		List<Graph> resultGraphs = testGraph.getSCCs();
 		System.out.println("Print out each sub graph:");
+		System.out.println("Number of sub group: " +resultGraphs.size());
+		for (Graph eachGraph : resultGraphs) {
+			System.out.println("Group size: " +((CapGraph)eachGraph).numVertex);
+		}
+		/*
 		for (Graph eachGraph : resultGraphs) {
 			System.out.println("Subgraph:");
 			eachGraph.printGraph();
 		}
+		*/
 	}
 
 }

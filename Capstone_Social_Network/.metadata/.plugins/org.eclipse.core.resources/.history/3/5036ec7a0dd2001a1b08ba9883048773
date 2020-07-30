@@ -1,0 +1,23 @@
+package Facebook;
+
+import java.util.Set;
+
+import graph.CapGraph;
+import util.GraphLoader;
+
+public class Friend {
+	CapGraph socialGraph;
+	
+	public Friend() {
+		socialGraph = new CapGraph();
+	}
+	
+	public Friend(String fname) {
+		socialGraph = new CapGraph();
+		GraphLoader.loadGraph(socialGraph, fname);
+	}
+	
+	public Set<Integer> recommendFriendL(int user) {
+		
+	}
+}
