@@ -58,7 +58,7 @@
     <configuration name="PercolationStats" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="PercolationStats" />
       <module name="Algorithms, Part I" />
-      <option name="PROGRAM_PARAMETERS" value="20 25" />
+      <option name="PROGRAM_PARAMETERS" value="10 0" />
       <method v="2" />
     </configuration>
     <configuration name="PercolationVisualizer" type="Application" factoryName="Application">
@@ -81,33 +81,33 @@
     </todo-panel>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1233" height="240" key="GridCell.Tab.0.bottom" timestamp="1596439741740">
+    <state width="1233" height="206" key="GridCell.Tab.0.bottom" timestamp="1596441821757">
       <screen x="0" y="23" width="1440" height="822" />
     </state>
     <state width="1233" height="240" key="GridCell.Tab.0.bottom/0.23.1440.816@0.23.1440.816" timestamp="1596437798725" />
     <state width="1233" height="240" key="GridCell.Tab.0.bottom/0.23.1440.821@0.23.1440.821" timestamp="1596436682916" />
-    <state width="1233" height="240" key="GridCell.Tab.0.bottom/0.23.1440.822@0.23.1440.822" timestamp="1596439741740" />
+    <state width="1233" height="206" key="GridCell.Tab.0.bottom/0.23.1440.822@0.23.1440.822" timestamp="1596441821757" />
     <state width="1090" height="126" key="GridCell.Tab.0.bottom/0.23.1440.823@0.23.1440.823" timestamp="1596269121494" />
-    <state width="1233" height="240" key="GridCell.Tab.0.center" timestamp="1596439741740">
+    <state width="1233" height="206" key="GridCell.Tab.0.center" timestamp="1596441821756">
       <screen x="0" y="23" width="1440" height="822" />
     </state>
     <state width="1233" height="240" key="GridCell.Tab.0.center/0.23.1440.816@0.23.1440.816" timestamp="1596437798724" />
     <state width="1233" height="240" key="GridCell.Tab.0.center/0.23.1440.821@0.23.1440.821" timestamp="1596436682916" />
-    <state width="1233" height="240" key="GridCell.Tab.0.center/0.23.1440.822@0.23.1440.822" timestamp="1596439741740" />
+    <state width="1233" height="206" key="GridCell.Tab.0.center/0.23.1440.822@0.23.1440.822" timestamp="1596441821756" />
     <state width="1090" height="126" key="GridCell.Tab.0.center/0.23.1440.823@0.23.1440.823" timestamp="1596269121493" />
-    <state width="1233" height="240" key="GridCell.Tab.0.left" timestamp="1596439741739">
+    <state width="1233" height="206" key="GridCell.Tab.0.left" timestamp="1596441821756">
       <screen x="0" y="23" width="1440" height="822" />
     </state>
     <state width="1233" height="240" key="GridCell.Tab.0.left/0.23.1440.816@0.23.1440.816" timestamp="1596437798724" />
     <state width="1233" height="240" key="GridCell.Tab.0.left/0.23.1440.821@0.23.1440.821" timestamp="1596436682915" />
-    <state width="1233" height="240" key="GridCell.Tab.0.left/0.23.1440.822@0.23.1440.822" timestamp="1596439741739" />
+    <state width="1233" height="206" key="GridCell.Tab.0.left/0.23.1440.822@0.23.1440.822" timestamp="1596441821756" />
     <state width="1090" height="126" key="GridCell.Tab.0.left/0.23.1440.823@0.23.1440.823" timestamp="1596269121492" />
-    <state width="1233" height="240" key="GridCell.Tab.0.right" timestamp="1596439741740">
+    <state width="1233" height="206" key="GridCell.Tab.0.right" timestamp="1596441821756">
       <screen x="0" y="23" width="1440" height="822" />
     </state>
     <state width="1233" height="240" key="GridCell.Tab.0.right/0.23.1440.816@0.23.1440.816" timestamp="1596437798725" />
     <state width="1233" height="240" key="GridCell.Tab.0.right/0.23.1440.821@0.23.1440.821" timestamp="1596436682916" />
-    <state width="1233" height="240" key="GridCell.Tab.0.right/0.23.1440.822@0.23.1440.822" timestamp="1596439741740" />
+    <state width="1233" height="206" key="GridCell.Tab.0.right/0.23.1440.822@0.23.1440.822" timestamp="1596441821756" />
     <state width="1090" height="126" key="GridCell.Tab.0.right/0.23.1440.823@0.23.1440.823" timestamp="1596269121493" />
     <state width="1233" height="182" key="GridCell.Tab.1.bottom" timestamp="1596436519294">
       <screen x="0" y="23" width="1440" height="821" />
@@ -139,7 +139,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/PercolationStats.java</url>
-          <line>68</line>
+          <line>71</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

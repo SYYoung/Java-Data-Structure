@@ -9,11 +9,14 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private int[] result;
+    private double[] result;
 
     // perform indep trials on n-by-n grid
     public PercolationStats(int n, int trials) {
-        result = new int[trials];
+        // check the validity of arguments
+        if ((n <= 0) || (trials <= 0))
+            throw new IllegalArgumentException();
+        result = new double[trials];
         int times = 0;
         boolean success = false;
         int row, col;
@@ -31,7 +34,7 @@ public class PercolationStats {
                     numOpen++;
                 }
             }
-            result[times] = numOpen;
+            result[times] = (double) numOpen / (n * n);
             times++;
         }
         /*
