@@ -201,8 +201,9 @@ public class CapGraph implements Graph {
 		String fname1 = "data/note_graph5.txt";
 		String fname2= "data/facebook_1000.txt";
 		String fname3 = "data/facebook_2000.txt";
+		String fname4 = "data/testcase1.txt";
 		String fname = fname2;
-		GraphLoader.loadGraph(testGraph, fname3);
+		GraphLoader.loadGraph(testGraph, fname4);
 		//testGraph.printGraph();
 		
 		/* test DFS */

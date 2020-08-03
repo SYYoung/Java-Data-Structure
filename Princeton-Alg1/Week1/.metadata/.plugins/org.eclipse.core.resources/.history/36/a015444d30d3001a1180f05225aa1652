@@ -1,0 +1,61 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class UF {
+	public UF(int N) {
+		
+	}
+	
+	public void union(int p, int q) {
+		
+	}
+	
+	public int find(int p) {
+		return 1;
+	}
+	
+	public boolean connected(int p, int q) {
+		return false;
+		//return find(p)==find(q);
+	}
+	
+	private static UF loadGraph(String filename)
+	{
+		UF myUF = null;
+		BufferedReader reader = null;
+        try {
+            String nextLine;
+            reader = new BufferedReader(new FileReader(filename));
+            nextLine = reader.readLine();
+            if (nextLine == null) {
+            	reader.close();
+            	throw new IOException("Graph file is empty!");
+            }
+            int numVertices = Integer.parseInt(nextLine);
+            myUF = new UF(numVertices);
+        
+            // Read the lines out of the file and put them in a HashMap by points
+            while ((nextLine = reader.readLine()) != null) {
+            	String[] verts = nextLine.split(" ");
+            	int p = Integer.parseInt(verts[0]);
+            	int q = Integer.parseInt(verts[1]);
+            	if (!myUF.connected(p, q)) {
+            		myUF.union(p, q);
+            		System.out.println(p + " " + q);
+            	}
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.err.println("Problem loading graph file: " + filename);
+            e.printStackTrace();
+        }
+        return myUF;
+	}
+	
+	public static void main(String[] args) 
+	{
+		String fname = "data/test1.txt";
+		UF myUF = loadGraph(fname);
+	}
+}

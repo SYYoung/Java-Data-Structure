@@ -1,0 +1,54 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class UFGrader {
+	
+	public UFGrader()
+	{
+		
+	}
+	
+	private static QuickUnionUF loadGraph(String filename)
+	{
+		QuickUnionUF myUF = null;
+		BufferedReader reader = null;
+        try {
+            String nextLine;
+            reader = new BufferedReader(new FileReader(filename));
+            nextLine = reader.readLine();
+            if (nextLine == null) {
+            	reader.close();
+            	throw new IOException("Graph file is empty!");
+            }
+            int numVertices = Integer.parseInt(nextLine);
+            myUF = new QuickUnionUF(numVertices);
+        
+            // Read the lines out of the file and put them in a HashMap by points
+            while ((nextLine = reader.readLine()) != null) {
+            	String[] verts = nextLine.split(" ");
+            	int p = Integer.parseInt(verts[0]);
+            	int q = Integer.parseInt(verts[1]);
+            	if (!myUF.connected(p, q)) {
+            		myUF.union(p, q);
+            		System.out.println(p + " " + q);
+            	}
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.err.println("Problem loading graph file: " + filename);
+            e.printStackTrace();
+        }
+        return myUF;
+	}
+	
+	public static void main(String[] args) 
+	{
+		String fname = "data/test1.txt";
+		QuickUnionUF myUF = loadGraph(fname);
+		int[] result = myUF.getID();
+		System.out.println("The id after all connection:");
+		for (int i=0; i<result.length; i++)
+			System.out.print(result +"\t");
+	}
+}

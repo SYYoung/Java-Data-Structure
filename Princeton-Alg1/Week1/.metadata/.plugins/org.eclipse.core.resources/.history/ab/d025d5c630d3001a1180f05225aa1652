@@ -1,0 +1,24 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class UF {
+	public UF(int N) {
+		
+	}
+	
+	public void union(int p, int q) {
+		
+	}
+	
+	public int find(int p) {
+		return 1;
+	}
+	
+	public boolean connected(int p, int q) {
+		return false;
+		//return find(p)==find(q);
+	}
+	
+	
+}

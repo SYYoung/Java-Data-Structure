@@ -1,0 +1,9 @@
+
+public class Percolation {
+	int[][] grid;
+	
+	public Percolation(int N)
+	{
+		grid = new int[N][N];
+	}
+}

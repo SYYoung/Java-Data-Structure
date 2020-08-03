@@ -1,0 +1,13 @@
+
+public class Percolation {
+	int[][] grid;
+	QuickUnionUF myUF;
+	
+	public Percolation(int N)
+	{
+		grid = new int[N][N];
+		// node 0 is head node which connects top row, node N^2+1 connects
+		// the bottom row
+		myUF = new QuickUnionUF(N*N+2); 
+	}
+}
