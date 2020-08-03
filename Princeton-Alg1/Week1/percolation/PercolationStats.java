@@ -4,11 +4,12 @@
  *  Last modified:     1/1/2019
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    int[] result;
+    private int[] result;
 
     // perform indep trials on n-by-n grid
     public PercolationStats(int n, int trials) {
@@ -23,9 +24,9 @@ public class PercolationStats {
             while (!success) {
                 row = StdRandom.uniform(1, n + 1);
                 col = StdRandom.uniform(1, n + 1);
-                if (myPercolate.isOpen(row, col) == false) {
+                if (!myPercolate.isOpen(row, col)) {
                     myPercolate.open(row, col);
-                    if (myPercolate.percolates() == true)
+                    if (myPercolate.percolates())
                         success = true;
                     numOpen++;
                 }
@@ -33,9 +34,11 @@ public class PercolationStats {
             result[times] = numOpen;
             times++;
         }
-        System.out.println("The result is: ");
+        /*
+        StdOut.println("The result is: ");
         for (int i = 0; i < trials; i++)
-            System.out.println(result[i]);
+            StdOut.println(result[i]);
+         */
     }
 
     // sample mean of pecolation threshold
@@ -65,10 +68,10 @@ public class PercolationStats {
         int n = Integer.parseInt(args[0]);
         int trial = Integer.parseInt(args[1]);
         PercolationStats myStat = new PercolationStats(n, trial);
-        System.out.println("input are: " + n + ", " + trial);
-        System.out.println("mean" + "\t\t\t= " + myStat.mean());
-        System.out.println("stddev" + "\t\t\t= " + myStat.stddev());
-        System.out.println("95% confidence interval = [" + myStat.confidenceLo() +
-                                   ", " + myStat.confidenceHi() + "]");
+        // StdOut.println("input are: " + n + ", " + trial);
+        StdOut.println("mean" + "\t\t\t= " + myStat.mean());
+        StdOut.println("stddev" + "\t\t\t= " + myStat.stddev());
+        StdOut.println("95% confidence interval = [" + myStat.confidenceLo() +
+                               ", " + myStat.confidenceHi() + "]");
     }
 }

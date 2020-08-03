@@ -8,15 +8,15 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    int BLOCKED = 0;
-    int OPENED = 1;
+    private int blocked = 0;
+    private int opened = 1;
 
-    int numOpen = 0;
-    int[][] grid;
-    WeightedQuickUnionUF myUF;
-    int gridsize;
-    int HEAD = 0; // a node 0 which connects the top column;
-    int TAIL;
+    private int numOpen = 0;
+    private int[][] grid;
+    private WeightedQuickUnionUF myUF;
+    private int gridsize;
+    private int head = 0; // a node 0 which connects the top column;
+    private int tail;
 
     // creates n-by-n grid, with all sites init blocked
     public Percolation(int n) {
@@ -24,7 +24,7 @@ public class Percolation {
             throw new IllegalArgumentException();
 
         gridsize = n;
-        TAIL = n * n + 1;
+        tail = n * n + 1;
         grid = new int[n][n];
         myUF = new WeightedQuickUnionUF(n * n + 2);
 
@@ -68,7 +68,7 @@ public class Percolation {
 
     private void connectFirstRow(int row, int col) {
         int actualNode = gridTo1D(row, col);
-        myUF.union(actualNode, HEAD);
+        myUF.union(actualNode, head);
         boolean leftOpen, rightOpen, upOpen, downOpen;
         if (col == 1) {
             rightOpen = isOpen(row, col + 1);
@@ -95,7 +95,7 @@ public class Percolation {
     private void connectLastRow(int row, int col) {
         boolean upOpen, rightOpen, leftOpen;
         int actualNode = gridTo1D(row, col);
-        myUF.union(actualNode, TAIL);
+        myUF.union(actualNode, tail);
         if (col == 1) {
             rightOpen = isOpen(row, col + 1);
             upOpen = isOpen(row - 1, col);
@@ -160,8 +160,8 @@ public class Percolation {
             throw new IllegalArgumentException();
         int actualRow = actualRowCol(row);
         int actualCol = actualRowCol(col);
-        if (grid[actualRow][actualCol] == BLOCKED) {
-            grid[actualRow][actualCol] = OPENED;
+        if (grid[actualRow][actualCol] == blocked) {
+            grid[actualRow][actualCol] = opened;
             numOpen++;
             connect(row, col);
         }
@@ -171,10 +171,7 @@ public class Percolation {
     public boolean isOpen(int row, int col) {
         if (!validGridRange(row, col))
             throw new IllegalArgumentException();
-        if (grid[actualRowCol(row)][actualRowCol(col)] == OPENED)
-            return true;
-        else
-            return false;
+        return (grid[actualRowCol(row)][actualRowCol(col)] == opened);
     }
 
     private int gridTo1D(int row, int col) {
@@ -185,7 +182,7 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         if (!validGridRange(row, col))
             throw new IllegalArgumentException();
-        return myUF.find(gridTo1D(row, col)) == myUF.find(HEAD);
+        return myUF.find(gridTo1D(row, col)) == myUF.find(head);
     }
 
     // returns the number of open sites
@@ -195,7 +192,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return myUF.find(HEAD) == myUF.find(TAIL);
+        return myUF.find(head) == myUF.find(tail);
     }
 
     // test client (optinal)
@@ -209,14 +206,14 @@ public class Percolation {
             int row = StdRandom.uniform(1, num + 1);
             int col = StdRandom.uniform(1, num + 1);
             myPercolate.open(row, col);
-
-            System.out.println("row, col, #opensites: " + row + ", " + col +
-                                       ", " + myPercolate.numberOfOpenSites() +
-                                       ",  full or not? " + myPercolate.isFull(row, col));
-            System.out.println("percolate or not ? " + myPercolate.percolates());
-
+            /*
+            StdOut.println("row, col, #opensites: " + row + ", " + col +
+                                   ", " + myPercolate.numberOfOpenSites() +
+                                   ",  full or not? " + myPercolate.isFull(row, col));
+            StdOut.println("percolate or not ? " + myPercolate.percolates());
+            */
             times++;
         }
-        System.out.println("percolate or not ? " + myPercolate.percolates());
+        // StdOut.println("percolate or not ? " + myPercolate.percolates());
     }
 }
