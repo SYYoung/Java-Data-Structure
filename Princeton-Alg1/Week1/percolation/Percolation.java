@@ -201,7 +201,7 @@ public class Percolation {
     // test client (optinal)
     public static void main(String[] args) {
         int times = 0;
-        int trial = 15;
+        int trial = 18;
         int num = Integer.parseInt(args[0]);
         Percolation myPercolate = new Percolation(num);
         // StdRandom.setSeed(1);
@@ -209,9 +209,12 @@ public class Percolation {
             int row = StdRandom.uniform(1, num + 1);
             int col = StdRandom.uniform(1, num + 1);
             myPercolate.open(row, col);
+
             System.out.println("row, col, #opensites: " + row + ", " + col +
-                                       ", " + myPercolate.numberOfOpenSites());
+                                       ", " + myPercolate.numberOfOpenSites() +
+                                       ",  full or not? " + myPercolate.isFull(row, col));
             System.out.println("percolate or not ? " + myPercolate.percolates());
+
             times++;
         }
         System.out.println("percolate or not ? " + myPercolate.percolates());
