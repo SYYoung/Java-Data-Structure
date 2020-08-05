@@ -1,0 +1,71 @@
+package myBag;
+
+import java.util.Iterator;
+
+public class MyBag<Item> implements Iterable<Item> {
+	bagNode<Item> first;
+	int num;
+	
+	public MyBag() {
+		first = null;
+		num = 0;
+	}
+	
+	public void add(Item x) {
+		bagNode<Item> oldFirst = first;
+		first = new bagNode(x);
+		first.next = oldFirst;
+		num++;
+	}
+	
+	public int size() {
+		return num;
+	}
+	
+	@Override
+	public Iterator<Item> iterator() {
+		// TODO Auto-generated method stub
+		return new BagIterator();
+	}
+	
+	private class BagIterator implements Iterator<Item> {
+		private bagNode<Item> current = first;
+		
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return current != null;
+		}
+
+		@Override
+		public Item next() {
+			// TODO Auto-generated method stub
+			Item item = current.element;
+			current = current.next;
+			return item;
+		}
+		
+	}
+
+	private class bagNode<Item> {
+		Item element;
+		bagNode<Item> next;
+		
+		public bagNode(Item ele) {
+			element = ele;
+			next = null;
+		}
+	}
+	
+	public static void main(String[] args) {
+		MyBag<String> bagOfString = new MyBag<String>();
+		
+		bagOfString.add("This");
+		bagOfString.add("is");
+		bagOfString.add("crazy");
+		bagOfString.add("test");
+		
+		for (String ele : bagOfString)
+			System.out.println(ele);
+	}
+}
