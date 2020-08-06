@@ -80,12 +80,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         for (int i = 1; i < 10; i++)
             myQueue.enqueue(i);
         StdOut.println("total num of elements: " + myQueue.size());
+        StdOut.println("Test iterator: ");
         for (int k : myQueue)
-            StdOut.println(k);
-        StdOut.println("Test remove first:");
+            StdOut.print("\t" + k);
+        StdOut.println("\nTest dequeue(): ");
         int beforeRemove = myQueue.size();
         for (int j = 0; j < beforeRemove; j++)
-            StdOut.print(myQueue.dequeue());
+            StdOut.print("\t" + myQueue.dequeue());
+        // test sample()
+        for (int i = 1; i < 10; i++)
+            myQueue.enqueue(i);
+        StdOut.println("\nTest sample(): ");
+        for (int j = 0; j < myQueue.size() * 3; j++)
+            StdOut.print("\t" + myQueue.sample());
     }
 
     private class QueueIterator implements Iterator<Item> {
