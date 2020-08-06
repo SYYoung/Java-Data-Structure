@@ -55,6 +55,7 @@ public class Deque<Item> implements Iterable<Item> {
         Item element = first.element;
         first = first.next;
         if (first != null) first.prev = null;
+        else last = null;
         oldFirst.next = null;  // for garbage collection
         total--;
         return element;
@@ -68,41 +69,72 @@ public class Deque<Item> implements Iterable<Item> {
         Item element = last.element;
         last = last.prev;
         if (last != null) last.next = null;
+        else first = null;
         oldLast.prev = null;
+        total--;
         return element;
     }
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
+        /*
         if (isEmpty())
+
             throw new java.util.NoSuchElementException();
+
+         */
         return new NodeIterator();
     }
 
     // junit testing (required)
     public static void main(String[] args) {
         Deque<Integer> myQueue = new Deque<Integer>();
+        Deque<String> myQ2 = new Deque<String>();
+
+        int testcase = 4;
+
+        // Test case 3:
+        if (testcase == 1) {
+            StdOut.println("dequeue.isEmpty(): " + myQueue.isEmpty());
+            myQueue.addLast(1);
+            StdOut.println("after adding 1, dequeue.isEmpty(): " + myQueue.isEmpty());
+            StdOut.println("removeFirst() : " + myQueue.removeFirst());
+            StdOut.println("dequeue.isEmpty(): " + myQueue.isEmpty());
+        }
+
+        // Test the iterator of empty queue
         // 1. test the addFirst/addLast and iterator
-        for (int i = 1; i < 10; i++)
-            // myQueue.addFirst(i);
-            myQueue.addLast(i);
-        StdOut.println("total num of elements: " + myQueue.size());
-        for (int k : myQueue)
-            StdOut.println(k);
-        StdOut.println("Test remove first:");
-        int beforeRemove = myQueue.size();
-        for (int j = 0; j < beforeRemove; j++)
-            StdOut.print(myQueue.removeLast());
-        /*
-        myQueue.addFirst("1");
-        StdOut.println("adding 1 item, queue size = " + myQueue.size());
-        myQueue.addLast("2");
-        StdOut.println("adding 2 items, queue size = " + myQueue.size());
-        myQueue.addFirst("3");
-        myQueue.addLast("4");
-        myQueue.addFirst("5");
-        StdOut.println("adding 5 items, queue size = " + myQueue.size());
-         */
+        if (testcase == 2) {
+            for (int i = 1; i < 10; i++)
+                // myQueue.addFirst(i);
+                myQueue.addLast(i);
+            StdOut.println("total num of elements: " + myQueue.size());
+            for (int k : myQueue)
+                StdOut.println(k);
+            StdOut.println("Test remove first:");
+            int beforeRemove = myQueue.size();
+            for (int j = 0; j < beforeRemove; j++)
+                StdOut.print(myQueue.removeLast());
+        }
+
+        if (testcase == 3) {
+            myQ2.addFirst("1");
+            StdOut.println("adding 1 item, queue size = " + myQ2.size());
+            myQ2.addLast("2");
+            StdOut.println("adding 2 items, queue size = " + myQ2.size());
+            myQ2.addFirst("3");
+            myQ2.addLast("4");
+            myQ2.addFirst("5");
+            StdOut.println("adding 5 items, queue size = " + myQ2.size());
+        }
+
+        // test empty queue iterator
+        if (testcase == 4) {
+            myQueue.addLast(1);
+            StdOut.println("removeLast() : " + myQueue.removeLast());
+            for (int k : myQueue)
+                StdOut.println(k);
+        }
     }
 
     private class Node<Item> {
