@@ -54,7 +54,7 @@ public class Deque<Item> implements Iterable<Item> {
         Node<Item> oldFirst = first;
         Item element = first.element;
         first = first.next;
-        first.prev = null;
+        if (first != null) first.prev = null;
         oldFirst.next = null;  // for garbage collection
         total--;
         return element;
@@ -67,7 +67,7 @@ public class Deque<Item> implements Iterable<Item> {
         Node<Item> oldLast = last;
         Item element = last.element;
         last = last.prev;
-        last.next = null;
+        if (last != null) last.next = null;
         oldLast.prev = null;
         return element;
     }
@@ -82,11 +82,17 @@ public class Deque<Item> implements Iterable<Item> {
     // junit testing (required)
     public static void main(String[] args) {
         Deque<Integer> myQueue = new Deque<Integer>();
+        // 1. test the addFirst/addLast and iterator
         for (int i = 1; i < 10; i++)
-            myQueue.addFirst(i);
+            // myQueue.addFirst(i);
+            myQueue.addLast(i);
         StdOut.println("total num of elements: " + myQueue.size());
         for (int k : myQueue)
             StdOut.println(k);
+        StdOut.println("Test remove first:");
+        int beforeRemove = myQueue.size();
+        for (int j = 0; j < beforeRemove; j++)
+            StdOut.print(myQueue.removeLast());
         /*
         myQueue.addFirst("1");
         StdOut.println("adding 1 item, queue size = " + myQueue.size());
