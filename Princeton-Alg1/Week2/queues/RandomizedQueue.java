@@ -83,6 +83,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         StdOut.println("Test iterator: ");
         for (int k : myQueue)
             StdOut.print("\t" + k);
+        // test two iterators
+
+        for (int a : myQueue) {
+            for (int b : myQueue)
+                StdOut.print(a + "-" + b + " ");
+            StdOut.println();
+        }
+
+         
         StdOut.println("\nTest dequeue(): ");
         int beforeRemove = myQueue.size();
         for (int j = 0; j < beforeRemove; j++)
@@ -116,7 +125,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         public Item next() {
             if (current == total)
                 throw new java.util.NoSuchElementException();
-            Item item = itemList[current];
+            Item item = copy[current];
             current++;
             return item;
         }
