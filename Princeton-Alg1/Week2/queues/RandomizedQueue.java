@@ -53,9 +53,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new java.util.NoSuchElementException();
         int which2Delete = StdRandom.uniform(0, total);
         Item theItem = itemList[which2Delete];
-        if ((total >= 2) && (which2Delete != total - 1))
+        if ((total >= 2) && (which2Delete != total - 1)) {
             itemList[which2Delete] = itemList[total - 1];
+            itemList[total - 1] = null;
+        }
+        // shrink the array if it is one-quarter full only
         total--;
+        if (total > 0 && total < itemList.length / 4) resize(itemList.length / 2);
         return theItem;
     }
 
@@ -69,8 +73,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return an independent iterator over items in random order
     public Iterator<Item> iterator() {
+        /*
         if (isEmpty())
             throw new java.util.NoSuchElementException();
+
+         */
         return new QueueIterator();
     }
 
@@ -84,14 +91,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         for (int k : myQueue)
             StdOut.print("\t" + k);
         // test two iterators
-
+        /*
         for (int a : myQueue) {
             for (int b : myQueue)
                 StdOut.print(a + "-" + b + " ");
             StdOut.println();
         }
+        */
 
-         
         StdOut.println("\nTest dequeue(): ");
         int beforeRemove = myQueue.size();
         for (int j = 0; j < beforeRemove; j++)

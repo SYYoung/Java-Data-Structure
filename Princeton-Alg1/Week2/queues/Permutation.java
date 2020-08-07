@@ -19,7 +19,7 @@ public class Permutation {
             throw new java.util.NoSuchElementException();
         int j = 1;
         for (String s : myRandomQ) {
-            if (j <= k) StdOut.print("\t" + s);
+            if (j <= k) StdOut.println(s);
             else break;
             j++;
         }
