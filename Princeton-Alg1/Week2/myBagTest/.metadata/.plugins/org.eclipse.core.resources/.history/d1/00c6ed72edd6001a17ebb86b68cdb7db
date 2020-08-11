@@ -1,0 +1,40 @@
+package myBag;
+
+import java.util.Iterator;
+
+public class MyBag<Item> implements Iterable<Item> {
+	bagNode<Item> first;
+	int num;
+	
+	public MyBag() {
+		first = null;
+		num = 0;
+	}
+	
+	public void add(Item x) {
+		bagNode<Item> oldFirst = first;
+		first = new bagNode(x);
+		first.next = oldFirst;
+		num++;
+	}
+	
+	public int size() {
+		return num;
+	}
+	
+	@Override
+	public Iterator<Item> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private class bagNode<Item> {
+		Item element;
+		bagNode<Item> next;
+		
+		public bagNode(Item ele) {
+			element = ele;
+			next = null;
+		}
+	}
+}
