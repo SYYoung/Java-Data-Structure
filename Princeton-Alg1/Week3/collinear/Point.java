@@ -64,6 +64,8 @@ public class Point implements Comparable<Point> {
      */
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
+        if (that == null)
+            throw new IllegalArgumentException();
         int diffX = that.x - this.x;
         int diffY = that.y - this.y;
         if ((diffX == 0) && (diffY == 0))
