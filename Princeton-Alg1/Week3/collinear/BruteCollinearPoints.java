@@ -5,6 +5,7 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Arrays;
@@ -90,6 +91,13 @@ public class BruteCollinearPoints {
         LineSegment[] result = bruteCollinearPt.segments();
         for (LineSegment eachSeg : result)
             StdOut.println(eachSeg);
+        // set up for drawing
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        for (LineSegment eachSet : result)
+            eachSet.draw();
+        StdDraw.show();
         // check the shuffle
         /*
         int k = 4;
