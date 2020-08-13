@@ -49,15 +49,19 @@ public class FastCollinearPoints {
 
     private void findCollinearEndPoint(double[] allSlopes, int startIndex,
                                        Point[] points) {
-        // sort the slopes
+        // sort the slopes and also the corresponding points
+        // use the copy of points to be sorted instead of the points itself
+        Point[] copy = Arrays.copyOf(points, points.length);
         Arrays.sort(allSlopes);
+        Arrays.sort(copy, copy[startIndex].slopeOrder());
         int i = 0;
         int j = i + 1;
+        int origin = 0;
         while ((i < allSlopes.length - 1) && (j < allSlopes.length)) {
             if (allSlopes[i] == allSlopes[j])
                 j++;
             else if (j - i > 2) {
-                assignLineSegment(points[startIndex], points[startIndex + j - 1]);
+                assignLineSegment(copy[origin], copy[origin + j - 1]);
                 i++;
                 j = i + 1;
             }
@@ -67,7 +71,7 @@ public class FastCollinearPoints {
             }
         }
         if (j - i > 2)
-            assignLineSegment(points[startIndex], points[startIndex + j]);
+            assignLineSegment(copy[origin], copy[origin + j]);
     }
 
     // the number of line segments
