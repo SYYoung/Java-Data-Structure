@@ -121,7 +121,7 @@ public class FastCollinearPoints {
         StdDraw.show();
     }
 
-    public class LineSlopeNode {
+    private class LineSlopeNode {
         Point startPt;
         Point endPt;
         double slope;
@@ -133,7 +133,7 @@ public class FastCollinearPoints {
         }
     }
 
-    public class LineSlope {
+    private class LineSlope {
         private int totalSeg = 0;
         private LineSlopeNode[] allSegs = new LineSlopeNode[8];
 
