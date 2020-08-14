@@ -8,18 +8,20 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FastCollinearPoints {
     private int totalSegment = 0;
     private LineSlope tmpSegments = new LineSlope();
-    private LineSegment[] allSegments = new LineSegment[8];
+    // private LineSegment[] allSegments = new LineSegment[8];
+    private ArrayList<LineSegment> allSegments = new ArrayList<LineSegment>();
 
     // find all line segments containing 4 points
     public FastCollinearPoints(Point[] points) {
 
         checkValidityOfPoint(points);
-        Arrays.sort(points);
+        // Arrays.sort(points);
         int totalPoint = points.length;
         for (int i = 0; i < totalPoint - 3; i++) {
             double[] slopes = new double[totalPoint - i - 1];
@@ -33,25 +35,25 @@ public class FastCollinearPoints {
     private void checkValidityOfPoint(Point[] points) {
         if (points == null)
             throw new IllegalArgumentException();
-        // Arrays.sort(points);
+        Arrays.sort(points);
     }
 
     private void assignLineSegment(Point startPoint, Point endPoint,
                                    double slope) {
         if (!(tmpSegments.lineExists(startPoint, endPoint, slope))) {
             tmpSegments.assignLineSlope(startPoint, endPoint, slope);
-            if (totalSegment >= allSegments.length)
-                resize(2 * allSegments.length);
-            allSegments[totalSegment++] = new LineSegment(startPoint, endPoint);
+            allSegments.add(new LineSegment(startPoint, endPoint));
+            totalSegment++;
         }
     }
-
+    /*
     private void resize(int capacity) {
         LineSegment[] copy = new LineSegment[capacity];
         for (int i = 0; i < totalSegment; i++)
             copy[i] = allSegments[i];
         allSegments = copy;
     }
+     */
 
     private void findCollinearEndPoint(double[] allSlopes, int startIndex,
                                        Point[] points) {
@@ -87,7 +89,8 @@ public class FastCollinearPoints {
 
     // the line segments
     public LineSegment[] segments() {
-        return Arrays.copyOf(allSegments, totalSegment);
+        return allSegments.toArray(new LineSegment[allSegments.size()]);
+        // return Arrays.copyOf(allSegments, totalSegment);
     }
 
     public static void main(String[] args) {
@@ -135,12 +138,13 @@ public class FastCollinearPoints {
 
     private class LineSlope {
         private int totalSeg = 0;
-        private LineSlopeNode[] allSegs = new LineSlopeNode[8];
+        private ArrayList<LineSlopeNode> allSegs = new ArrayList<LineSlopeNode>();
+        // private LineSlopeNode[] allSegs = new LineSlopeNode[8];
 
         public boolean lineExists(Point start, Point end, double slope) {
             for (int i = 0; i < totalSeg; i++) {
-                if (((allSegs[i].startPt == start) || (allSegs[i].endPt == end)) &&
-                        (allSegs[i].slope == slope))
+                if (((allSegs.get(i).startPt == start) || (allSegs.get(i).endPt == end)) &&
+                        (allSegs.get(i).slope == slope))
                     return true;
             }
             return false;
@@ -148,17 +152,18 @@ public class FastCollinearPoints {
 
         private void assignLineSlope(Point startPoint, Point endPoint,
                                      double slope) {
-            if (totalSeg >= allSegs.length)
-                resize(2 * allSegs.length);
-            allSegs[totalSeg++] = new LineSlopeNode(startPoint, endPoint, slope);
+            allSegs.add(new LineSlopeNode(startPoint, endPoint, slope));
+            totalSeg++;
         }
 
+        /*
         private void resize(int capacity) {
             LineSlopeNode[] copy = new LineSlopeNode[capacity];
             for (int i = 0; i < totalSeg; i++)
                 copy[i] = allSegs[i];
             allSegs = copy;
         }
+         */
     }
 }
 
