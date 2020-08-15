@@ -1,28 +1,44 @@
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class Experiment {
     public static void main(String[] args) {
-        StdOut.println("This is testing.");
-        int N = Integer.parseInt(args[0]);
-        String[] a = new String[N];
-        NewInsertion mySelection = new NewInsertion();
+        int N = 0;
+        Integer[] a = null;
+        int testcase = 2;
+        // testcase =1 for reading from input
+        if (testcase == 1) {
+            StdOut.println("This is testing.");
+            N = Integer.parseInt(args[0]);
+            a = new Integer[N];
 
-        int i = 0;
-
-        while (!StdIn.isEmpty()) {
-            a[i++] = StdIn.readString();
+            int i = 0;
+            while (!StdIn.isEmpty()) {
+                a[i++] = StdIn.readInt();
+            }
+        } else if (testcase == 2) {
+            // generate a list of random number
+            N = 15;
+            a = new Integer[N];
+            for (int i = 0; i < N; i++)
+                a[i] = StdRandom.uniform(1, 100);
         }
 
         // String[] a = {"S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"};
         StdOut.println("Before sorting: ");
-        for (String s : a)
-            StdOut.print("\t," + s);
+        if (a != null)
+            for (int i : a)
+                StdOut.print("\t," + i);
         StdOut.println();
+
+        // sorting algorithm:
+        NewMerge mySelection = new NewMerge();
         mySelection.sort(a);
         StdOut.println("\nAfter sorting: ");
-        for (String s : a)
-            StdOut.print("\t," + s);
+        if (a != null)
+            for (int i : a)
+                StdOut.print("\t," + i);
     }
 
 
