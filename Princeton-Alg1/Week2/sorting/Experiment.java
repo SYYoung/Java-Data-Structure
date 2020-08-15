@@ -23,6 +23,18 @@ public class Experiment {
             a = new Integer[N];
             for (int i = 0; i < N; i++)
                 a[i] = StdRandom.uniform(1, 100);
+        } else if (testcase == 3) {
+            // sorted number
+            N = 15;
+            a = new Integer[N];
+            for (int i = 0; i < N; i++)
+                a[i] = i + 1;
+        } else if (testcase == 4) {
+            // sorted number
+            N = 15;
+            a = new Integer[N];
+            for (int i = 0; i < N; i++)
+                a[i] = N - i;
         }
 
         // String[] a = {"S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"};
@@ -33,7 +45,7 @@ public class Experiment {
         StdOut.println();
 
         // sorting algorithm:
-        NewMerge mySelection = new NewMerge();
+        NewQuick mySelection = new NewQuick();
         mySelection.sort(a);
         StdOut.println("\nAfter sorting: ");
         if (a != null)
