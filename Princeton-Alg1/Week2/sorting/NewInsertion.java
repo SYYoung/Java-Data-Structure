@@ -3,6 +3,8 @@ import edu.princeton.cs.algs4.StdOut;
 public class NewInsertion {
 
     public static void sort(Comparable[] a) {
+        sort(a, 0, a.length - 1);
+        /*
         int N = a.length;
         StdOut.println("i\t total iteration");
         int totalIter = 0;
@@ -18,15 +20,17 @@ public class NewInsertion {
                 StdOut.print("\t" + a[k]);
             StdOut.println();
         }
+
+         */
     }
 
     public static void sort(Comparable[] a, int lo, int hi) {
-        int N = a.length;
+        int N = hi + 1;
         StdOut.println("i\t total iteration");
         int totalIter = 0;
-        for (int i = 0; i < N; i++) {
+        for (int i = lo; i < N; i++) {
             totalIter++;
-            for (int j = i; j > 0; j--)
+            for (int j = i; j > lo; j--)
                 if (less(a[j], a[j - 1]))
                     exch(a, j, j - 1);
                 else
