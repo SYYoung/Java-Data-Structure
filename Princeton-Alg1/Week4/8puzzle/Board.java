@@ -6,6 +6,7 @@
 
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -89,12 +90,14 @@ public class Board {
         return Arrays.deepEquals(this.tile, ((Board) other).tile);
     }
 
-    /*
+
     // all neighboring boards
     public Iterable<Board> neighbors() {
-
+        NeighborList myNeighbors = new NeighborList(this);
+        return myNeighbors.neighbor;
     }
 
+    /*
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
 
@@ -131,5 +134,61 @@ public class Board {
         StdOut.println("Board b: ");
         StdOut.println(another);
         StdOut.println("Is Board a same as board B?" + myBoard.equals(another));
+
+        // test neighbor
+        int[][] c = {
+                { 1, 0, 3 },
+                { 4, 2, 5 },
+                { 7, 8, 6 }
+        };
+        Board bb = new Board(c);
+        StdOut.println("Test neighbors: input: ");
+        StdOut.println(bb);
+        StdOut.println("The neighbors are: ");
+        for (Board each : bb.neighbors()) {
+            StdOut.println(each);
+        }
     }
+
+    private class NeighborList {
+        ArrayList<Board> neighbor = new ArrayList<Board>();
+
+        public NeighborList(Board original) {
+            // 1. find out the location of '0'
+            int row = 0, col = 0;
+            for (int i = 0; i < dim; i++)
+                for (int j = 0; j < dim; j++)
+                    if (original.tile[i][j] == 0) {
+                        row = i;
+                        col = j;
+                        break;
+                    }
+            // 2. swap the tile which is adjacent to the space
+            // if there is a tile left to space
+            if (col - 1 >= 0) {
+                neighbor.add(swap(row, col, row, col - 1));
+            }
+            if (col + 1 <= original.dim - 1) {
+                neighbor.add(swap(row, col, row, col + 1));
+            }
+            if (row - 1 >= 0) {
+                neighbor.add(swap(row, col, row - 1, col));
+            }
+            if (row + 1 <= original.dim - 1)
+                neighbor.add(swap(row, col, row + 1, col));
+
+        }
+
+        private Board swap(int row1, int col1, int row2, int col2) {
+            Board newBoard = new Board(tile);
+            int[][] theTile = newBoard.tile;
+            int tmp = theTile[row1][col1];
+            theTile[row1][col1] = theTile[row2][col2];
+            theTile[row2][col2] = tmp;
+            return newBoard;
+        }
+
+    }
+
+
 }
