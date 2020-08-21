@@ -65,7 +65,8 @@ public class Board {
                 if (tile[i][j] != goal[i][j]) dist++;
             }
         // the last tile should not be counted
-        dist--;
+        if (tile[dim - 1][dim - 1] != 0)
+            dist--;
         return (dist);
     }
 
