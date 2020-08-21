@@ -14,6 +14,8 @@ public class Board {
     private int[][] tile = null;
     private int dim = 0;
 
+    private int[][] goal = null;
+
     // create a board from an n-by-n array of tiels,
     // where tiles[row][col] = tile at (row,col)
     public Board(int[][] tiles) {
@@ -24,6 +26,16 @@ public class Board {
             for (int j = 0; j < n; j++)
                 tile[i][j] = tiles[i][j];
         dim = n;
+
+        // build up the goal array
+        if (goal == null) {
+            // build the goal board
+            goal = new int[n][n];
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                    goal[i][j] = i * n + j + 1;
+            goal[n - 1][n - 1] = 0;
+        }
     }
 
     // String representations of this board
@@ -50,8 +62,7 @@ public class Board {
         int dist = 0;
         for (int i = 0; i < dim; i++)
             for (int j = 0; j < dim; j++) {
-                int correctVal = i * dim + j + 1;
-                if (tile[i][j] != correctVal) dist++;
+                if (tile[i][j] != goal[i][j]) dist++;
             }
         // the last tile should not be counted
         dist--;
@@ -64,8 +75,7 @@ public class Board {
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
                 if (tile[i][j] != 0) {
-                    int correctVal = i * dim + j + 1;
-                    if (tile[i][j] != correctVal) {
+                    if (tile[i][j] != goal[i][j]) {
                         int row = (tile[i][j] - 1) / dim;
                         int col = (tile[i][j] - 1) % dim;
                         dist += Math.abs(i - row) + Math.abs(j - col);
@@ -78,7 +88,8 @@ public class Board {
 
     // is this board the goal board?
     public boolean isGoal() {
-        return true;
+        Board goalBoard = new Board(goal);
+        return (this.equals(goalBoard));
     }
 
     // does this board equal y?
@@ -148,6 +159,12 @@ public class Board {
         for (Board each : bb.neighbors()) {
             StdOut.println(each);
         }
+
+        // test isGoal
+        StdOut.println("Goal board: ");
+        Board goalBoard = new Board(bb.goal);
+        StdOut.println(goalBoard);
+        StdOut.println("Test isGoal: " + bb.isGoal());
     }
 
     private class NeighborList {
