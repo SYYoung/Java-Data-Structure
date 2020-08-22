@@ -21,9 +21,15 @@ public class Solver {
         if (initial == null)
             throw new IllegalArgumentException();
 
+        // build queue for init board
         BoardNode initNode = new BoardNode(initial, null, 0);
-        MinPQ<BoardNode> gameQueue = new MinPQ<BoardNode>();
-        gameQueue.insert(initNode);
+        MinPQ<BoardNode> gameQueueInit = new MinPQ<BoardNode>();
+        gameQueueInit.insert(initNode);
+        // build queue for twin board
+        BoardNode twinNode = new BoardNode(initial.twin(), null, 0);
+        MinPQ<BoardNode> gameQueueTwin = new MinPQ<BoardNode>();
+        gameQueueTwin.insert(twinNode);
+
         // also build a goalBoard
         int n = initial.dimension();
         int[][] goalTile = new int[n][n];
@@ -32,22 +38,21 @@ public class Solver {
                 goalTile[i][j] = i * n + j + 1;
         goalTile[n - 1][n - 1] = 0;
         Board goalBoard = new Board(goalTile);
-        buildSolution(gameQueue, goalBoard);
+        buildSolution(gameQueueInit, gameQueueTwin, goalBoard);
     }
 
-
-    private void buildSolution(MinPQ<BoardNode> gameQueue, Board goalBoard) {
+    private boolean boardSolvable(MinPQ<BoardNode> gameQueue,
+                                  ArrayList<Board> visited,
+                                  Board goalBoard) {
         BoardNode curNode = null;
-        int steps = 0;
-        ArrayList<Board> visited = new ArrayList<Board>();
-        while (!gameQueue.isEmpty()) {
+        boolean success = false;
+        if (!gameQueue.isEmpty()) {
             curNode = gameQueue.delMin();
             if (curNode.theBroad.equals(goalBoard)) {
-                solvable = true;
+                success = true;
                 totalMove = curNode.moveStep;
-                break;
             }
-            if (visited.indexOf(curNode.theBroad) == -1) {
+            else if (visited.indexOf(curNode.theBroad) == -1) {
                 // this board hasn't been visited yet
                 visited.add(curNode.theBroad);
                 int move = curNode.moveStep + 1;
@@ -58,13 +63,32 @@ public class Solver {
                 }
             }
         }
-        if (solvable) {
+        if (success) {
             BoardNode traceNode = curNode;
             while (traceNode != null) {
                 boardMovement.add(0, traceNode.theBroad);
                 traceNode = traceNode.prev;
             }
         }
+        return success;
+    }
+
+    private void buildSolution(MinPQ<BoardNode> gameQueueInit,
+                               MinPQ<BoardNode> gameQueueTwin, Board goalBoard) {
+        BoardNode curNode = null;
+        int steps = 0;
+        ArrayList<Board> visitedInit = new ArrayList<Board>();
+        ArrayList<Board> visitedTwin = new ArrayList<Board>();
+        boolean initSuccess = false, twinSuccess = false;
+
+        while (!initSuccess && !twinSuccess) {
+            initSuccess = boardSolvable(gameQueueInit, visitedInit, goalBoard);
+            twinSuccess = boardSolvable(gameQueueTwin, visitedTwin, goalBoard);
+        }
+        if (initSuccess)
+            solvable = true;
+        else
+            solvable = false;
     }
 
     // is the initial board solvable?
@@ -87,7 +111,7 @@ public class Solver {
         // create initial board from file
         // In in = new In(args[0]);
         Board initial = null;
-        int testcase = 1;
+        int testcase = 3;
         if (testcase == 1) {
             In input = new In(args[0]);
             int n = input.readInt();
@@ -119,8 +143,12 @@ public class Solver {
         Solver solver = new Solver(initial);
 
         // print solution to standard output
-        if (!solver.isSolvable())
+        if (!solver.isSolvable()) {
             StdOut.println("No solution possible.");
+            StdOut.println("There is solution for the twin.");
+            for (Board board : solver.solution())
+                StdOut.println(board);
+        }
         else {
             StdOut.println("Minimum number of moves = " + solver.moves());
             for (Board board : solver.solution())
