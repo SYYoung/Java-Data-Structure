@@ -14,6 +14,9 @@ import java.util.Arrays;
 public class Board {
     private int[][] tile = null;
     private int dim = 0;
+    private final int invalidDist = -1;
+    private int manhattanDist = invalidDist;
+    private int hammingDist = invalidDist;
 
     private int[][] goal = null;
 
@@ -37,6 +40,10 @@ public class Board {
                     goal[i][j] = i * n + j + 1;
             goal[n - 1][n - 1] = 0;
         }
+
+        // calcuate the distances
+        manhattanDist = manhattan();
+        hammingDist = hamming();
     }
 
     // String representations of this board
@@ -60,32 +67,39 @@ public class Board {
 
     // number of tiles out of place
     public int hamming() {
-        int dist = 0;
-        for (int i = 0; i < dim; i++)
-            for (int j = 0; j < dim; j++) {
-                if (tile[i][j] != goal[i][j]) dist++;
-            }
-        // the last tile should not be counted
-        if (tile[dim - 1][dim - 1] != 0)
-            dist--;
-        return (dist);
+        if (hammingDist == invalidDist) {
+            int dist = 0;
+            for (int i = 0; i < dim; i++)
+                for (int j = 0; j < dim; j++) {
+                    if (tile[i][j] != goal[i][j]) dist++;
+                }
+            // the last tile should not be counted
+            if (tile[dim - 1][dim - 1] != 0)
+                dist--;
+            hammingDist = dist;
+        }
+        return hammingDist;
     }
 
     // sum of Manhattan distances between tiles and goal
     public int manhattan() {
-        int dist = 0;
-        for (int i = 0; i < dim; i++) {
-            for (int j = 0; j < dim; j++) {
-                if (tile[i][j] != 0) {
-                    if (tile[i][j] != goal[i][j]) {
-                        int row = (tile[i][j] - 1) / dim;
-                        int col = (tile[i][j] - 1) % dim;
-                        dist += Math.abs(i - row) + Math.abs(j - col);
+        if (manhattanDist == invalidDist) {
+            int dist = 0;
+            for (int i = 0; i < dim; i++) {
+                for (int j = 0; j < dim; j++) {
+                    if (tile[i][j] != 0) {
+                        if (tile[i][j] != goal[i][j]) {
+                            int row = (tile[i][j] - 1) / dim;
+                            int col = (tile[i][j] - 1) % dim;
+                            dist += Math.abs(i - row) + Math.abs(j - col);
+                        }
                     }
                 }
             }
+            manhattanDist = dist;
         }
-        return dist;
+
+        return manhattanDist;
     }
 
     // is this board the goal board?
@@ -149,6 +163,7 @@ public class Board {
                 { 7, 6, 5 }
         };
 
+
         // test the board constructor
         Board myBoard = new Board(a);
         StdOut.println(myBoard);
@@ -178,7 +193,12 @@ public class Board {
                 { 4, 2, 5 },
                 { 7, 8, 6 }
         };
-        Board bb = new Board(c);
+        int[][] c1 = {
+                { 0, 1, 3 },
+                { 4, 2, 5 },
+                { 7, 8, 6 }
+        };
+        Board bb = new Board(c1);
         StdOut.println("Test neighbors: input: ");
         StdOut.println(bb);
         StdOut.println("The neighbors are: ");
@@ -213,18 +233,32 @@ public class Board {
                     }
             // 2. swap the tile which is adjacent to the space
             // if there is a tile left to space
+            int deltaDist = 0;
             if (col - 1 >= 0) {
-                neighbor.add(swap(row, col, row, col - 1));
+                buildNewNeighborBoard(row, col - 1, row, col);
             }
             if (col + 1 <= original.dim - 1) {
-                neighbor.add(swap(row, col, row, col + 1));
+                buildNewNeighborBoard(row, col + 1, row, col);
             }
             if (row - 1 >= 0) {
-                neighbor.add(swap(row, col, row - 1, col));
+                buildNewNeighborBoard(row - 1, col, row, col);
             }
-            if (row + 1 <= original.dim - 1)
-                neighbor.add(swap(row, col, row + 1, col));
+            if (row + 1 <= original.dim - 1) {
+                buildNewNeighborBoard(row + 1, col, row, col);
+            }
 
+        }
+
+        private void buildNewNeighborBoard(int oldRow, int oldCol, int newRow, int newCol) {
+            Board newBoard = swap(oldRow, oldCol, newRow, newCol);
+            int deltaDist = 0;
+            int actualCol = (newBoard.tile[newRow][newCol] - 1) % dim;
+            int actualRow = (newBoard.tile[newRow][newCol] - 1) / dim;
+            deltaDist = Math.abs(newCol - actualCol) + Math.abs(newRow - actualRow)
+                    - Math.abs(oldCol - actualCol)
+                    - Math.abs(oldRow - actualRow);
+            newBoard.manhattanDist = manhattanDist + deltaDist;
+            neighbor.add(newBoard);
         }
 
         private Board swap(int row1, int col1, int row2, int col2) {
