@@ -89,7 +89,7 @@ public class Solver {
         Board initial = null;
         int testcase = 2;
         if (testcase == 1) {
-            In input = new In();
+            In input = new In(args[0]);
             int n = input.readInt();
             int[][] tiles = new int[n][n];
             for (int i = 0; i < n; i++)
@@ -102,6 +102,14 @@ public class Solver {
                     { 0, 1, 3 },
                     { 4, 2, 5 },
                     { 7, 8, 6 }
+            };
+            initial = new Board(tiles);
+        }
+        else if (testcase == 3) {
+            int[][] tiles = {
+                    { 1, 2, 3 },
+                    { 4, 5, 6 },
+                    { 8, 7, 0 }
             };
             initial = new Board(tiles);
         }
@@ -131,7 +139,7 @@ public class Solver {
         public BoardNode(Board initBoard, BoardNode prevBoardNode, int move) {
             theBroad = initBoard;
             prev = prevBoardNode;
-            dist = initBoard.hamming();
+            dist = initBoard.manhattan();
             moveStep = move;
             priority = dist + moveStep;
         }

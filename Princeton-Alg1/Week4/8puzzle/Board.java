@@ -5,6 +5,7 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,12 +110,36 @@ public class Board {
         return myNeighbors.neighbor;
     }
 
-    /*
+
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
-
+        // pick up two spots which are not space tile and not match with goal board
+        int row1 = 0, col1 = 0, row2 = 0, col2 = 0;
+        boolean found = false;
+        while (!found) {
+            int num = StdRandom.uniform(1, dim * dim + 1);
+            row1 = (num - 1) / dim;
+            col1 = (num - 1) % dim;
+            if (tile[row1][col1] != 0) found = true;
+        }
+        found = false;
+        while (!found) {
+            int num = StdRandom.uniform(1, dim * dim + 1);
+            row2 = (num - 1) / dim;
+            col2 = (num - 1) % dim;
+            if ((tile[row2][col2] != 0) && ((row1 != row2) || (col1 != col2)))
+                found = true;
+        }
+        int[][] twinTile = new int[dim][dim];
+        for (int i = 0; i < dim; i++)
+            for (int j = 0; j < dim; j++)
+                twinTile[i][j] = tile[i][j];
+        int tmp = twinTile[row1][col1];
+        twinTile[row1][col1] = twinTile[row2][col2];
+        twinTile[row2][col2] = tmp;
+        return new Board(twinTile);
     }
-    */
+
 
     public static void main(String[] args) {
 
@@ -166,6 +191,11 @@ public class Board {
         Board goalBoard = new Board(bb.goal);
         StdOut.println(goalBoard);
         StdOut.println("Test isGoal: " + bb.isGoal());
+
+        // test twin
+        StdOut.println("Test Twin: input: ");
+        StdOut.println(bb);
+        StdOut.println(bb.twin());
     }
 
     private class NeighborList {
