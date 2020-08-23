@@ -21,7 +21,6 @@ public class Board {
     private int twinPos1 = 0;
     private int twinPos2 = 2;
 
-    private int[][] goal = null;
 
     // create a board from an n-by-n array of tiels,
     // where tiles[row][col] = tile at (row,col)
@@ -34,15 +33,6 @@ public class Board {
                 tile[i][j] = tiles[i][j];
         dim = n;
 
-        // build up the goal array
-        if (goal == null) {
-            // build the goal board
-            goal = new int[n][n];
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
-                    goal[i][j] = i * n + j + 1;
-            goal[n - 1][n - 1] = 0;
-        }
 
         // calcuate the distances
         manhattanDist = manhattan();
@@ -74,7 +64,12 @@ public class Board {
             int dist = 0;
             for (int i = 0; i < dim; i++)
                 for (int j = 0; j < dim; j++) {
-                    if (tile[i][j] != goal[i][j]) dist++;
+                    int val;
+                    if ((i == dim - 1) && (j == dim - 1))
+                        val = 0;
+                    else
+                        val = i * dim + j + 1;
+                    if (tile[i][j] != val) dist++;
                 }
             // the last tile should not be counted
             if (tile[dim - 1][dim - 1] != 0)
@@ -91,7 +86,12 @@ public class Board {
             for (int i = 0; i < dim; i++) {
                 for (int j = 0; j < dim; j++) {
                     if (tile[i][j] != 0) {
-                        if (tile[i][j] != goal[i][j]) {
+                        int val;
+                        if ((i == dim - 1) && (j == dim - 1))
+                            val = 0;
+                        else
+                            val = i * dim + j + 1;
+                        if (tile[i][j] != val) {
                             int row = (tile[i][j] - 1) / dim;
                             int col = (tile[i][j] - 1) % dim;
                             dist += Math.abs(i - row) + Math.abs(j - col);
@@ -219,8 +219,13 @@ public class Board {
         }
 
         // test isGoal
+        int[][] goalTile = {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 0 }
+        };
         StdOut.println("Goal board: ");
-        Board goalBoard = new Board(bb.goal);
+        Board goalBoard = new Board(goalTile);
         StdOut.println(goalBoard);
         StdOut.println("Test isGoal: " + bb.isGoal());
         StdOut.println("Another test, goal itself: " + goalBoard.isGoal());

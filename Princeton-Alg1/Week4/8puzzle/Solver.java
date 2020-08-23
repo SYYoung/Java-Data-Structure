@@ -108,7 +108,7 @@ public class Solver {
         // create initial board from file
         // In in = new In(args[0]);
         Board initial = null;
-        int testcase = 3;
+        int testcase = 2;
         if (testcase == 1) {
             In input = new In(args[0]);
             int n = input.readInt();
