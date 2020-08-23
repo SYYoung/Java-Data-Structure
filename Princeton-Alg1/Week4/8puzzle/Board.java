@@ -5,14 +5,13 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
 public class Board {
-    private static int invalidDist = -1;
+    private final static int invalidDist = -1;
     private int[][] tile = null;
     private int dim = 0;
 
@@ -108,8 +107,18 @@ public class Board {
 
     // is this board the goal board?
     public boolean isGoal() {
-        Board goalBoard = new Board(goal);
-        return (this.equals(goalBoard));
+        for (int i = 0; i < dim; i++)
+            for (int j = 0; j < dim; j++) {
+                int val;
+                if ((i == dim - 1) && (j == dim - 1))
+                    val = 0;
+                else
+                    val = i * dim + j + 1;
+                if (tile[i][j] != val)
+                    return false;
+            }
+
+        return true;
     }
 
     // does this board equal y?
@@ -147,33 +156,6 @@ public class Board {
         twinTile[twinPos2 / dim][twinPos2 % dim] = tmp;
         return new Board(twinTile);
     }
-
-    private Board twinOld() {
-        // pick up two spots which are not space tile and not match with goal board
-        int row1 = 0, col1 = 0, row2 = 1, col2 = 0;
-        boolean found = false;
-        while (!found) {
-            if (tile[row1][col1] != 0) found = true;
-            else col1++;
-        }
-        found = false;
-        while (!found) {
-            int num = StdRandom.uniform(1, dim * dim + 1);
-            row2 = (num - 1) / dim;
-            col2 = (num - 1) % dim;
-            if ((tile[row2][col2] != 0) && ((row1 != row2) || (col1 != col2)))
-                found = true;
-        }
-        int[][] twinTile = new int[dim][dim];
-        for (int i = 0; i < dim; i++)
-            for (int j = 0; j < dim; j++)
-                twinTile[i][j] = tile[i][j];
-        int tmp = twinTile[row1][col1];
-        twinTile[row1][col1] = twinTile[row2][col2];
-        twinTile[row2][col2] = tmp;
-        return new Board(twinTile);
-    }
-
 
     public static void main(String[] args) {
 
@@ -241,6 +223,7 @@ public class Board {
         Board goalBoard = new Board(bb.goal);
         StdOut.println(goalBoard);
         StdOut.println("Test isGoal: " + bb.isGoal());
+        StdOut.println("Another test, goal itself: " + goalBoard.isGoal());
 
         // test twin
         StdOut.println("Test Twin: input: ");
@@ -265,7 +248,7 @@ public class Board {
                     }
             // 2. swap the tile which is adjacent to the space
             // if there is a tile left to space
-            int deltaDist = 0;
+            // int deltaDist = 0;
             if (col - 1 >= 0) {
                 buildNewNeighborBoard(row, col - 1, row, col);
             }

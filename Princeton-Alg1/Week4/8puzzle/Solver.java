@@ -30,25 +30,16 @@ public class Solver {
         MinPQ<BoardNode> gameQueueTwin = new MinPQ<BoardNode>();
         gameQueueTwin.insert(twinNode);
 
-        // also build a goalBoard
-        int n = initial.dimension();
-        int[][] goalTile = new int[n][n];
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
-                goalTile[i][j] = i * n + j + 1;
-        goalTile[n - 1][n - 1] = 0;
-        Board goalBoard = new Board(goalTile);
-        buildSolution(gameQueueInit, gameQueueTwin, goalBoard);
+        buildSolution(gameQueueInit, gameQueueTwin);
     }
 
     private boolean boardSolvable(MinPQ<BoardNode> gameQueue,
-                                  ArrayList<Board> visited,
-                                  Board goalBoard) {
+                                  ArrayList<Board> visited) {
         BoardNode curNode = null;
         boolean success = false;
         if (!gameQueue.isEmpty()) {
             curNode = gameQueue.delMin();
-            if (curNode.theBroad.equals(goalBoard)) {
+            if (curNode.theBroad.isGoal()) {
                 success = true;
                 totalMove = curNode.moveStep;
             }
@@ -74,16 +65,16 @@ public class Solver {
     }
 
     private void buildSolution(MinPQ<BoardNode> gameQueueInit,
-                               MinPQ<BoardNode> gameQueueTwin, Board goalBoard) {
-        BoardNode curNode = null;
-        int steps = 0;
+                               MinPQ<BoardNode> gameQueueTwin) {
+        // BoardNode curNode = null;
+        // int steps = 0;
         ArrayList<Board> visitedInit = new ArrayList<Board>();
         ArrayList<Board> visitedTwin = new ArrayList<Board>();
         boolean initSuccess = false, twinSuccess = false;
 
         while (!initSuccess && !twinSuccess) {
-            initSuccess = boardSolvable(gameQueueInit, visitedInit, goalBoard);
-            twinSuccess = boardSolvable(gameQueueTwin, visitedTwin, goalBoard);
+            initSuccess = boardSolvable(gameQueueInit, visitedInit);
+            twinSuccess = boardSolvable(gameQueueTwin, visitedTwin);
         }
         if (initSuccess) {
             solvable = true;
@@ -117,7 +108,7 @@ public class Solver {
         // create initial board from file
         // In in = new In(args[0]);
         Board initial = null;
-        int testcase = 2;
+        int testcase = 3;
         if (testcase == 1) {
             In input = new In(args[0]);
             int n = input.readInt();
