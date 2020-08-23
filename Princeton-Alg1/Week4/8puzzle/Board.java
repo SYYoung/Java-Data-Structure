@@ -12,11 +12,15 @@ import java.util.Arrays;
 
 
 public class Board {
+    private static int invalidDist = -1;
     private int[][] tile = null;
     private int dim = 0;
-    private final int invalidDist = -1;
+
     private int manhattanDist = invalidDist;
     private int hammingDist = invalidDist;
+    private boolean twinSet = false;
+    private int twinPos1 = 0;
+    private int twinPos2 = 2;
 
     private int[][] goal = null;
 
@@ -127,14 +131,30 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
+        if (!twinSet) {
+            if (tile[twinPos1 / dim][twinPos1 % dim] == 0)
+                twinPos1 = 1;
+            else if (tile[twinPos2 / dim][twinPos2 % dim] == 0)
+                twinPos2 = 1;
+            twinSet = true;
+        }
+        int[][] twinTile = new int[dim][dim];
+        for (int i = 0; i < dim; i++)
+            for (int j = 0; j < dim; j++)
+                twinTile[i][j] = tile[i][j];
+        int tmp = twinTile[twinPos1 / dim][twinPos1 % dim];
+        twinTile[twinPos1 / dim][twinPos1 % dim] = twinTile[twinPos2 / dim][twinPos2 % dim];
+        twinTile[twinPos2 / dim][twinPos2 % dim] = tmp;
+        return new Board(twinTile);
+    }
+
+    private Board twinOld() {
         // pick up two spots which are not space tile and not match with goal board
-        int row1 = 0, col1 = 0, row2 = 0, col2 = 0;
+        int row1 = 0, col1 = 0, row2 = 1, col2 = 0;
         boolean found = false;
         while (!found) {
-            int num = StdRandom.uniform(1, dim * dim + 1);
-            row1 = (num - 1) / dim;
-            col1 = (num - 1) % dim;
             if (tile[row1][col1] != 0) found = true;
+            else col1++;
         }
         found = false;
         while (!found) {
@@ -172,6 +192,8 @@ public class Board {
         // test manhattan distance
         StdOut.println("Manhattan distance = " + myBoard.manhattan());
         // test equals
+        int testcase = 1;
+        int[][] myTile;
         int[][] b = {
                 { 7, 5, 8 },
                 { 6, 1, 0 },
@@ -182,7 +204,11 @@ public class Board {
                 { 4, 0, 2 },
                 { 7, 6, 5 }
         };
-        Board another = new Board(a1);
+        if (testcase == 1)
+            myTile = a1;
+        else
+            myTile = b;
+        Board another = new Board(myTile);
         StdOut.println("Board b: ");
         StdOut.println(another);
         StdOut.println("Is Board a same as board B?" + myBoard.equals(another));
@@ -198,7 +224,11 @@ public class Board {
                 { 4, 2, 5 },
                 { 7, 8, 6 }
         };
-        Board bb = new Board(c1);
+        if (testcase == 1)
+            myTile = c1;
+        else
+            myTile = c;
+        Board bb = new Board(myTile);
         StdOut.println("Test neighbors: input: ");
         StdOut.println(bb);
         StdOut.println("The neighbors are: ");
@@ -216,6 +246,8 @@ public class Board {
         StdOut.println("Test Twin: input: ");
         StdOut.println(bb);
         StdOut.println(bb.twin());
+        StdOut.println("Twin again.");
+        StdOut.println(bb.twin().twin());
     }
 
     private class NeighborList {

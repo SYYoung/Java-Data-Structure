@@ -85,10 +85,16 @@ public class Solver {
             initSuccess = boardSolvable(gameQueueInit, visitedInit, goalBoard);
             twinSuccess = boardSolvable(gameQueueTwin, visitedTwin, goalBoard);
         }
-        if (initSuccess)
+        if (initSuccess) {
             solvable = true;
-        else
+        }
+        else {
             solvable = false;
+            totalMove = -1;
+            boardMovement.clear();
+            boardMovement = null;
+        }
+
     }
 
     // is the initial board solvable?
@@ -111,7 +117,7 @@ public class Solver {
         // create initial board from file
         // In in = new In(args[0]);
         Board initial = null;
-        int testcase = 3;
+        int testcase = 2;
         if (testcase == 1) {
             In input = new In(args[0]);
             int n = input.readInt();
@@ -146,8 +152,6 @@ public class Solver {
         if (!solver.isSolvable()) {
             StdOut.println("No solution possible.");
             StdOut.println("There is solution for the twin.");
-            for (Board board : solver.solution())
-                StdOut.println(board);
         }
         else {
             StdOut.println("Minimum number of moves = " + solver.moves());
