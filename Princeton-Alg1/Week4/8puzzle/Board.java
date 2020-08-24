@@ -65,15 +65,11 @@ public class Board {
             for (int i = 0; i < dim; i++)
                 for (int j = 0; j < dim; j++) {
                     int val;
-                    if ((i == dim - 1) && (j == dim - 1))
-                        val = 0;
+                    if ((i == dim - 1) && (j == dim - 1)) break;
                     else
                         val = i * dim + j + 1;
                     if (tile[i][j] != val) dist++;
                 }
-            // the last tile should not be counted
-            if (tile[dim - 1][dim - 1] != 0)
-                dist--;
             hammingDist = dist;
         }
         return hammingDist;
@@ -206,10 +202,24 @@ public class Board {
                 { 4, 2, 5 },
                 { 7, 8, 6 }
         };
+        int[][] c2 = {
+                { 5, 8, 7 },
+                { 1, 4, 0 },
+                { 3, 2, 6 }
+        };
+        int[][] c3 = {
+                { 2, 1 },
+                { 3, 0 },
+                };
+        testcase = 4;
         if (testcase == 1)
             myTile = c1;
-        else
+        else if (testcase == 2)
             myTile = c;
+        else if (testcase == 3)
+            myTile = c2;
+        else if (testcase == 4)
+            myTile = c3;
         Board bb = new Board(myTile);
         StdOut.println("Test neighbors: input: ");
         StdOut.println(bb);
