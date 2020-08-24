@@ -43,14 +43,23 @@ public class Solver {
                 success = true;
                 totalMove = curNode.moveStep;
             }
-            else if (visited.indexOf(curNode.theBroad) == -1) {
+            else {
                 // this board hasn't been visited yet
                 visited.add(curNode.theBroad);
                 int move = curNode.moveStep + 1;
                 for (Board each : curNode.theBroad.neighbors()) {
                     // update move and priority of each BoardNode
-                    BoardNode newNode = new BoardNode(each, curNode, move);
-                    gameQueue.insert(newNode);
+                    if (curNode.prev == null) {
+                        BoardNode newNode = new BoardNode(each, curNode, move);
+                        gameQueue.insert(newNode);
+                    }
+                    else {
+                        Board grandParent = curNode.prev.theBroad;
+                        if ((!grandParent.equals(each))) {
+                            BoardNode newNode = new BoardNode(each, curNode, move);
+                            gameQueue.insert(newNode);
+                        }
+                    }
                 }
             }
         }
@@ -133,6 +142,14 @@ public class Solver {
                     { 8, 7, 0 }
             };
             initial = new Board(tiles);
+        }
+        else if (testcase == 4) {
+            int[][] failTile = {
+                    { 1, 6, 4 },
+                    { 7, 0, 8 },
+                    { 2, 3, 5 }
+            };
+            initial = new Board(failTile);
         }
 
 
