@@ -46,7 +46,7 @@ public class KdTree {
                     newNode.rect = new RectHV(parent.rect.xmin(), parent.rect.ymin(),
                                               parent.p.x(), parent.rect.ymax());
                 }
-                else if (cmp > 0) {
+                else if (cmp >= 0) {
                     newNode.direction = horizon;
                     newNode.rect = new RectHV(parent.p.x(), parent.rect.ymin(),
                                               parent.rect.xmax(), parent.rect.ymax());
@@ -60,7 +60,7 @@ public class KdTree {
                     newNode.rect = new RectHV(parent.rect.xmin(), parent.rect.ymin(),
                                               parent.rect.xmax(), parent.p.y());
                 }
-                else if (cmp > 0) {
+                else if (cmp >= 0) {
                     newNode.direction = vertical;
                     newNode.rect = new RectHV(parent.rect.xmin(), parent.p.y(),
                                               parent.rect.xmax(), parent.rect.ymax());
@@ -77,7 +77,7 @@ public class KdTree {
                 if (cmp < 0) {
                     x.leftBot = insert(pt, x.leftBot, x);
                 }
-                else if (cmp > 0) {
+                else if (cmp >= 0) {
                     x.rightTop = insert(pt, x.rightTop, x);
                 }
             }
@@ -87,7 +87,7 @@ public class KdTree {
                 if (cmp < 0) {
                     x.leftBot = insert(pt, x.leftBot, x);
                 }
-                else if (cmp > 0) {
+                else if (cmp >= 0) {
                     x.rightTop = insert(pt, x.rightTop, x);
                 }
             }
@@ -118,7 +118,7 @@ public class KdTree {
                 double cmp = pt.x() - x.p.x();
                 if (cmp < 0)
                     x = x.leftBot;
-                else if (cmp > 0)
+                else if (cmp >= 0)
                     x = x.rightTop;
             }
             else {
@@ -126,7 +126,7 @@ public class KdTree {
                 double cmp = pt.y() - x.p.y();
                 if (cmp < 0)
                     x = x.leftBot;
-                else if (cmp > 0)
+                else if (cmp >= 0)
                     x = x.rightTop;
             }
         }
