@@ -168,7 +168,7 @@ public class KdTree {
         inorder(x.rightTop, q);
     }
 
-    public void printTree() {
+    private void printTree() {
         Queue<Node> q = new Queue<Node>();
         inorder(root, q);
         while (!q.isEmpty()) {
@@ -197,9 +197,29 @@ public class KdTree {
         return rangeList;
     }
 
+    private void nearestPoint(Point2D queryP, Node x, NearestNeighbor neighbor) {
+        if (x != null) {
+            if (x.rect.distanceSquaredTo(queryP) < neighbor.dist) {
+                double dist = x.p.distanceSquaredTo(queryP);
+                if (dist < neighbor.dist) {
+                    neighbor.neighborPt = x.p;
+                    neighbor.dist = dist;
+                }
+                nearestPoint(queryP, x.leftBot, neighbor);
+                nearestPoint(queryP, x.rightTop, neighbor);
+            }
+        }
+    }
+
     public Point2D nearest(Point2D p) {
         // should be modified later
-        return new Point2D(0, 0);
+        if (isEmpty()) return null;
+        NearestNeighbor neighbor = new NearestNeighbor(p);
+        nearestPoint(p, root, neighbor);
+        if (neighbor.neighborPt != null)
+            return neighbor.neighborPt;
+        else
+            return null;
     }
 
     public static void main(String[] args) {
@@ -214,6 +234,21 @@ public class KdTree {
         }
         kdtree.printTree();
         kdtree.draw();
+        StdDraw.show();
+        StdDraw.pause(40);
+
+        double x = StdDraw.mouseX();
+        double y = StdDraw.mouseY();
+        Point2D query = new Point2D(x, y);
+        query.draw();
+        StdDraw.show();
+        StdDraw.pause(40);
+
+        // draw in blue the nearest neighbor (using kd-tree algorithm)
+        StdDraw.setPenColor(StdDraw.BLUE);
+        kdtree.nearest(query).draw();
+        StdDraw.show();
+        StdDraw.pause(40);
     }
 
     private class Node {
@@ -237,4 +272,17 @@ public class KdTree {
             rightTop = null;
         }
     }
+
+    private class NearestNeighbor {
+        private Point2D queryPt;
+        private Point2D neighborPt;
+        private double dist;
+
+        public NearestNeighbor(Point2D pt) {
+            queryPt = pt;
+            neighborPt = null;
+            dist = Double.MAX_VALUE;
+        }
+    }
+
 }
