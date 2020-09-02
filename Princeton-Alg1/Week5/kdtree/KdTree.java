@@ -249,6 +249,14 @@ public class KdTree {
         kdtree.nearest(query).draw();
         StdDraw.show();
         StdDraw.pause(40);
+
+        // test contains
+        Point2D pt = kdtree.root.leftBot.rightTop.p;
+        boolean found = kdtree.contains(pt);
+        StdOut.println("point : " + pt + "\t found or not? " + found);
+        Point2D pt2 = new Point2D(pt.x() + 0.01, pt.y() + 0.01);
+        found = kdtree.contains(pt2);
+        StdOut.println("point : " + pt2 + "\t found or not? " + found);
     }
 
     private class Node {
