@@ -197,6 +197,27 @@ public class KdTree {
         return rangeList;
     }
 
+    private boolean rightOrLeft(Point2D queryP, Node x) {
+        boolean rightTop = true;
+        if (x.direction == vertical) {
+            // compare x coord
+            double cmp = queryP.x() - x.p.x();
+            if (cmp < 0)
+                rightTop = false;
+            else if (cmp >= 0)
+                rightTop = true;
+        }
+        else {
+            // compare y coord
+            double cmp = queryP.y() - x.p.y();
+            if (cmp < 0)
+                rightTop = false;
+            else if (cmp >= 0)
+                rightTop = true;
+        }
+        return rightTop;
+    }
+
     private void nearestPoint(Point2D queryP, Node x, NearestNeighbor neighbor) {
         if (x != null) {
             if (x.rect.distanceSquaredTo(queryP) < neighbor.dist) {
@@ -205,8 +226,14 @@ public class KdTree {
                     neighbor.neighborPt = x.p;
                     neighbor.dist = dist;
                 }
-                nearestPoint(queryP, x.leftBot, neighbor);
-                nearestPoint(queryP, x.rightTop, neighbor);
+                if (rightOrLeft(queryP, x) == false) {
+                    nearestPoint(queryP, x.leftBot, neighbor);
+                    nearestPoint(queryP, x.rightTop, neighbor);
+                }
+                else {
+                    nearestPoint(queryP, x.rightTop, neighbor);
+                    nearestPoint(queryP, x.leftBot, neighbor);
+                }
             }
         }
     }
@@ -237,8 +264,8 @@ public class KdTree {
         StdDraw.show();
         StdDraw.pause(40);
 
-        double x = StdDraw.mouseX();
-        double y = StdDraw.mouseY();
+        double x = 0.72;
+        double y = 0.23;
         Point2D query = new Point2D(x, y);
         query.draw();
         StdDraw.show();

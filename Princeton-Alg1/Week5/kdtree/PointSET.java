@@ -59,7 +59,7 @@ public class PointSET {
         if (p == null)
             throw new IllegalArgumentException();
         for (Point2D each : setOfPoint) {
-            double dist = each.distanceTo(p);
+            double dist = each.distanceSquaredTo(p);
             if (dist < minDist) {
                 whichPoint = each;
                 minDist = dist;
