@@ -192,6 +192,8 @@ public class KdTree {
     }
 
     public Iterable<Point2D> range(RectHV rect) {
+        if (rect == null)
+            throw new IllegalArgumentException();
         ArrayList<Point2D> rangeList = new ArrayList<Point2D>();
         getRange(rect, root, rangeList);
         return rangeList;
@@ -239,6 +241,8 @@ public class KdTree {
     }
 
     public Point2D nearest(Point2D p) {
+        if (p == null)
+            throw new IllegalArgumentException();
         // should be modified later
         if (isEmpty()) return null;
         NearestNeighbor neighbor = new NearestNeighbor(p);
