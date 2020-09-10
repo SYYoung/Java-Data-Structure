@@ -1,0 +1,45 @@
+import edu.princeton.cs.algs4.*;
+
+public class Graph {
+	private final int V;
+	private Bag<Integer>[] adj;
+	
+	public Graph(int V) {
+		this.V = V;
+		adj = (Bag<Integer>[]) new Bag[V];
+	}
+	
+	public Graph(In in) {
+
+	}
+	
+	public void addEdge(int v, int w) {
+		
+	}
+	
+	public Iterable<Integer> adj(int v) {
+		
+	}
+	
+	public int V() {
+		
+	}
+	
+	public int E() {
+		
+	}
+	
+	public String toString() {
+		
+	}
+	
+	public static void main(String args[]) {
+		In in = new In(args[0]);
+		Graph G = new Graph(in);
+		
+		for (int v = 0; v < G.V(); v++) {
+			for (int w: G.adj(v))
+				StdOut.println(v + "-" + w);
+		}
+	}
+}

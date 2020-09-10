@@ -1,0 +1,20 @@
+import edu.princeton.cs.algs4.*;
+
+public class CC {
+
+	public CC(Graph G) {
+		
+	}
+	
+	public boolean connected(int v, int w) {
+		
+	}
+	
+	public int count() {
+		
+	}
+	
+	public int id(int v) {
+		
+	}
+}
