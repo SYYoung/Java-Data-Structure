@@ -16,6 +16,8 @@ import java.util.HashSet;
 public class WordNet {
     private RedBlackBST<String, ArrayList<Integer>> synTree;
     private Digraph hyperG;
+    private SAP mySap;
+    private int totalVertex;
 
     // constructor takes the name of the two input files
     public WordNet(String synsets, String hypernyms) {
@@ -24,14 +26,17 @@ public class WordNet {
 
         // if the input to the constructor does not correspond to a rooted DAG,
         // throw exception
-        int totalNode = readSynset(synsets);
+        totalVertex = readSynset(synsets);
         int totalChildNode = readHypernyms(hypernyms);
         // if the number of node which does not have parent is not one, reject
-        if (totalNode - totalChildNode != 1)
+        if (totalVertex - totalChildNode != 1)
             throw new IllegalArgumentException();
         // check if the graph is a rooted DAG
         if (isDAG(hyperG))
             throw new IllegalArgumentException();
+
+        // build SAP
+        mySap = new SAP(hyperG);
     }
 
     // returns all WordNet nouns
@@ -51,39 +56,82 @@ public class WordNet {
         if ((nounA == null) || (nounB == null)
                 || !isNoun(nounA) || !isNoun(nounB))
             throw new IllegalArgumentException();
-        return 0;
+        // get the lists of nodes which contain nounA and nounB respectively
+        ArrayList<Integer> setA = synTree.get(nounA);
+        ArrayList<Integer> setB = synTree.get(nounB);
+        int dist = mySap.length(setA, setB);
+        return dist;
     }
 
-    // a synset (second field of synsets.txt) that is the commonancestor of nounA and nounB
+    // a synset (second field of synsets.txt) that is the common ancestor of nounA and nounB
     // in a shortest ancestral path
     public String sap(String nounA, String nounB) {
         if ((nounA == null) || (nounB == null) ||
                 !isNoun(nounA) || !isNoun(nounB))
             throw new IllegalArgumentException();
-        return null;
+        // get the lists of nodes which contain nounA and nounB respectively
+        ArrayList<Integer> setA = synTree.get(nounA);
+        ArrayList<Integer> setB = synTree.get(nounB);
+        int common = mySap.ancestor(setA, setB);
+        // find the corresponding string
+        String nodeName = "";
+        for (String key : synTree.keys()) {
+            if (synTree.get(key).contains(common)) {
+                nodeName = key;
+                break;
+            }
+        }
+        return nodeName;
     }
 
     public static void main(String[] args) {
-        String fname1 = "synsets15.txt";
-        String fname2 = "hypernyms15Tree.txt";
+        int test = 2;
+        String fname1 = "", fname2 = "";
+        if (test == 1) {
+            fname1 = "synsets15.txt";
+            fname2 = "hypernyms15Tree.txt";
+        }
+        else if (test == 2) {
+            fname1 = "synsets.txt";
+            fname2 = "hypernyms.txt";
+        }
+        else if (test == 3) {
+            fname1 = "synsets3.txt";
+            fname2 = "hypernyms3InvalidTwoRoots.txt";
+        }
+
         WordNet myWordNet = new WordNet(fname1, fname2);
         StdOut.println("all nouns read:");
         // test nouns()
-        for (String nodeName : myWordNet.synTree.keys())
-            StdOut.println(nodeName + ",\t" + myWordNet.synTree.get(nodeName));
-        for (String nodeName : myWordNet.nouns())
-            StdOut.println(nodeName);
-        StdOut.println("Edge information:");
-        StdOut.println(myWordNet.hyperG);
-        // test isNoun()
-        String word = "w";
-        StdOut.println("Is word: " + word + " in the list? " + myWordNet.isNoun(word));
+        if (test == 1) {
+            for (String nodeName : myWordNet.synTree.keys())
+                StdOut.println(nodeName + ",\t" + myWordNet.synTree.get(nodeName));
+            for (String nodeName : myWordNet.nouns())
+                StdOut.println(nodeName);
+            StdOut.println("Edge information:");
+            StdOut.println(myWordNet.hyperG);
+            // test isNoun()
+            String word = "w";
+            StdOut.println("Is word: " + word + " in the list? " + myWordNet.isNoun(word));
+        }
+
+        // test distance and sap
+        if (test == 2) {
+            String noun1 = "worm";
+            String noun2 = "bird";
+            int len = myWordNet.distance(noun1, noun2);
+            String commonNode = myWordNet.sap(noun1, noun2);
+            StdOut.println("The two nouns: " + noun1 + "," + noun2);
+            StdOut.println("length = " + len + ", ");
+            StdOut.println("common node : " + commonNode);
+        }
     }
 
     private int readSynset(String synset) {
-        HashSet<Integer> nodeSet = new HashSet<Integer>();
+        // HashSet<Integer> nodeSet = new HashSet<Integer>();
         synTree = new RedBlackBST<String, ArrayList<Integer>>();
         In in = new In(synset);
+        int totalNode = 0;
         while (!in.isEmpty()) {
             String[] words = in.readLine().split(",");
             int nodeNum = Integer.parseInt(words[0]);
@@ -98,14 +146,15 @@ public class WordNet {
                 newList.add(nodeNum);
                 synTree.put(words[1], newList);
             }
-            nodeSet.add(nodeNum);
+            // nodeSet.add(nodeNum);
+            totalNode++;
         }
-        return nodeSet.size();
+        return totalNode;
     }
 
     private int readHypernyms(String hypernyms) {
         HashSet<Integer> childSet = new HashSet<Integer>();
-        hyperG = new Digraph(synTree.size());
+        hyperG = new Digraph(totalVertex);
         In in = new In(hypernyms);
         while (!in.isEmpty()) {
             String line = in.readLine();
