@@ -4,41 +4,68 @@
  *  Description:
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.HashMap;
+
 public class SAP {
-    private Digraph G;
+    private Digraph graph;
+    HashMap<Integer, BreadthFirstDirectedPaths> nodeBFS;
+    HashMap<Integer, AncestorCache> nodeAncestor;
+    static final int invalidAncestor = -1;
+    static final int invalidLength = -1;
 
     // constructor takes a digraph (not necessarily a DAG)
     public SAP(Digraph G) {
         if (G == null)
             throw new IllegalArgumentException();
+        graph = new Digraph(G);
+        nodeBFS = new HashMap<Integer, BreadthFirstDirectedPaths>();
+        nodeAncestor = new HashMap<Integer, AncestorCache>();
     }
 
     // length of shortest ancestral path between v and w; -1 if no such path
     public int length(int v, int w) {
         if ((!isValidVertex(v)) || (!isValidVertex(w)))
             throw new IllegalArgumentException();
+        if (nodeAncestor.containsKey(v))
+            if (nodeAncestor.get(v).node2 == w)
+                return nodeAncestor.get(v).minDist;
+        if (nodeAncestor.containsKey(w))
+            if (nodeAncestor.get(v).node2 == v)
+                return nodeAncestor.get(v).minDist;
+        AncestorCache newNode = findAncestor(v, w);
+        return newNode.minDist;
     }
 
     // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
     public int ancestor(int v, int w) {
-
+        if (nodeAncestor.containsKey(v))
+            if (nodeAncestor.get(v).node2 == w)
+                return nodeAncestor.get(v).commonAncestor;
+        if (nodeAncestor.containsKey(w))
+            if (nodeAncestor.get(v).node2 == v)
+                return nodeAncestor.get(v).commonAncestor;
+        AncestorCache newNode = findAncestor(v, w);
+        return newNode.commonAncestor;
     }
 
     // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path
     public int length(Iterable<Integer> v, Iterable<Integer> w) {
         if ((v == null) || (w == null))
             throw new IllegalArgumentException();
+        return 0;
     }
 
     // a common ancestor that participates in shortest ancestral path; -1 if no such path
     public int ancestor(Iterable<Integer> v, Iterable<Integer> w) {
         if ((v == null) || (w == null))
             throw new IllegalArgumentException();
+        return 0;
     }
 
     // do unit testing of this class
@@ -57,10 +84,67 @@ public class SAP {
     }
 
     private boolean isValidVertex(int node) {
-        int numVertices = G.V();
+        int numVertices = graph.V();
         if ((node < 0) || (node >= numVertices))
             return false;
         else
             return true;
+    }
+
+    private AncestorCache findAncestor(int v, int w) {
+        BreadthFirstDirectedPaths vPath, wPath;
+        if (!nodeBFS.containsKey(v)) {
+            vPath = new BreadthFirstDirectedPaths(graph, v);
+            nodeBFS.put(v, vPath);
+        }
+        else
+            vPath = nodeBFS.get(v);
+        if (!nodeBFS.containsKey(w)) {
+            wPath = new BreadthFirstDirectedPaths(graph, w);
+            nodeBFS.put(w, wPath);
+        }
+        else
+            wPath = nodeBFS.get(w);
+
+        // for each vertex
+        int common = invalidAncestor;
+        int distSoFar = Integer.MAX_VALUE;
+        for (int vertex = 0; vertex < graph.V(); vertex++) {
+            int vDist = vPath.distTo(vertex);
+            int wDist = wPath.distTo(vertex);
+            if ((vDist < distSoFar) && (wDist < distSoFar)) {
+                if (vDist + wDist < distSoFar) {
+                    distSoFar = vDist + wDist;
+                    common = vertex;
+                }
+            }
+        }
+        AncestorCache vCache, wCache;
+        if (common == invalidAncestor) {
+            vCache = new AncestorCache(v, w, invalidAncestor, invalidLength);
+            wCache = new AncestorCache(w, v, invalidAncestor, invalidLength);
+        }
+        else {
+            vCache = new AncestorCache(v, w, common, distSoFar);
+            wCache = new AncestorCache(w, v, common, distSoFar);
+        }
+        nodeAncestor.put(v, vCache);
+        nodeAncestor.put(w, wCache);
+
+        return vCache;
+    }
+
+    private class AncestorCache {
+        int node1;
+        int node2;
+        int commonAncestor;
+        int minDist;
+
+        public AncestorCache(int n1, int n2, int cNode, int dist) {
+            node1 = n1;
+            node2 = n2;
+            commonAncestor = cNode;
+            minDist = dist;
+        }
     }
 }

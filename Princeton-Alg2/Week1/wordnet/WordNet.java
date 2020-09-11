@@ -64,8 +64,8 @@ public class WordNet {
     }
 
     public static void main(String[] args) {
-        String fname1 = "synsets3.txt";
-        String fname2 = "hypernyms3InvalidTwoRoots.txt";
+        String fname1 = "synsets15.txt";
+        String fname2 = "hypernyms15Tree.txt";
         WordNet myWordNet = new WordNet(fname1, fname2);
         StdOut.println("all nouns read:");
         // test nouns()
@@ -115,7 +115,8 @@ public class WordNet {
                 int parent = Integer.parseInt(words[i]);
                 hyperG.addEdge(child, parent);
             }
-            childSet.add(child);
+            if (words.length > 1)
+                childSet.add(child);
         }
         return childSet.size();
     }
