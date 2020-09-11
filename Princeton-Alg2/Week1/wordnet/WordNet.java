@@ -18,6 +18,7 @@ public class WordNet {
     private Digraph hyperG;
     private SAP mySap;
     private int totalVertex;
+    private ArrayList<String> nodeIndex;
 
     // constructor takes the name of the two input files
     public WordNet(String synsets, String hypernyms) {
@@ -74,22 +75,15 @@ public class WordNet {
         ArrayList<Integer> setB = synTree.get(nounB);
         int common = mySap.ancestor(setA, setB);
         // find the corresponding string
-        String nodeName = "";
-        for (String key : synTree.keys()) {
-            if (synTree.get(key).contains(common)) {
-                nodeName = key;
-                break;
-            }
-        }
-        return nodeName;
+        return nodeIndex.get(common);
     }
 
     public static void main(String[] args) {
         int test = 2;
         String fname1 = "", fname2 = "";
         if (test == 1) {
-            fname1 = "synsets15.txt";
-            fname2 = "hypernyms15Tree.txt";
+            fname1 = "mytest1.txt";
+            fname2 = "hypernyms8ModTree.txt";
         }
         else if (test == 2) {
             fname1 = "synsets.txt";
@@ -103,7 +97,7 @@ public class WordNet {
         WordNet myWordNet = new WordNet(fname1, fname2);
         StdOut.println("all nouns read:");
         // test nouns()
-        if (test == 1) {
+        if ((test == 1) || (test == 3)) {
             for (String nodeName : myWordNet.synTree.keys())
                 StdOut.println(nodeName + ",\t" + myWordNet.synTree.get(nodeName));
             for (String nodeName : myWordNet.nouns())
@@ -113,12 +107,13 @@ public class WordNet {
             // test isNoun()
             String word = "w";
             StdOut.println("Is word: " + word + " in the list? " + myWordNet.isNoun(word));
+            StdOut.println(myWordNet.synTree.get(word));
         }
 
         // test distance and sap
         if (test == 2) {
-            String noun1 = "worm";
-            String noun2 = "bird";
+            String noun1 = "individual";
+            String noun2 = "edible_fruit";
             int len = myWordNet.distance(noun1, noun2);
             String commonNode = myWordNet.sap(noun1, noun2);
             StdOut.println("The two nouns: " + noun1 + "," + noun2);
@@ -130,23 +125,29 @@ public class WordNet {
     private int readSynset(String synset) {
         // HashSet<Integer> nodeSet = new HashSet<Integer>();
         synTree = new RedBlackBST<String, ArrayList<Integer>>();
+        nodeIndex = new ArrayList<String>();
         In in = new In(synset);
         int totalNode = 0;
         while (!in.isEmpty()) {
             String[] words = in.readLine().split(",");
             int nodeNum = Integer.parseInt(words[0]);
             String nodeName = words[1];
-            if (synTree.contains(nodeName)) {
-                ArrayList<Integer> curList = synTree.get(nodeName);
-                curList.add(nodeNum);
-                synTree.put(words[1], curList);
+            String[] group = nodeName.split(" ");
+            for (int i = 0; i < group.length; i++) {
+                if (synTree.contains(group[i])) {
+                    ArrayList<Integer> curList = synTree.get(group[i]);
+                    curList.add(nodeNum);
+                    synTree.put(group[i], curList);
+                }
+                else {
+                    ArrayList<Integer> newList = new ArrayList<Integer>();
+                    newList.add(nodeNum);
+                    synTree.put(group[i], newList);
+                }
             }
-            else {
-                ArrayList<Integer> newList = new ArrayList<Integer>();
-                newList.add(nodeNum);
-                synTree.put(words[1], newList);
-            }
+
             // nodeSet.add(nodeNum);
+            nodeIndex.add(nodeNum, nodeName);
             totalNode++;
         }
         return totalNode;
