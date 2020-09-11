@@ -10,7 +10,9 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class SAP {
     private Digraph graph;
@@ -36,8 +38,8 @@ public class SAP {
             if (nodeAncestor.get(v).node2 == w)
                 return nodeAncestor.get(v).minDist;
         if (nodeAncestor.containsKey(w))
-            if (nodeAncestor.get(v).node2 == v)
-                return nodeAncestor.get(v).minDist;
+            if (nodeAncestor.get(w).node2 == v)
+                return nodeAncestor.get(w).minDist;
         AncestorCache newNode = findAncestor(v, w);
         return newNode.minDist;
     }
@@ -48,8 +50,8 @@ public class SAP {
             if (nodeAncestor.get(v).node2 == w)
                 return nodeAncestor.get(v).commonAncestor;
         if (nodeAncestor.containsKey(w))
-            if (nodeAncestor.get(v).node2 == v)
-                return nodeAncestor.get(v).commonAncestor;
+            if (nodeAncestor.get(w).node2 == v)
+                return nodeAncestor.get(w).commonAncestor;
         AncestorCache newNode = findAncestor(v, w);
         return newNode.commonAncestor;
     }
@@ -58,29 +60,78 @@ public class SAP {
     public int length(Iterable<Integer> v, Iterable<Integer> w) {
         if ((v == null) || (w == null))
             throw new IllegalArgumentException();
-        return 0;
+        int common = invalidAncestor;
+        int distSoFar = Integer.MAX_VALUE;
+        for (int v1 : v) {
+            for (int w1 : w) {
+                int dist = length(v1, w1);
+                if ((dist != invalidLength) && (dist < distSoFar)) {
+                    common = ancestor(v1, w1);
+                    distSoFar = dist;
+                }
+            }
+        }
+        if (common != invalidAncestor)
+            return distSoFar;
+        else
+            return invalidLength;
     }
 
     // a common ancestor that participates in shortest ancestral path; -1 if no such path
     public int ancestor(Iterable<Integer> v, Iterable<Integer> w) {
         if ((v == null) || (w == null))
             throw new IllegalArgumentException();
-        return 0;
+        int common = invalidAncestor;
+        int distSoFar = Integer.MAX_VALUE;
+        for (int v1 : v) {
+            for (int w1 : w) {
+                int dist = length(v1, w1);
+                if ((dist != invalidLength) && (dist < distSoFar)) {
+                    common = ancestor(v1, w1);
+                    distSoFar = dist;
+                }
+            }
+        }
+        if (common != invalidAncestor)
+            return common;
+        else
+            return invalidAncestor;
     }
 
     // do unit testing of this class
     public static void main(String[] args) {
-        String fname = "digraph1.txt";
-        In in = new In(fname);
-        Digraph G = new Digraph(in);
-        SAP sap = new SAP(G);
-        while (!StdIn.isEmpty()) {
-            int v = StdIn.readInt();
-            int w = StdIn.readInt();
-            int length = sap.length(v, w);
-            int ancestor = sap.ancestor(v, w);
+        int test = 1; // test indiv length and ancestor
+
+        if (test == 1) {
+            String fname = "digraph1.txt";
+            In in = new In(fname);
+            Digraph G = new Digraph(in);
+            SAP sap = new SAP(G);
+            while (!StdIn.isEmpty()) {
+                int v = StdIn.readInt();
+                int w = StdIn.readInt();
+                int length = sap.length(v, w);
+                int ancestor = sap.ancestor(v, w);
+                StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
+            }
+        }
+        if (test == 2) {
+            // test group of nodes
+            String fname = "digraph25.txt";
+            In in = new In(fname);
+            Digraph G = new Digraph(in);
+            SAP sap = new SAP(G);
+            Integer[] a1 = { 13, 23, 24 };
+            Integer[] b1 = { 6, 16, 17 };
+            List<Integer> a = Arrays.asList(a1);
+            List<Integer> b = Arrays.asList(b1);
+            int length = sap.length(a, b);
+            int ancestor = sap.ancestor(a, b);
+            StdOut.println("set A: " + a);
+            StdOut.println("set B: " + b);
             StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
         }
+
     }
 
     private boolean isValidVertex(int node) {
