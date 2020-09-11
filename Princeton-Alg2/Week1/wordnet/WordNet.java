@@ -5,12 +5,16 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.RedBlackBST;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class WordNet {
-    private RedBlackBST<String, Integer> synTree;
+    private RedBlackBST<String, ArrayList<Integer>> synTree;
     private Digraph hyperG;
 
     // constructor takes the name of the two input files
@@ -20,8 +24,14 @@ public class WordNet {
 
         // if the input to the constructor does not correspond to a rooted DAG,
         // throw exception
-        readSynset(synsets);
-        readHypernyms(hypernyms);
+        int totalNode = readSynset(synsets);
+        int totalChildNode = readHypernyms(hypernyms);
+        // if the number of node which does not have parent is not one, reject
+        if (totalNode - totalChildNode != 1)
+            throw new IllegalArgumentException();
+        // check if the graph is a rooted DAG
+        if (isDAG(hyperG))
+            throw new IllegalArgumentException();
     }
 
     // returns all WordNet nouns
@@ -54,8 +64,8 @@ public class WordNet {
     }
 
     public static void main(String[] args) {
-        String fname1 = "synsets15.txt";
-        String fname2 = "hypernyms15Path.txt";
+        String fname1 = "synsets3.txt";
+        String fname2 = "hypernyms3InvalidTwoRoots.txt";
         WordNet myWordNet = new WordNet(fname1, fname2);
         StdOut.println("all nouns read:");
         // test nouns()
@@ -64,28 +74,37 @@ public class WordNet {
         for (String nodeName : myWordNet.nouns())
             StdOut.println(nodeName);
         StdOut.println("Edge information:");
-        for (String nodeName : myWordNet.synTree.keys()) {
-            int nodeNum = myWordNet.synTree.get(nodeName);
-            StdOut.print(nodeNum + "->\t");
-            for (int each : myWordNet.hyperG.adj(nodeNum))
-                StdOut.print(each + "->");
-            StdOut.println();
-        }
+        StdOut.println(myWordNet.hyperG);
         // test isNoun()
         String word = "w";
         StdOut.println("Is word: " + word + " in the list? " + myWordNet.isNoun(word));
     }
 
-    private void readSynset(String synset) {
-        synTree = new RedBlackBST<String, Integer>();
+    private int readSynset(String synset) {
+        HashSet<Integer> nodeSet = new HashSet<Integer>();
+        synTree = new RedBlackBST<String, ArrayList<Integer>>();
         In in = new In(synset);
         while (!in.isEmpty()) {
             String[] words = in.readLine().split(",");
-            synTree.put(words[1], Integer.parseInt(words[0]));
+            int nodeNum = Integer.parseInt(words[0]);
+            String nodeName = words[1];
+            if (synTree.contains(nodeName)) {
+                ArrayList<Integer> curList = synTree.get(nodeName);
+                curList.add(nodeNum);
+                synTree.put(words[1], curList);
+            }
+            else {
+                ArrayList<Integer> newList = new ArrayList<Integer>();
+                newList.add(nodeNum);
+                synTree.put(words[1], newList);
+            }
+            nodeSet.add(nodeNum);
         }
+        return nodeSet.size();
     }
 
-    private void readHypernyms(String hypernyms) {
+    private int readHypernyms(String hypernyms) {
+        HashSet<Integer> childSet = new HashSet<Integer>();
         hyperG = new Digraph(synTree.size());
         In in = new In(hypernyms);
         while (!in.isEmpty()) {
@@ -96,7 +115,14 @@ public class WordNet {
                 int parent = Integer.parseInt(words[i]);
                 hyperG.addEdge(child, parent);
             }
+            childSet.add(child);
         }
+        return childSet.size();
+    }
+
+    private boolean isDAG(Digraph graph) {
+        DirectedCycle dc = new DirectedCycle(graph);
+        return dc.hasCycle();
     }
 
 }
