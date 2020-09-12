@@ -16,10 +16,10 @@ import java.util.List;
 
 public class SAP {
     private Digraph graph;
-    HashMap<Integer, BreadthFirstDirectedPaths> nodeBFS;
-    HashMap<Integer, AncestorCache> nodeAncestor;
-    static final int invalidAncestor = -1;
-    static final int invalidLength = -1;
+    private HashMap<Integer, BreadthFirstDirectedPaths> nodeBFS;
+    private HashMap<Integer, AncestorCache> nodeAncestor;
+    private static final int invalidAncestor = -1;
+    private static final int invalidLength = -1;
 
     // constructor takes a digraph (not necessarily a DAG)
     public SAP(Digraph G) {
