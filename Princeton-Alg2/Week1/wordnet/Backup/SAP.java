@@ -7,7 +7,6 @@
 import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
@@ -22,7 +21,6 @@ public class SAP {
     private HashMap<Integer, AncestorCache> nodeAncestor;
     private static final int invalidAncestor = -1;
     private static final int invalidLength = -1;
-    private Queue<Integer> hashQ;
 
     // constructor takes a digraph (not necessarily a DAG)
     public SAP(Digraph G) {
@@ -31,7 +29,6 @@ public class SAP {
         graph = new Digraph(G);
         nodeBFS = new HashMap<Integer, BreadthFirstDirectedPaths>();
         nodeAncestor = new HashMap<Integer, AncestorCache>();
-        hashQ = new Queue<Integer>();
     }
 
     // length of shortest ancestral path between v and w; -1 if no such path
@@ -201,32 +198,17 @@ public class SAP {
             return true;
     }
 
-    private void cleanNodeBFS() {
-        int threshold = 500;
-        int numRemoved = 50;
-        if (hashQ.size() > threshold) {
-            for (int i = 0; i < numRemoved; i++) {
-                int v = hashQ.dequeue();
-                nodeBFS.remove(v);
-            }
-        }
-    }
-
     private AncestorCache findAncestor(int v, int w) {
         BreadthFirstDirectedPaths vPath, wPath;
-        // clean up the hashBSF. otherwise, heap overthrow
-        cleanNodeBFS();
         if (!nodeBFS.containsKey(v)) {
             vPath = new BreadthFirstDirectedPaths(graph, v);
             nodeBFS.put(v, vPath);
-            hashQ.enqueue(v);
         }
         else
             vPath = nodeBFS.get(v);
         if (!nodeBFS.containsKey(w)) {
             wPath = new BreadthFirstDirectedPaths(graph, w);
             nodeBFS.put(w, wPath);
-            hashQ.enqueue(w);
         }
         else
             wPath = nodeBFS.get(w);
