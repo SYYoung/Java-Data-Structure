@@ -9,20 +9,20 @@ Spotbugs:     PASSED
 PMD:          FAILED (7 warnings)
 Checkstyle:   FAILED (0 errors, 9 warnings)
 
-Correctness:  35/36 tests passed
+Correctness:  36/36 tests passed
 Memory:       4/4 tests passed
-Timing:       21/27 tests passed
+Timing:       23/27 tests passed
 
-Aggregate score: 93.89%
+Aggregate score: 97.04%
 [Compilation: 5%, API: 5%, Spotbugs: 0%, PMD: 0%, Checkstyle: 0%, Correctness: 60%, Memory: 10%, Timing: 20%]
 
 ASSESSMENT DETAILS
 
 The following files were submitted:
 ----------------------------------
-1.9K Sep 12 06:20 Outcast.java
-9.9K Sep 12 06:20 SAP.java
-6.4K Sep 12 06:20 WordNet.java
+1.9K Sep 12 09:51 Outcast.java
+ 11K Sep 12 09:51 SAP.java
+6.4K Sep 12 09:51 WordNet.java
 
 
 ********************************************************************************
@@ -92,7 +92,7 @@ Checkstyle ends with 0 errors and 5 warnings.
 
 % custom checkstyle checks for SAP.java
 *-----------------------------------------------------------
-[WARN] SAP.java:205:25: The numeric literal '500' appears to be unnecessary. [NumericLiteral]
+[WARN] SAP.java:205:25: The numeric literal '200' appears to be unnecessary. [NumericLiteral]
 [WARN] SAP.java:206:26: The numeric literal '50' appears to be unnecessary. [NumericLiteral]
 Checkstyle ends with 0 errors and 2 warnings.
 
@@ -229,14 +229,7 @@ Test 16: check length() and ancestor() with iterable arguments
   * 100 random subsets of 2 and 2 vertices in digraph-wordnet.txt
   * 100 random subsets of 3 and 11 vertices in digraph-wordnet.txt
   * 100 random subsets of 11 and 3 vertices in digraph-wordnet.txt
-
-    
-        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        OperationCountLimitExceededException
-        Number of primitive operations in Digraph exceeds limit: 1000000000
-        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-==> FAILED
+==> passed
 
 Test 17: check length() and ancestor() with zero-length iterable arguments
   * 100 random subsets of 0 and 5 vertices in digraph-wordnet.txt
@@ -252,15 +245,15 @@ Test 18: check length() and ancestor() with invalid arguments
 ==> passed
 
 Test 19: check iterable versions of length() and ancestor() with invalid arguments
-  * G = digraph1.txt, v = { 4, 6 }, w = null
-  * G = digraph1.txt, v = null, w = { 1, 2, 3, 5, 9, 10 }
+  * G = digraph1.txt, v = { 0, 7, 9, 12 }, w = null
+  * G = digraph1.txt, v = null, w = { 1, 2, 4, 5, 10 }
   * G = digraph1.txt, v = null, w = null
-  * G = digraph1.txt, v = { 4, 6, -1 }, w = { 1, 2, 3, 5, 9, 10 }
-  * G = digraph1.txt, v = { 4, 6 }, w = { 1, 2, 3, -1, 5, 9, 10 }
-  * G = digraph1.txt, v = { 4, 13, 6 }, w = { 1, 2, 3, 5, 9, 10 }
-  * G = digraph1.txt, v = { 4, 6 }, w = { 1, 13, 2, 3, 5, 9, 10 }
-  * G = digraph1.txt, v = { 4, null, 6 }, w = { 1, 2, 3, 5, 9, 10 }
-  * G = digraph1.txt, v = { 4, 6 }, w = { 1, 2, null, 3, 5, 9, 10 }
+  * G = digraph1.txt, v = { 0, 7, 9, 12, -1 }, w = { 1, 2, 4, 5, 10 }
+  * G = digraph1.txt, v = { 0, 7, 9, 12 }, w = { 1, 2, -1, 4, 5, 10 }
+  * G = digraph1.txt, v = { 13, 0, 7, 9, 12 }, w = { 1, 2, 4, 5, 10 }
+  * G = digraph1.txt, v = { 0, 7, 9, 12 }, w = { 1, 2, 4, 5, 13, 10 }
+  * G = digraph1.txt, v = { 0, null, 7, 9, 12 }, w = { 1, 2, 4, 5, 10 }
+  * G = digraph1.txt, v = { 0, 7, 9, 12 }, w = { 1, 2, 4, null, 5, 10 }
 ==> passed
 
 Test 20: random calls to both version of length() and ancestor(),
@@ -272,7 +265,7 @@ Test 20: random calls to both version of length() and ancestor(),
 ==> passed
 
 
-Total: 19/20 tests passed!
+Total: 20/20 tests passed!
 
 
 ================================================================
@@ -515,15 +508,15 @@ Running 14 total tests.
 
 Test 1: time SAP constructor
    *  digraph-wordnet.txt
-      -  student solution time =  0.01 seconds
+      -  student solution time =  0.02 seconds
       -  maximum allowed  time =  1.00 seconds
 ==> passed
 
 Test 2a-c: time length() and ancestor() with random pairs of vertices
   *  digraph-wordnet.txt
-     -  reference solution calls per second:  826361.00
-     -  student   solution calls per second:    3006.00
-     -  reference / student ratio:               274.90
+     -  reference solution calls per second:  539398.00
+     -  student   solution calls per second:    1999.00
+     -  reference / student ratio:               269.83
 
 => passed      student <= 50000x reference
 => passed      student <= 10000x reference
@@ -532,22 +525,22 @@ Test 2a-c: time length() and ancestor() with random pairs of vertices
 
 Test 3a-c: time length() and ancestor() with random subsets of 5 vertices
   *  digraph-wordnet.txt
-     -  reference solution calls per second:  209212.00
-     -  student   solution calls per second:     128.00
-     -  reference / student ratio:              1634.47
+     -  reference solution calls per second:  143975.00
+     -  student   solution calls per second:     189.00
+     -  reference / student ratio:               761.77
 
 => passed      student <= 10000x reference
 => passed      student <=  5000x reference
-=> FAILED      student <=  1000x reference
+=> passed      student <=  1000x reference
 => FAILED      student <=   500x reference
 
 Test 4a-c: time length() and ancestor() with random subsets of 100 vertices
   *  digraph-wordnet.txt
-     -  reference solution calls per second:   13136.00
+     -  reference solution calls per second:    8536.00
      -  student   solution calls per second:       1.00
-     -  reference / student ratio:             13136.00
+     -  reference / student ratio:              8536.00
 
-=> FAILED      student <= 10000x reference
+=> passed      student <= 10000x reference
 => FAILED      student <=  5000x reference
 => FAILED      student <=  1000x reference
 => FAILED      student <=   500x reference
@@ -557,12 +550,12 @@ Test 5: Time 10 calls to length() and ancestor() on random path graphs
 
              V  seconds
         ---------------
-         32768     0.08
-         65536     0.21
+         32768     0.09
+         65536     0.19
 ==> passed
 
 
-Total: 8/14 tests passed!
+Total: 10/14 tests passed!
 
 
 ================================================================
@@ -608,7 +601,7 @@ Test 4: count Digraph operations during 1000 calls each
   * synsets = synsets.txt; hypernyms = hypernyms.txt
   * calls to constructor = 0
   * calls to addEdge()   = 0
-  * calls to adj()       = 46328
+  * calls to adj()       = 46514
   * calls to reverse()   = 0
   * calls to toString()  = 0
 
@@ -616,16 +609,16 @@ Test 4: count Digraph operations during 1000 calls each
 
 Test 5: time WordNet constructor
   * synsets = synsets.txt; hypernyms = hypernyms.txt
-    - student constructor time =  0.47 seconds
+    - student constructor time =  0.66 seconds
     - maximum allowed     time = 10.00 seconds
 
 ==> passed
 
 Test 6a-e: time sap() and distance() with random nouns
   * synsets = synsets.txt; hypernyms = hypernyms.txt
-    - reference solution calls per second:  155110.00
-    - student   solution calls per second:  111023.25
-    - reference / student ratio:                 1.40
+    - reference solution calls per second:  170891.25
+    - student   solution calls per second:   99105.50
+    - reference / student ratio:                 1.72
 
 => passed    student <= 10000x reference
 => passed    student <=  1000x reference
@@ -635,9 +628,9 @@ Test 6a-e: time sap() and distance() with random nouns
 
 Test 7: time isNoun() with random nouns
   * synsets = synsets.txt; hypernyms = hypernyms.txt
-    - reference solution calls per second:  971519.00
-    - student   solution calls per second:  518714.00
-    - reference / student ratio:                 1.87
+    - reference solution calls per second:  937609.00
+    - student   solution calls per second:  433696.00
+    - reference / student ratio:                 2.16
     - allowed ratio:                             4.00
 ==> passed
 
@@ -684,10 +677,10 @@ Total time must not exceed 1.0 seconds.
   outcast11.txt   11     0.00
   outcast12.txt   12     0.00
  outcast12a.txt   12     0.00
-  outcast20.txt   20     0.11
-  outcast29.txt   29     0.01
+  outcast20.txt   20     0.00
+  outcast29.txt   29     0.00
 
-Total elapsed time: 0.12 seconds
+Total elapsed time: 0.01 seconds
 
 ==> passed
 
@@ -696,6 +689,8 @@ Total: 2/2 tests passed!
 
 
 ================================================================
+
+
 
 
 

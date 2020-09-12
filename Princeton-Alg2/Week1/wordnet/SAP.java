@@ -19,7 +19,7 @@ import java.util.List;
 public class SAP {
     private Digraph graph;
     private HashMap<Integer, BreadthFirstDirectedPaths> nodeBFS;
-    private HashMap<Integer, AncestorCache> nodeAncestor;
+    private HashMap<Integer, HashMap<Integer, AncestorCache>> nodeAncestor;
     private static final int invalidAncestor = -1;
     private static final int invalidLength = -1;
     private Queue<Integer> hashQ;
@@ -30,7 +30,7 @@ public class SAP {
             throw new IllegalArgumentException();
         graph = new Digraph(G);
         nodeBFS = new HashMap<Integer, BreadthFirstDirectedPaths>();
-        nodeAncestor = new HashMap<Integer, AncestorCache>();
+        nodeAncestor = new HashMap<Integer, HashMap<Integer, AncestorCache>>();
         hashQ = new Queue<Integer>();
     }
 
@@ -39,11 +39,11 @@ public class SAP {
         if ((!isValidVertex(v)) || (!isValidVertex(w)))
             throw new IllegalArgumentException();
         if (nodeAncestor.containsKey(v))
-            if (nodeAncestor.get(v).node2 == w)
-                return nodeAncestor.get(v).minDist;
+            if (nodeAncestor.get(v).get(w) != null)
+                return nodeAncestor.get(v).get(w).minDist;
         if (nodeAncestor.containsKey(w))
-            if (nodeAncestor.get(w).node2 == v)
-                return nodeAncestor.get(w).minDist;
+            if (nodeAncestor.get(w).get(v) != null)
+                return nodeAncestor.get(w).get(v).minDist;
         AncestorCache newNode = findAncestor(v, w);
         return newNode.minDist;
     }
@@ -51,11 +51,11 @@ public class SAP {
     // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
     public int ancestor(int v, int w) {
         if (nodeAncestor.containsKey(v))
-            if (nodeAncestor.get(v).node2 == w)
-                return nodeAncestor.get(v).commonAncestor;
+            if (nodeAncestor.get(v).get(w) != null)
+                return nodeAncestor.get(v).get(w).commonAncestor;
         if (nodeAncestor.containsKey(w))
-            if (nodeAncestor.get(w).node2 == v)
-                return nodeAncestor.get(w).commonAncestor;
+            if (nodeAncestor.get(w).get(v) != null)
+                return nodeAncestor.get(w).get(v).commonAncestor;
         AncestorCache newNode = findAncestor(v, w);
         return newNode.commonAncestor;
     }
@@ -118,7 +118,7 @@ public class SAP {
 
     // do unit testing of this class
     public static void main(String[] args) {
-        int test = 4; // test indiv length and ancestor
+        int test = 1; // test indiv length and ancestor
 
         if (test == 1) {
             String fname = "digraph1.txt";
@@ -201,13 +201,14 @@ public class SAP {
             return true;
     }
 
-    private void cleanNodeBFS() {
-        int threshold = 500;
+    private void cleanHash() {
+        int threshold = 200;
         int numRemoved = 50;
         if (hashQ.size() > threshold) {
             for (int i = 0; i < numRemoved; i++) {
                 int v = hashQ.dequeue();
                 nodeBFS.remove(v);
+                // nodeAncestor.remove(v);
             }
         }
     }
@@ -215,7 +216,7 @@ public class SAP {
     private AncestorCache findAncestor(int v, int w) {
         BreadthFirstDirectedPaths vPath, wPath;
         // clean up the hashBSF. otherwise, heap overthrow
-        cleanNodeBFS();
+        cleanHash();
         if (!nodeBFS.containsKey(v)) {
             vPath = new BreadthFirstDirectedPaths(graph, v);
             nodeBFS.put(v, vPath);
@@ -253,8 +254,26 @@ public class SAP {
             vCache = new AncestorCache(v, w, common, distSoFar);
             wCache = new AncestorCache(w, v, common, distSoFar);
         }
-        nodeAncestor.put(v, vCache);
-        nodeAncestor.put(w, wCache);
+
+        // update the nodeHash
+        HashMap<Integer, AncestorCache> tmp;
+        if (nodeAncestor.get(v) != null) {
+            tmp = nodeAncestor.get(v);
+        }
+        else {
+            tmp = new HashMap<Integer, AncestorCache>();
+        }
+        tmp.put(w, vCache);
+        nodeAncestor.put(v, tmp);
+
+        if (nodeAncestor.get(w) != null) {
+            tmp = nodeAncestor.get(w);
+        }
+        else {
+            tmp = new HashMap<Integer, AncestorCache>();
+        }
+        tmp.put(v, wCache);
+        nodeAncestor.put(w, tmp);
 
         return vCache;
     }
