@@ -1,0 +1,12 @@
+import edu.princeton.cs.algs4.*;
+
+public class KruskalMST {
+
+	private Queue<Edge> mst = new Queue<Edge>();
+	
+	public KruskalMST(EdgeWeightedGraph G) {
+		MinPQ<Edge> pq = new MinPQ<Edge>();
+		for (Edge e: G.edges())
+			pq.insert(e);
+	}
+}

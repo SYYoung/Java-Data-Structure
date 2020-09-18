@@ -1,0 +1,35 @@
+import edu.princeton.cs.algs4.*;
+
+public class EdgeWeightedGraph {
+	public EdgeWeightedGraph(int V) {
+		
+	}
+	
+	public EdgeWeightedGraph(In in) {
+		
+	}
+	
+	public void addEdge(Edge e) {
+		
+	}
+	
+	public Iterable<Edge> adj(int v) {
+		
+	}
+	
+	public Iterable<Edge> edges() {
+		
+	}
+	
+	public int V() {
+		
+	}
+	
+	public int E() {
+		
+	}
+	
+	public String toString() {
+		
+	}
+}

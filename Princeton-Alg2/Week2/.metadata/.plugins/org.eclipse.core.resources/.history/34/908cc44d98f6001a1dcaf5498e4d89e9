@@ -1,0 +1,29 @@
+import edu.princeton.cs.algs4.*;
+
+public class Edge implements Comparable<Edge> {
+
+	public Edge(int v, int w, double weight) {
+			
+	}
+	
+	public int either() {
+		
+	}
+	
+	public int other(int v) {
+		
+	}
+	
+	public int compareTo(Edge that) {
+		
+	}
+	
+	public double weight() {
+		
+	}
+	
+	public String toString() {
+		
+	}
+		
+}
