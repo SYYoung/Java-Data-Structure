@@ -87,29 +87,31 @@ public class SeamCarver {
 
         // for each vertex on the top row, find the STP
         for (int from = 0; from < width; from++) {
-            distTo[from] = 0;
+            distTo[from] = energy(from % width, from / width);
             edgeTo[from] = from;
             MinPQ<Integer> pq = new MinPQ<>();
             pq.insert(from);
-            int to;
+            int x, y, to;
             while (!pq.isEmpty()) {
                 int v = pq.delMin();
                 if (v / width == height - 1) // reach bottom line
                     break;
+                x = v % width;
+                y = v / width;
                 to = v + width - 1;
-                if (validCoord(to)) {
-                    relax(from, to, edgeTo, distTo);
-                    pq.insert(to);
+                if (validCoord(x - 1, y + 1)) {
+                    if (relax(v, to, edgeTo, distTo))
+                        pq.insert(to);
                 }
                 to = v + width;
-                if (validCoord(v + width)) {
-                    relax(from, to, edgeTo, distTo);
-                    pq.insert(to);
+                if (validCoord(x, y + 1)) {
+                    if (relax(v, to, edgeTo, distTo))
+                        pq.insert(to);
                 }
                 to = v + width + 1;
-                if (validCoord(v + width + 1)) {
-                    relax(from, to, edgeTo, distTo);
-                    pq.insert(to);
+                if (validCoord(x + 1, y + 1)) {
+                    if (relax(v, to, edgeTo, distTo))
+                        pq.insert(to);
                 }
             }
         }
@@ -117,9 +119,10 @@ public class SeamCarver {
         int botIndex = getBottomIndex(distTo);
         // save energy in curEnergy
         int[] vertIndex = new int[height];
-        int i = height - 1;
-        for (int v = botIndex; v < width; v = edgeTo[v]) {
-            vertIndex[i--] = v % width;
+        int last = botIndex;
+        for (int i = height - 1; i >= 0; i--) {
+            vertIndex[i] = last % width;
+            last = edgeTo[last];
         }
         return vertIndex;
     }
@@ -226,12 +229,15 @@ public class SeamCarver {
         return (Math.pow(ur - dr, 2) + Math.pow(ug - dg, 2) + Math.pow(ub - db, 2));
     }
 
-    private void relax(int from, int to, int[] edgeTo, double[] distTo) {
+    private boolean relax(int from, int to, int[] edgeTo, double[] distTo) {
         double curVal = energy(to % width, to / width);
+        boolean status = false;
         if (distTo[to] > distTo[from] + curVal) {
             distTo[to] = distTo[from] + curVal;
             edgeTo[to] = from;
+            status = true;
         }
+        return status;
     }
 
     public double calEnergy(int x, int y) {
