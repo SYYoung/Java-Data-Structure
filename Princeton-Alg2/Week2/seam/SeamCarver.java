@@ -4,6 +4,7 @@
  *  Description:
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Picture;
 
 public class SeamCarver {
@@ -12,6 +13,9 @@ public class SeamCarver {
     private Picture curPicture;
     private int height;
     private int width;
+    private int[] edgeTo;
+    private double[] distTo;
+    private double[] curEnergy;
 
 
     // create a seam carver object based on the given picture
@@ -19,6 +23,25 @@ public class SeamCarver {
         curPicture = new Picture(picture);
         height = curPicture.height();
         width = curPicture.width();
+        edgeTo = new int[width * height];
+        distTo = new double[width * height];
+        curEnergy = new double[width * height];
+        for (int i = 0; i < width * height; i++)
+            distTo[i] = Integer.MAX_VALUE;
+
+        for (int i = 0; i < width * height; i++) {
+            if (i / width == 0) // top row
+                curEnergy[i] = HIGHEST_ENERGY;
+            else if (i / width == height - 1)
+                curEnergy[i] = HIGHEST_ENERGY;
+            else if (i % width == 0)
+                curEnergy[i] = HIGHEST_ENERGY;
+            else if (i % width == width - 1)
+                curEnergy[i] = HIGHEST_ENERGY;
+            else
+                curEnergy[i] = Integer.MAX_VALUE;
+        }
+
     }
 
     // current picture
@@ -40,22 +63,54 @@ public class SeamCarver {
     public double energy(int x, int y) {
         if (!validCoord(x, y))
             throw new IllegalArgumentException();
-        if (isXBorder(x) || isYBorder(y))
-            return HIGHEST_ENERGY;
-        double xGradSQ = calXGradSquare(x, y);
-        double yGradSQ = calYGradSquare(x, y);
-        double val = Math.sqrt(xGradSQ + yGradSQ);
-        return val;
+        if (curEnergy[y * width + x] == Integer.MAX_VALUE)
+            curEnergy[y * width + x] = calEnergy(x, y);
+        return (curEnergy[y * width + x]);
     }
 
     // sequence of indices for horizonal seam
     public int[] findHorizontalSeam() {
-        return null;
+
+        // save energy in curEnergy
+        int[] horIndex = new int[height];
+        for (int i = 0; i < width; i++)
+            horIndex[i] = edgeTo[i] % width;
+        return horIndex;
     }
 
     // sequence of indices for vertical seam
     public int[] findVerticalSeam() {
-        return null;
+        MinPQ<Integer> pq = new MinPQ<>();
+
+        // for each vertex on the top row, find the STP
+        for (int from = 0; from < width; from++) {
+            pq.insert(from);
+            int to;
+            while (!pq.isEmpty()) {
+                int v = pq.delMin();
+                to = v + width - 1;
+                if (validCoord(to)) {
+                    relax(from, to);
+                    pq.insert(to);
+                }
+                to = v + width;
+                if (validCoord(v + width)) {
+                    relax(from, to);
+                    pq.insert(to);
+                }
+                to = v + width + 1;
+                if (validCoord(v + width + 1)) {
+                    relax(from, to);
+                    pq.insert(to);
+                }
+            }
+        }
+
+        // save energy in curEnergy
+        int[] vertIndex = new int[height];
+        for (int i = 0; i < height; i++)
+            vertIndex[i] = edgeTo[i] % width;
+        return vertIndex;
     }
 
     // remove horizontal seam from current picture
@@ -80,6 +135,16 @@ public class SeamCarver {
     }
 
     private boolean validCoord(int x, int y) {
+        if ((x < 0) || (x > width - 1))
+            return false;
+        if ((y < 0) || (y > height - 1))
+            return false;
+        return true;
+    }
+
+    private boolean validCoord(int v) {
+        int x = v % width;
+        int y = v / width;
         if ((x < 0) || (x > width - 1))
             return false;
         if ((y < 0) || (y > height - 1))
@@ -136,4 +201,40 @@ public class SeamCarver {
         int db = (downRGB >> 0) & 0xFF;
         return ((ur - dr) ^ 2 + (ug - dg) ^ 2 + (ub - db) ^ 2);
     }
+
+    private void relax(int from, int to) {
+        double curVal = energy(to % width, to / width);
+        if (distTo[to] > distTo[from] + curVal) {
+            distTo[to] = distTo[from] + curVal;
+            edgeTo[to] = from;
+        }
+    }
+
+    public double calEnergy(int x, int y) {
+        double xGradSQ = calXGradSquare(x, y);
+        double yGradSQ = calYGradSquare(x, y);
+        double val = Math.sqrt(xGradSQ + yGradSQ);
+        return val;
+    }
+
+    /*
+    private ArrayList<Integer> buildTopological(int from) {
+        ArrayList<Integer> topo = new ArrayList<Integer>();
+        Queue<Integer> q = new Queue<Integer>();
+
+        q.enqueue(from);
+        topo.add(from);
+        while (!q.isEmpty()) {
+            int v = q.dequeue();
+            // next level of vertex : v+width-1, v+width, v+width+1;
+            if (v / height < height - 1) {
+                if ( (v % width != 0) &&
+                        q.enqueue(v + width - 1);
+                q.enqueue(v + width);
+                q.enqueue(v + width + 1);
+            }
+        }
+
+    }
+     */
 }
