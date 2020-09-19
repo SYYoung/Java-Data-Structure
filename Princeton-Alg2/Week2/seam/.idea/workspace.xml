@@ -42,6 +42,29 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="settings.saveactions" />
   </component>
+  <component name="RunManager" selected="Application.PrintSeams">
+    <configuration name="PrintEnergy" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="PrintEnergy" />
+      <module name="Algorithms, Part II" />
+      <option name="PROGRAM_PARAMETERS" value="10x10.png" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PrintSeams" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="PrintSeams" />
+      <module name="Algorithms, Part II" />
+      <option name="PROGRAM_PARAMETERS" value="3x4.png" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ShowEnergy" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="ShowEnergy" />
+      <module name="Algorithms, Part II" />
+      <option name="PROGRAM_PARAMETERS" value="3x4.png" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
@@ -50,5 +73,54 @@
       <are-packages-shown value="true" />
       <is-autoscroll-to-source value="true" />
     </todo-panel>
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1555" height="154" key="GridCell.Tab.0.bottom" timestamp="1600510837476">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1555" height="154" key="GridCell.Tab.0.bottom/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600510837476" />
+    <state width="1555" height="282" key="GridCell.Tab.0.bottom/0.23.1440.825/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600507253698" />
+    <state width="1555" height="154" key="GridCell.Tab.0.center" timestamp="1600510837476">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1555" height="154" key="GridCell.Tab.0.center/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600510837476" />
+    <state width="1555" height="282" key="GridCell.Tab.0.center/0.23.1440.825/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600507253697" />
+    <state width="1555" height="154" key="GridCell.Tab.0.left" timestamp="1600510837475">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1555" height="154" key="GridCell.Tab.0.left/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600510837475" />
+    <state width="1555" height="282" key="GridCell.Tab.0.left/0.23.1440.825/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600507253697" />
+    <state width="1555" height="154" key="GridCell.Tab.0.right" timestamp="1600510837476">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1555" height="154" key="GridCell.Tab.0.right/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600510837476" />
+    <state width="1555" height="282" key="GridCell.Tab.0.right/0.23.1440.825/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600507253698" />
+    <state width="1555" height="154" key="GridCell.Tab.1.bottom" timestamp="1600510837477">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1555" height="154" key="GridCell.Tab.1.bottom/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600510837477" />
+    <state width="1555" height="154" key="GridCell.Tab.1.center" timestamp="1600510837477">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1555" height="154" key="GridCell.Tab.1.center/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600510837477" />
+    <state width="1555" height="154" key="GridCell.Tab.1.left" timestamp="1600510837476">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1555" height="154" key="GridCell.Tab.1.left/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600510837476" />
+    <state width="1555" height="154" key="GridCell.Tab.1.right" timestamp="1600510837477">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1555" height="154" key="GridCell.Tab.1.right/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600510837477" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/PrintSeams.java</url>
+          <line>72</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
