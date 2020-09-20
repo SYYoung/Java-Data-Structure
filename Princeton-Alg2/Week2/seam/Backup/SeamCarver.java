@@ -19,8 +19,6 @@ public class SeamCarver {
 
     // create a seam carver object based on the given picture
     public SeamCarver(Picture picture) {
-        if (picture == null)
-            throw new IllegalArgumentException();
         height = picture.height();
         width = picture.width();
         curEnergy = new double[width][height];
@@ -179,38 +177,7 @@ public class SeamCarver {
         if ((seam == null) || (seam.length != width) || !validSeamArray(seam)
                 || (width <= 1))
             throw new IllegalArgumentException();
-        int[] tmpPixel = new int[height];
-        double[] tmpEnergy = new double[height];
-        // update pixel
-        int col = 0;
-        for (int i = 0; i < seam.length; i++) {
-            System.arraycopy(curPictureRGB[col], seam[i] + 1, tmpPixel, 0, height - seam[i] - 1);
-            System.arraycopy(tmpPixel, 0, curPictureRGB[col], seam[i], height - seam[i] - 1);
-            col++;
-        }
-        // 2. update the energy values of the removed neighbors
-        col = 0;
-        for (int i = 0; i < seam.length; i++) {
-            System.arraycopy(curEnergy[col], seam[i] + 1, tmpEnergy, 0, height - seam[i] - 1);
-            System.arraycopy(tmpEnergy, 0, curEnergy[col], seam[i], height - seam[i] - 1);
-            col++;
-        }
-        height--;
 
-        // 3. re-calculate the energy function
-        col = 0;
-        for (int i = 0; i < seam.length; i++) {
-            int row = seam[i];
-            if (validCoord(col, row - 1))
-                curEnergy[col][row - 1] = calEnergy(col, row - 1);
-            if (validCoord(col - 1, row))
-                curEnergy[col - 1][row] = calEnergy(col - 1, row);
-            if (validCoord(col, row))
-                curEnergy[col][row] = calEnergy(col, row);
-            if (validCoord(col + 1, row))
-                curEnergy[col + 1][row] = calEnergy(col + 1, row);
-            col++;
-        }
     }
 
     // remove vertical seam from current picture
@@ -220,11 +187,8 @@ public class SeamCarver {
             throw new IllegalArgumentException();
         // 1. update the pixel
         int[] tmp = new int[width];
-        int row = 0;
-        for (int i = 0; i < seam.length; i++) {
-            System.arraycopy(curPictureRGB[row], seam[i] + 1, tmp, 0, width - seam[i] - 1);
-            System.arraycopy(tmp, 0, curPictureRGB[row], seam[i], width - seam[i] - 1);
-            row++;
+        for (int row = 0; row < seam.length; row++) {
+            //System.arraycopy();
         }
         // 2. update the energy values of the removed neighbors
     }
@@ -245,8 +209,6 @@ public class SeamCarver {
         int[] vertSeam = mySeam.findVerticalSeam();
         for (int i = 0; i < vertSeam.length; i++)
             StdOut.println(vertSeam[i]);
-        int[] ans = mySeam.findVerticalSeam();
-        mySeam.removeVerticalSeam(ans);
     }
 
     private boolean validCoord(int x, int y) {
@@ -330,22 +292,10 @@ public class SeamCarver {
         return status;
     }
 
-    private double calEnergy(int x, int y) {
-        double val;
-        if (y == 0) // top row
-            val = HIGHEST_ENERGY;
-        else if (y == height - 1)
-            val = HIGHEST_ENERGY;
-        else if (x % width == 0)
-            val = HIGHEST_ENERGY;
-        else if (x % width == width - 1)
-            val = HIGHEST_ENERGY;
-        else {
-            double xGradSQ = calXGradSquare(x, y);
-            double yGradSQ = calYGradSquare(x, y);
-            val = Math.sqrt(xGradSQ + yGradSQ);
-        }
-
+    public double calEnergy(int x, int y) {
+        double xGradSQ = calXGradSquare(x, y);
+        double yGradSQ = calYGradSquare(x, y);
+        double val = Math.sqrt(xGradSQ + yGradSQ);
         return val;
     }
 
