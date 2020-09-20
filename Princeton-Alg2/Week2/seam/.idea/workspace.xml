@@ -52,7 +52,7 @@
     <configuration name="PrintSeams" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="PrintSeams" />
       <module name="Algorithms, Part II" />
-      <option name="PROGRAM_PARAMETERS" value="4x6.png" />
+      <option name="PROGRAM_PARAMETERS" value="12x10.png" />
       <method v="2" />
     </configuration>
     <configuration name="ShowEnergy" type="Application" factoryName="Application">
@@ -75,42 +75,42 @@
     </todo-panel>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1555" height="276" key="GridCell.Tab.0.bottom" timestamp="1600526255076">
+    <state width="1555" height="276" key="GridCell.Tab.0.bottom" timestamp="1600531866224">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1555" height="276" key="GridCell.Tab.0.bottom/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600526255076" />
+    <state width="1555" height="276" key="GridCell.Tab.0.bottom/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600531866224" />
     <state width="1555" height="282" key="GridCell.Tab.0.bottom/0.23.1440.825/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600507253698" />
-    <state width="1555" height="276" key="GridCell.Tab.0.center" timestamp="1600526255075">
+    <state width="1555" height="276" key="GridCell.Tab.0.center" timestamp="1600531866223">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1555" height="276" key="GridCell.Tab.0.center/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600526255075" />
+    <state width="1555" height="276" key="GridCell.Tab.0.center/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600531866223" />
     <state width="1555" height="282" key="GridCell.Tab.0.center/0.23.1440.825/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600507253697" />
-    <state width="1555" height="276" key="GridCell.Tab.0.left" timestamp="1600526255075">
+    <state width="1555" height="276" key="GridCell.Tab.0.left" timestamp="1600531866223">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1555" height="276" key="GridCell.Tab.0.left/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600526255075" />
+    <state width="1555" height="276" key="GridCell.Tab.0.left/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600531866223" />
     <state width="1555" height="282" key="GridCell.Tab.0.left/0.23.1440.825/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600507253697" />
-    <state width="1555" height="276" key="GridCell.Tab.0.right" timestamp="1600526255076">
+    <state width="1555" height="276" key="GridCell.Tab.0.right" timestamp="1600531866224">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1555" height="276" key="GridCell.Tab.0.right/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600526255076" />
+    <state width="1555" height="276" key="GridCell.Tab.0.right/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600531866224" />
     <state width="1555" height="282" key="GridCell.Tab.0.right/0.23.1440.825/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600507253698" />
-    <state width="1555" height="276" key="GridCell.Tab.1.bottom" timestamp="1600526255077">
+    <state width="1555" height="276" key="GridCell.Tab.1.bottom" timestamp="1600531866225">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1555" height="276" key="GridCell.Tab.1.bottom/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600526255077" />
-    <state width="1555" height="276" key="GridCell.Tab.1.center" timestamp="1600526255077">
+    <state width="1555" height="276" key="GridCell.Tab.1.bottom/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600531866225" />
+    <state width="1555" height="276" key="GridCell.Tab.1.center" timestamp="1600531866224">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1555" height="276" key="GridCell.Tab.1.center/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600526255077" />
-    <state width="1555" height="276" key="GridCell.Tab.1.left" timestamp="1600526255076">
+    <state width="1555" height="276" key="GridCell.Tab.1.center/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600531866224" />
+    <state width="1555" height="276" key="GridCell.Tab.1.left" timestamp="1600531866224">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1555" height="276" key="GridCell.Tab.1.left/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600526255076" />
-    <state width="1555" height="276" key="GridCell.Tab.1.right" timestamp="1600526255077">
+    <state width="1555" height="276" key="GridCell.Tab.1.left/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600531866224" />
+    <state width="1555" height="276" key="GridCell.Tab.1.right" timestamp="1600531866225">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1555" height="276" key="GridCell.Tab.1.right/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600526255077" />
+    <state width="1555" height="276" key="GridCell.Tab.1.right/0.23.1440.823/1440.23.1920.1057@1440.23.1920.1057" timestamp="1600531866225" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -122,7 +122,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/SeamCarver.java</url>
-          <line>118</line>
+          <line>153</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

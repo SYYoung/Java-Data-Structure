@@ -71,11 +71,46 @@ public class SeamCarver {
         for (int i = 0; i < width * height; i++)
             distTo[i] = Integer.MAX_VALUE;
 
+        // for each vertex on the left col, find the STP
+        for (int from = 0; from < width * height; from = from + width) {
+            distTo[from] = energy(from % width, from / width);
+            edgeTo[from] = from;
+            MinPQ<Integer> pq = new MinPQ<>();
+            pq.insert(from);
+            int x, y, to;
+            while (!pq.isEmpty()) {
+                int v = pq.delMin();
+                if (v / width == height - 1) // reach right line
+                    break;
+                x = v % width;
+                y = v / width;
+                to = v - width + 1;
+                if (validCoord(x + 1, y - 1)) {
+                    if (relax(v, to, edgeTo, distTo))
+                        pq.insert(to);
+                }
+                to = v + 1;
+                if (validCoord(x + 1, y)) {
+                    if (relax(v, to, edgeTo, distTo))
+                        pq.insert(to);
+                }
+                to = v + width + 1;
+                if (validCoord(x + 1, y + 1)) {
+                    if (relax(v, to, edgeTo, distTo))
+                        pq.insert(to);
+                }
+            }
+        }
+
+        int rightIndex = getRightIndex(distTo);
         // save energy in curEnergy
-        int[] horIndex = new int[height];
-        for (int i = 0; i < width; i++)
-            horIndex[i] = edgeTo[i] % width;
-        return horIndex;
+        int[] hortIndex = new int[width];
+        int last = rightIndex;
+        for (int i = width - 1; i >= 0; i--) {
+            hortIndex[i] = last / width;
+            last = edgeTo[last];
+        }
+        return hortIndex;
     }
 
     // sequence of indices for vertical seam
@@ -140,7 +175,12 @@ public class SeamCarver {
         if ((seam == null) || (seam.length != height) || !validSeamArray(seam)
                 || (height <= 1))
             throw new IllegalArgumentException();
-
+        // 1. update the pixel
+        int[] tmp = new int[width];
+        for (int row = 0; row < seam.length; row++) {
+            //System.arraycopy();
+        }
+        // 2. update the energy values of the removed neighbors
     }
 
     // unit testing
@@ -251,6 +291,18 @@ public class SeamCarver {
         double min = Double.MAX_VALUE;
         int whichIndex = 0;
         for (int i = width * height - width; i < width * height; i++) {
+            if (min > dist[i]) {
+                min = dist[i];
+                whichIndex = i;
+            }
+        }
+        return whichIndex;
+    }
+
+    private int getRightIndex(double[] dist) {
+        double min = Double.MAX_VALUE;
+        int whichIndex = 0;
+        for (int i = width - 1; i < width * height; i = i + width) {
             if (min > dist[i]) {
                 min = dist[i];
                 whichIndex = i;
