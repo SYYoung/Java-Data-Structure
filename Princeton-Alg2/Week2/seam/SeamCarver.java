@@ -6,7 +6,6 @@
 
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Picture;
-import edu.princeton.cs.algs4.StdOut;
 
 public class SeamCarver {
 
@@ -176,7 +175,8 @@ public class SeamCarver {
 
     // remove horizontal seam from current picture
     public void removeHorizontalSeam(int[] seam) {
-        if ((seam == null) || (seam.length != width) || !validSeamArray(seam)
+        boolean isVertical = false;
+        if ((seam == null) || (seam.length != width) || !validSeamArray(seam, isVertical)
                 || (width <= 1))
             throw new IllegalArgumentException();
         int[] tmpPixel = new int[height];
@@ -215,18 +215,41 @@ public class SeamCarver {
 
     // remove vertical seam from current picture
     public void removeVerticalSeam(int[] seam) {
-        if ((seam == null) || (seam.length != height) || !validSeamArray(seam)
+        boolean isVertical = true;
+        if ((seam == null) || (seam.length != height) || !validSeamArray(seam, isVertical)
                 || (height <= 1))
             throw new IllegalArgumentException();
-        // 1. update the pixel
-        int[] tmp = new int[width];
+
+        // update pixel
         int row = 0;
         for (int i = 0; i < seam.length; i++) {
-            System.arraycopy(curPictureRGB[row], seam[i] + 1, tmp, 0, width - seam[i] - 1);
-            System.arraycopy(tmp, 0, curPictureRGB[row], seam[i], width - seam[i] - 1);
+            for (int j = seam[i]; j < width - 1; j++)
+                curPictureRGB[j][row] = curPictureRGB[j + 1][row];
             row++;
         }
         // 2. update the energy values of the removed neighbors
+        row = 0;
+        for (int i = 0; i < seam.length; i++) {
+            for (int j = seam[i]; j < width - 1; j++)
+                curEnergy[j][row] = curEnergy[j + 1][row];
+            row++;
+        }
+        width--;
+
+        // 3. re-calculate the energy function
+        int col = 0;
+        for (int i = 0; i < seam.length; i++) {
+            row = seam[i];
+            if (validCoord(col, row - 1))
+                curEnergy[col][row - 1] = calEnergy(col, row - 1);
+            if (validCoord(col - 1, row))
+                curEnergy[col - 1][row] = calEnergy(col - 1, row);
+            if (validCoord(col, row))
+                curEnergy[col][row] = calEnergy(col, row);
+            if (validCoord(col + 1, row))
+                curEnergy[col + 1][row] = calEnergy(col + 1, row);
+            col++;
+        }
     }
 
     // unit testing
@@ -234,18 +257,21 @@ public class SeamCarver {
         int test = 1;
         String fname = "";
         if (test == 1)
-            fname = "3x4.png";
+            fname = "6x5.png";
         Picture pic = new Picture(fname);
         SeamCarver mySeam = new SeamCarver(pic);
         int wd = mySeam.width();
         int ht = mySeam.height();
         double energy;
+        /*
         for (int i = 0; i < wd * ht; i++)
             energy = mySeam.energy(i % wd, i / wd);
         int[] vertSeam = mySeam.findVerticalSeam();
         for (int i = 0; i < vertSeam.length; i++)
             StdOut.println(vertSeam[i]);
         int[] ans = mySeam.findVerticalSeam();
+         */
+        int[] ans = { 3, 4, 3, 2, 1 };
         mySeam.removeVerticalSeam(ans);
     }
 
@@ -267,10 +293,19 @@ public class SeamCarver {
         return true;
     }
 
-    private boolean validSeamArray(int[] arr) {
+    private boolean validSeamArray(int[] arr, boolean isVertical) {
+        int boundary;
+        if (isVertical)
+            boundary = width - 1;
+        else
+            boundary = height - 1;
         int val = arr[0];
+        if ((val < 0) || (val > boundary))
+            return false;
         for (int i = 1; i < arr.length; i++) {
             if (Math.abs(arr[i] - val) > 1)
+                return false;
+            if ((arr[i] < 0) || (arr[i] > boundary))
                 return false;
             val = arr[i];
         }
