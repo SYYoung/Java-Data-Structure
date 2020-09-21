@@ -6,6 +6,7 @@
 
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Picture;
+import edu.princeton.cs.algs4.StdOut;
 
 public class SeamCarver {
 
@@ -91,7 +92,7 @@ public class SeamCarver {
             int x, y, to;
             while (!pq.isEmpty()) {
                 int v = pq.delMin();
-                if (v / width == height - 1) // reach right line
+                if (v % width == width - 1) // reach right line
                     break;
                 x = v % width;
                 y = v / width;
@@ -254,12 +255,14 @@ public class SeamCarver {
 
     // unit testing
     public static void main(String[] args) {
-        int test = 2;
+        int test = 3;
         String fname = "";
         if (test == 1)
             fname = "6x5.png";
         else if (test == 2)
             fname = "8x1.png";
+        else if (test == 3)
+            fname = "1x8.png";
         Picture pic = new Picture(fname);
         SeamCarver mySeam = new SeamCarver(pic);
         int wd = mySeam.width();
@@ -281,6 +284,12 @@ public class SeamCarver {
         if (test == 1) {
             int[] ans = { 3, 4, 3, 2, 1 };
             mySeam.removeVerticalSeam(ans);
+        }
+        if (test == 3) {
+            int[] ans = mySeam.findHorizontalSeam();
+            StdOut.println("The horizontal path:");
+            for (int i = 0; i < ans.length; i++)
+                StdOut.println(ans[i]);
         }
     }
 
