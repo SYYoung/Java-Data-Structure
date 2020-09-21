@@ -8,6 +8,8 @@ import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Picture;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Comparator;
+
 public class SeamCarver {
 
     private static final int HIGHEST_ENERGY = 1000;
@@ -87,7 +89,7 @@ public class SeamCarver {
         for (int from = 0; from < width * height; from = from + width) {
             distTo[from] = energy(from % width, from / width);
             edgeTo[from] = from;
-            MinPQ<Integer> pq = new MinPQ<>();
+            MinPQ<Integer> pq = new MinPQ<>(new HorizontalCompare());
             pq.insert(from);
             int x, y, to;
             while (!pq.isEmpty()) {
@@ -262,7 +264,8 @@ public class SeamCarver {
         else if (test == 2)
             fname = "8x1.png";
         else if (test == 3)
-            fname = "6x5.png";
+            fname = "1x8.png";
+        fname = args[0];
         Picture pic = new Picture(fname);
         SeamCarver mySeam = new SeamCarver(pic);
         int wd = mySeam.width();
@@ -424,5 +427,13 @@ public class SeamCarver {
             }
         }
         return whichIndex;
+    }
+
+    private class HorizontalCompare implements Comparator<Integer> {
+        public int compare(Integer node1, Integer node2) {
+            if (node1 % width < node2 % width) return -1;
+            else if (node1 % width > node2 % width) return 1;
+            else return 0;
+        }
     }
 }

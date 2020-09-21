@@ -6,6 +6,7 @@
 
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Picture;
+import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.StdOut;
 
 public class SeamCarver {
@@ -87,11 +88,11 @@ public class SeamCarver {
         for (int from = 0; from < width * height; from = from + width) {
             distTo[from] = energy(from % width, from / width);
             edgeTo[from] = from;
-            MinPQ<Integer> pq = new MinPQ<>();
-            pq.insert(from);
+            Queue<Integer> pq = new Queue<>();
+            pq.enqueue(from);
             int x, y, to;
             while (!pq.isEmpty()) {
-                int v = pq.delMin();
+                int v = pq.dequeue();
                 if (v % width == width - 1) // reach right line
                     break;
                 x = v % width;
@@ -99,17 +100,17 @@ public class SeamCarver {
                 to = v - width + 1;
                 if (validCoord(x + 1, y - 1)) {
                     if (relax(v, to, edgeTo, distTo))
-                        pq.insert(to);
+                        pq.enqueue(to);
                 }
                 to = v + 1;
                 if (validCoord(x + 1, y)) {
                     if (relax(v, to, edgeTo, distTo))
-                        pq.insert(to);
+                        pq.enqueue(to);
                 }
                 to = v + width + 1;
                 if (validCoord(x + 1, y + 1)) {
                     if (relax(v, to, edgeTo, distTo))
-                        pq.insert(to);
+                        pq.enqueue(to);
                 }
             }
         }
@@ -263,6 +264,7 @@ public class SeamCarver {
             fname = "8x1.png";
         else if (test == 3)
             fname = "1x8.png";
+        fname = args[0];
         Picture pic = new Picture(fname);
         SeamCarver mySeam = new SeamCarver(pic);
         int wd = mySeam.width();

@@ -8,6 +8,8 @@ import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Picture;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Comparator;
+
 public class SeamCarver {
 
     private static final int HIGHEST_ENERGY = 1000;
@@ -78,21 +80,22 @@ public class SeamCarver {
 
     // sequence of indices for horizonal seam
     public int[] findHorizontalSeam() {
+        // the node arrangement is column based, i.e. column 0: 0, 1,2,...
         int[] edgeTo = new int[width * height];
         double[] distTo = new double[width * height];
         for (int i = 0; i < width * height; i++)
             distTo[i] = Integer.MAX_VALUE;
 
         // for each vertex on the left col, find the STP
-        for (int from = 0; from < width * height; from = from + width) {
-            distTo[from] = energy(from % width, from / width);
+        for (int from = 0; from < width; from++) {
+            distTo[from] = energy(from / width, from % width);
             edgeTo[from] = from;
             MinPQ<Integer> pq = new MinPQ<>();
             pq.insert(from);
             int x, y, to;
             while (!pq.isEmpty()) {
                 int v = pq.delMin();
-                if (v % width == width - 1) // reach right line
+                if (v / height == width - 1) // reach right line
                     break;
                 x = v % width;
                 y = v / width;
@@ -424,5 +427,13 @@ public class SeamCarver {
             }
         }
         return whichIndex;
+    }
+
+    private class horiCompare implements Comparator<Integer> {
+        public int compare(int node1, int node2) {
+            if (node1 % width < node2 % width) return -1;
+            else if (node1 % width > node2 % width) return 1;
+            else return 0;
+        }
     }
 }
