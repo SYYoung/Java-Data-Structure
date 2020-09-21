@@ -177,7 +177,7 @@ public class SeamCarver {
     public void removeHorizontalSeam(int[] seam) {
         boolean isVertical = false;
         if ((seam == null) || (seam.length != width) || !validSeamArray(seam, isVertical)
-                || (width <= 1))
+                || (height <= 1))
             throw new IllegalArgumentException();
         int[] tmpPixel = new int[height];
         double[] tmpEnergy = new double[height];
@@ -217,7 +217,7 @@ public class SeamCarver {
     public void removeVerticalSeam(int[] seam) {
         boolean isVertical = true;
         if ((seam == null) || (seam.length != height) || !validSeamArray(seam, isVertical)
-                || (height <= 1))
+                || (width <= 1))
             throw new IllegalArgumentException();
 
         // update pixel
@@ -254,10 +254,12 @@ public class SeamCarver {
 
     // unit testing
     public static void main(String[] args) {
-        int test = 1;
+        int test = 2;
         String fname = "";
         if (test == 1)
             fname = "6x5.png";
+        else if (test == 2)
+            fname = "8x1.png";
         Picture pic = new Picture(fname);
         SeamCarver mySeam = new SeamCarver(pic);
         int wd = mySeam.width();
@@ -271,8 +273,15 @@ public class SeamCarver {
             StdOut.println(vertSeam[i]);
         int[] ans = mySeam.findVerticalSeam();
          */
-        int[] ans = { 3, 4, 3, 2, 1 };
-        mySeam.removeVerticalSeam(ans);
+
+        if (test == 2) {
+            int[] ans = { 0 };
+            mySeam.removeVerticalSeam(ans);
+        }
+        if (test == 1) {
+            int[] ans = { 3, 4, 3, 2, 1 };
+            mySeam.removeVerticalSeam(ans);
+        }
     }
 
     private boolean validCoord(int x, int y) {
