@@ -86,6 +86,8 @@ public class BaseballElimination {
 
     // is given team eliminated
     public boolean isEliminated(String team) {
+        if (name2Node.get(team) == null)
+            throw new IllegalArgumentException();
         int teamNode = name2Node.get(team);
         statusUpdate[teamNode] = 1;
         Bag<Integer> R = new Bag<Integer>();
@@ -124,10 +126,7 @@ public class BaseballElimination {
         // display the record
         int teamExcluded = 3;
         String teamName = "New_York";
-        division.displayTeamRecord();
-        // division.buildFlowNetWork(teamExcluded);
-
-        //boolean status = division.isEliminated(teamName);
+        //division.displayTeamRecord();
 
         for (String team : division.teams()) {
             if (division.isEliminated(team)) {
@@ -141,7 +140,7 @@ public class BaseballElimination {
                 StdOut.println(team + " is not eliminated");
             }
         }
-        
+
     }
 
     private void readTeamFile(String filename) {
@@ -228,6 +227,7 @@ public class BaseballElimination {
             if (i == teamExclude) continue;
             for (int j = i + 1; j <= numberOfTeams(); j++) {
                 if (j == teamExclude) continue;
+                if (games[i][j] == 0) continue;
                 FlowEdge e1 = new FlowEdge(s, gameVertex[i][j], games[i][j]);
                 baseNetwork.addEdge(e1);
                 baseNetwork.addEdge(new FlowEdge(gameVertex[i][j], i, Integer.MAX_VALUE));
@@ -241,8 +241,8 @@ public class BaseballElimination {
             baseNetwork.addEdge(new FlowEdge(i, t, capacity));
         }
         // for testing only
-        StdOut.println("Test the network");
-        StdOut.println(baseNetwork);
+        //StdOut.println("Test the network");
+        //StdOut.println(baseNetwork);
         return baseNetwork;
     }
 
@@ -251,10 +251,8 @@ public class BaseballElimination {
         int startIndex = totalTeams + 2;
         for (int i = 1; i <= totalTeams; i++)
             for (int j = i; j <= totalTeams; j++)
-                gameVertex[i][j] = startIndex++;
-        for (int i = 2; i <= totalTeams; i++)
-            for (int j = 1; j <= i - 1; j++)
-                gameVertex[i][j] = gameVertex[j][i];
+                if (games[i][j] > 0)
+                    gameVertex[i][j] = startIndex++;
     }
 
     private class TeamRecord {
