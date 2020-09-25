@@ -13,7 +13,8 @@ import java.util.Set;
 
 public class BaseballElimination {
     private TeamRecord[] teamRec;
-    private HashMap<String, Integer> nameNode = new HashMap<String, Integer>();
+    private HashMap<String, Integer> name2Node;
+    private HashMap<Integer, String> node2Name;
     private int totalTeams;
     private int[][] games;
 
@@ -29,40 +30,40 @@ public class BaseballElimination {
 
     // all teams
     public Iterable<String> teams() {
-        Set<String> names = nameNode.keySet();
+        Set<String> names = name2Node.keySet();
         return names;
     }
 
     // number of wins for given team
     public int wins(String team) {
-        if (nameNode.get(team) == null)
+        if (name2Node.get(team) == null)
             throw new IllegalArgumentException();
-        int node = nameNode.get(team);
+        int node = name2Node.get(team);
         return teamRec[node].wins;
     }
 
     // number of losses for given team
     public int losses(String team) {
-        if (nameNode.get(team) == null)
+        if (name2Node.get(team) == null)
             throw new IllegalArgumentException();
-        int node = nameNode.get(team);
+        int node = name2Node.get(team);
         return teamRec[node].losses;
     }
 
     // number of remaining games for given team
     public int remaining(String team) {
-        if (nameNode.get(team) == null)
+        if (name2Node.get(team) == null)
             throw new IllegalArgumentException();
-        int node = nameNode.get(team);
+        int node = name2Node.get(team);
         return teamRec[node].remaining;
     }
 
     // number of remaining games between team1 and team2
     public int against(String team1, String team2) {
-        if ((nameNode.get(team1) == null) || (nameNode.get(team2) == null))
+        if ((name2Node.get(team1) == null) || (name2Node.get(team2) == null))
             throw new IllegalArgumentException();
-        int node1 = nameNode.get(team1);
-        int node2 = nameNode.get(team2);
+        int node1 = name2Node.get(team1);
+        int node2 = name2Node.get(team2);
         return games[node1][node2];
     }
 
@@ -99,14 +100,15 @@ public class BaseballElimination {
 
     private void readTeamFile(String filename) {
         In in = new In(filename);
-        int num = 0;
+        int num = 1;
         while (!in.isEmpty()) {
             totalTeams = in.readInt();
-            teamRec = new TeamRecord[totalTeams];
-            games = new int[totalTeams][totalTeams];
-            //nameNode = new HashMap<String, Integer>();
+            teamRec = new TeamRecord[totalTeams + 1];
+            games = new int[totalTeams + 1][totalTeams + 1];
+            name2Node = new HashMap<String, Integer>();
+            node2Name = new HashMap<Integer, String>();
 
-            for (int k = 0; k < totalTeams; k++) {
+            for (int k = 1; k <= totalTeams; k++) {
                 // each line format: Atlanta       83 71  8  0 1 6 1
                 String name = in.readString();
                 int wins = in.readInt();
@@ -114,11 +116,12 @@ public class BaseballElimination {
                 int remaining = in.readInt();
                 teamRec[num] = new TeamRecord(name, wins, losses, remaining);
                 // read games
-                for (int i = 0; i < totalTeams; i++) {
+                for (int i = 1; i <= totalTeams; i++) {
                     games[num][i] = in.readInt();
                 }
                 // build hashmap
-                nameNode.put(name, num);
+                name2Node.put(name, num);
+                node2Name.put(num, name);
                 num++;
             }
         }
@@ -126,14 +129,18 @@ public class BaseballElimination {
 
     private void displayTeamRecord() {
         // for testing purpose
-        for (String name : teams()) {
-            StdOut.println(name + "\t" + wins(name) + "\t" + losses(name) + "\t" + remaining(name));
+        for (int i = 1; i <= numberOfTeams(); i++) {
+            String teamName = node2Name.get(i);
+            StdOut.println(
+                    teamName + "\t" + wins(teamName) + "\t" + losses(teamName) + "\t"
+                            + remaining(teamName));
         }
-        for (String name : teams()) {
-            int node = nameNode.get(name);
-            StdOut.print(name + ":");
-            for (int j = 0; j < numberOfTeams(); j++)
-                StdOut.print("\t" + games[node][j]);
+        for (int i = 1; i <= numberOfTeams(); i++) {
+            String teamName = node2Name.get(i);
+            StdOut.print(teamName + ":");
+            for (int j = 1; j <= numberOfTeams(); j++)
+                StdOut.print("\t" + games[i][j]);
+            StdOut.println();
         }
     }
 

@@ -52,7 +52,7 @@
     <configuration name="BaseballElimination" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="BaseballElimination" />
       <module name="Algorithms, Part II" />
-      <option name="PROGRAM_PARAMETERS" value="teams4.txt" />
+      <option name="PROGRAM_PARAMETERS" value="teams7.txt" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -68,12 +68,34 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
+  <component name="WindowStateProjectService">
+    <state width="1405" height="296" key="GridCell.Tab.0.bottom" timestamp="1601002750618">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1405" height="296" key="GridCell.Tab.0.bottom/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601002750618" />
+    <state width="1405" height="296" key="GridCell.Tab.0.bottom/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601001953943" />
+    <state width="1405" height="296" key="GridCell.Tab.0.center" timestamp="1601002750617">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1405" height="296" key="GridCell.Tab.0.center/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601002750617" />
+    <state width="1405" height="296" key="GridCell.Tab.0.center/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601001953942" />
+    <state width="1405" height="296" key="GridCell.Tab.0.left" timestamp="1601002750617">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1405" height="296" key="GridCell.Tab.0.left/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601002750617" />
+    <state width="1405" height="296" key="GridCell.Tab.0.left/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601001953942" />
+    <state width="1405" height="296" key="GridCell.Tab.0.right" timestamp="1601002750617">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1405" height="296" key="GridCell.Tab.0.right/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601002750617" />
+    <state width="1405" height="296" key="GridCell.Tab.0.right/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601001953943" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/BaseballElimination.java</url>
-          <line>89</line>
+          <line>90</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
