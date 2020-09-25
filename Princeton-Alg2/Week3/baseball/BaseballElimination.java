@@ -89,27 +89,19 @@ public class BaseballElimination {
         if (name2Node.get(team) == null)
             throw new IllegalArgumentException();
         int teamNode = name2Node.get(team);
-        statusUpdate[teamNode] = 1;
-        Bag<Integer> R = new Bag<Integer>();
-        if (isTrivial(teamNode, R)) {
-            for (int i : R)
-                certificate[teamNode].add(i);
-        }
-        else {
-            nonTrivial(teamNode, R);
-            if (R.size() > 0)
-                for (int i : R)
-                    certificate[teamNode].add(i);
-        }
-        return (R.size() != 0);
+        if (statusUpdate[teamNode] == notYet)
+            updatedEliminated(teamNode);
+        return (certificate[teamNode].size() != 0);
     }
 
     // subset R of teams that eliminates given team; null if not eliminated
     public Iterable<String> certificateOfElimination(String team) {
+        if (name2Node.get(team) == null)
+            throw new IllegalArgumentException();
         int teamNode = name2Node.get(team);
         if (statusUpdate[teamNode] == notYet) {
             statusUpdate[teamNode] = 1;
-            boolean status = isEliminated(team);
+            updatedEliminated(teamNode);
         }
         if (certificate[teamNode].size() == 0)
             return null;
@@ -210,6 +202,21 @@ public class BaseballElimination {
         for (int i = 1; i <= totalTeams; i++) {
             if ((i != teamExclude) && (ff.inCut(i)))
                 R.add(i);
+        }
+    }
+
+    private void updatedEliminated(int teamNode) {
+        statusUpdate[teamNode] = 1;
+        Bag<Integer> R = new Bag<Integer>();
+        if (isTrivial(teamNode, R)) {
+            for (int i : R)
+                certificate[teamNode].add(i);
+        }
+        else {
+            nonTrivial(teamNode, R);
+            if (R.size() > 0)
+                for (int i : R)
+                    certificate[teamNode].add(i);
         }
     }
 
