@@ -52,7 +52,7 @@
     <configuration name="BaseballElimination" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="BaseballElimination" />
       <module name="Algorithms, Part II" />
-      <option name="PROGRAM_PARAMETERS" value="teams7.txt" />
+      <option name="PROGRAM_PARAMETERS" value="teams4.txt" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -69,34 +69,64 @@
     </todo-panel>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1405" height="296" key="GridCell.Tab.0.bottom" timestamp="1601002750618">
+    <state width="1405" height="266" key="GridCell.Tab.0.bottom" timestamp="1601029453036">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="296" key="GridCell.Tab.0.bottom/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601002750618" />
-    <state width="1405" height="296" key="GridCell.Tab.0.bottom/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601001953943" />
-    <state width="1405" height="296" key="GridCell.Tab.0.center" timestamp="1601002750617">
+    <state width="1405" height="250" key="GridCell.Tab.0.bottom/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601015532121" />
+    <state width="1405" height="266" key="GridCell.Tab.0.bottom/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601029453036" />
+    <state width="1405" height="266" key="GridCell.Tab.0.center" timestamp="1601029453034">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="296" key="GridCell.Tab.0.center/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601002750617" />
-    <state width="1405" height="296" key="GridCell.Tab.0.center/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601001953942" />
-    <state width="1405" height="296" key="GridCell.Tab.0.left" timestamp="1601002750617">
+    <state width="1405" height="250" key="GridCell.Tab.0.center/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601015532121" />
+    <state width="1405" height="266" key="GridCell.Tab.0.center/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601029453034" />
+    <state width="1405" height="266" key="GridCell.Tab.0.left" timestamp="1601029453033">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="296" key="GridCell.Tab.0.left/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601002750617" />
-    <state width="1405" height="296" key="GridCell.Tab.0.left/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601001953942" />
-    <state width="1405" height="296" key="GridCell.Tab.0.right" timestamp="1601002750617">
+    <state width="1405" height="250" key="GridCell.Tab.0.left/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601015532120" />
+    <state width="1405" height="266" key="GridCell.Tab.0.left/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601029453033" />
+    <state width="1405" height="266" key="GridCell.Tab.0.right" timestamp="1601029453035">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="296" key="GridCell.Tab.0.right/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601002750617" />
-    <state width="1405" height="296" key="GridCell.Tab.0.right/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601001953943" />
+    <state width="1405" height="250" key="GridCell.Tab.0.right/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601015532121" />
+    <state width="1405" height="266" key="GridCell.Tab.0.right/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601029453035" />
+    <state width="1405" height="266" key="GridCell.Tab.1.bottom" timestamp="1601029453037">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1405" height="250" key="GridCell.Tab.1.bottom/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601015532123" />
+    <state width="1405" height="266" key="GridCell.Tab.1.bottom/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601029453037" />
+    <state width="1405" height="266" key="GridCell.Tab.1.center" timestamp="1601029453036">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1405" height="250" key="GridCell.Tab.1.center/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601015532122" />
+    <state width="1405" height="266" key="GridCell.Tab.1.center/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601029453036" />
+    <state width="1405" height="266" key="GridCell.Tab.1.left" timestamp="1601029453036">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1405" height="250" key="GridCell.Tab.1.left/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601015532122" />
+    <state width="1405" height="266" key="GridCell.Tab.1.left/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601029453036" />
+    <state width="1405" height="266" key="GridCell.Tab.1.right" timestamp="1601029453037">
+      <screen x="1440" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1405" height="250" key="GridCell.Tab.1.right/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601015532123" />
+    <state width="1405" height="266" key="GridCell.Tab.1.right/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601029453036" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/BaseballElimination.java</url>
-          <line>90</line>
-          <option name="timeStamp" value="1" />
+          <line>217</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/BaseballElimination.java</url>
+          <line>126</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/BaseballElimination.java</url>
+          <line>205</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
