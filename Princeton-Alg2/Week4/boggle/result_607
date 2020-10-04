@@ -1,0 +1,463 @@
+See the Assessment Guide for information on how to interpret this report.
+
+ASSESSMENT SUMMARY
+
+Compilation:  PASSED
+API:          PASSED
+
+Spotbugs:     PASSED
+PMD:          FAILED (2 warnings)
+Checkstyle:   PASSED
+
+Correctness:  9/13 tests passed
+Memory:       3/3 tests passed
+Timing:       8/9 tests passed
+
+Aggregate score: 79.32%
+[Compilation: 5%, API: 5%, Spotbugs: 0%, PMD: 0%, Checkstyle: 0%, Correctness: 60%, Memory: 10%, Timing: 20%]
+
+ASSESSMENT DETAILS
+
+The following files were submitted:
+----------------------------------
+5.3K Oct  4 10:03 BoggleSolver.java
+ 11K Oct  4 10:03 NewTrieSet.java
+
+
+********************************************************************************
+*  COMPILING                                                                    
+********************************************************************************
+
+
+% javac BoggleSolver.java
+*-----------------------------------------------------------
+
+
+================================================================
+
+
+Checking the APIs of your programs.
+*-----------------------------------------------------------
+BoggleSolver:
+
+================================================================
+
+
+********************************************************************************
+*  CHECKING STYLE AND COMMON BUG PATTERNS                                       
+********************************************************************************
+
+
+% spotbugs *.class
+*-----------------------------------------------------------
+M D CFS_CONFUSING_FUNCTION_SEMANTICS CFS: Method NewTrieSet.delete(NewTrieSet$Node, String, int) returns modified parameter  At NewTrieSet.java:[line 249]
+
+
+================================================================
+
+
+% pmd .
+*-----------------------------------------------------------
+BoggleSolver.java:19: The private instance (or static) variable 'dict' can be made 'final'; it is initialized only in the declaration or constructor. [ImmutableField]
+BoggleSolver.java:20: Avoid unused private instance (or static) variables, such as 'leftOver'. [UnusedPrivateField]
+PMD ends with 2 warnings.
+
+
+================================================================
+
+
+% checkstyle *.java
+*-----------------------------------------------------------
+
+
+================================================================
+
+
+********************************************************************************
+*  TESTING CORRECTNESS
+********************************************************************************
+
+Testing correctness of BoggleSolver
+*-----------------------------------------------------------
+Tests 1-9 create one BoggleSolver object corresponding to the specified
+dictionary and call getAllValidWords() with several different boards
+as arguments.
+
+Running 13 total tests.
+
+Test 1: check getAllValidWords() on two fixed 4-by-4 boards given in assignment
+  * dictionary = dictionary-algs4.txt; board = board4x4.txt
+  * dictionary = dictionary-algs4.txt; board = board-q.txt
+    - number of entries in student   solution: 10
+    - number of entries in reference solution: 29
+    - 2 extra entries in student solution, including:
+      'SET'
+
+    - 21 missing entries in student solution, including:
+      'TRIES'
+
+         4 4
+         S  N  R  T  
+         O  I  E  L  
+         E  Qu T  T  
+         R  S  A  T
+
+==> FAILED
+
+Test 2: check getAllValidWords() on fixed 4-by-4 boards
+  * dictionary = dictionary-yawl.txt; board = board4x4.txt
+  * dictionary = dictionary-yawl.txt; board = board-points1.txt
+  * dictionary = dictionary-yawl.txt; board = board-points2.txt
+  * dictionary = dictionary-yawl.txt; board = board-points3.txt
+  * dictionary = dictionary-yawl.txt; board = board-points4.txt
+  * dictionary = dictionary-yawl.txt; board = board-points5.txt
+==> passed
+
+Test 3: check getAllValidWords() on more fixed 4-by-4 boards
+  * dictionary = dictionary-yawl.txt; board = board-points100.txt
+  * dictionary = dictionary-yawl.txt; board = board-points200.txt
+  * dictionary = dictionary-yawl.txt; board = board-points300.txt
+  * dictionary = dictionary-yawl.txt; board = board-points400.txt
+  * dictionary = dictionary-yawl.txt; board = board-points500.txt
+  * dictionary = dictionary-yawl.txt; board = board-points750.txt
+  * dictionary = dictionary-yawl.txt; board = board-points1000.txt
+  * dictionary = dictionary-yawl.txt; board = board-points1250.txt
+  * dictionary = dictionary-yawl.txt; board = board-points1500.txt
+  * dictionary = dictionary-yawl.txt; board = board-points2000.txt
+==> passed
+
+Test 4: check getAllValidWords() on random Hasbro boards
+  * dictionary = dictionary-yawl.txt; board = 10 random Hasbro boards
+  * dictionary = dictionary-yawl.txt; board = 50 random Hasbro boards
+  * dictionary = dictionary-yawl.txt; board = 100 random Hasbro boards
+==> passed
+
+Test 5: check getAllValidWords() on high-scoring n-by-n boards
+  * dictionary = dictionary-yawl.txt; board = board-points4410.txt
+  * dictionary = dictionary-yawl.txt; board = board-points4527.txt
+  * dictionary = dictionary-yawl.txt; board = board-points13464.txt
+  * dictionary = dictionary-yawl.txt; board = board-points26539.txt
+==> passed
+
+Test 6: check getAllValidWords() on exotic boards
+  * dictionary = dictionary-yawl.txt; board = board-dodo.txt
+  * dictionary = dictionary-yawl.txt; board = board-noon.txt
+  * dictionary = dictionary-yawl.txt; board = board-couscous.txt
+  * dictionary = dictionary-yawl.txt; board = board-rotavator.txt
+  * dictionary = dictionary-yawl.txt; board = board-estrangers.txt
+  * dictionary = dictionary-yawl.txt; board = board-antidisestablishmentarianisms.txt
+  * dictionary = dictionary-yawl.txt; board = board-dichlorodiphenyltrichloroethanes.txt
+  * dictionary = dictionary-yawl.txt; board = board-pneumonoultramicroscopicsilicovolcanoconiosis.txt
+==> passed
+
+Test 7: check getAllValidWords() on boards with a Q
+  * dictionary = dictionary-yawl.txt; board = board-qwerty.txt
+    - number of entries in student   solution: 10
+    - number of entries in reference solution: 22
+    - 4 extra entries in student solution, including:
+      'ZANZA'
+
+    - 16 missing entries in student solution, including:
+      'ZANZE'
+
+         4 4
+         Qu W  E  R  
+         N  Z  Z  T  
+         Z  A  Z  Y  
+         T  R  Z  Z
+
+  * dictionary = dictionary-yawl.txt; board = board-quinquevalencies.txt
+    - number of entries in student   solution: 13
+    - number of entries in reference solution: 130
+    - 1 extra entry in student solution:
+      'XENIAS'
+
+    - 118 missing entries in student solution, including:
+      'XENIAL'
+
+         4 4
+         Qu L  E  N  
+         I  A  X  C  
+         N  V  I  E  
+         Qu E  X  S
+
+  * dictionary = dictionary-yawl.txt; board = board-inconsequentially.txt
+    - number of entries in student   solution: 38
+    - number of entries in reference solution: 273
+    - 3 extra entries in student solution, including:
+      'NICOL'
+
+    - 238 missing entries in student solution, including:
+      'YETIS'
+
+         4 4
+         I  N  C  O  
+         L  A  I  N  
+         L  N  T  S  
+         Y  E  Qu E
+
+  * dictionary = dictionary-yawl.txt; board = board-qaimaqam.txt
+    - number of entries in student   solution: 0
+    - number of entries in reference solution: 8
+    - 8 missing entries in student solution, including:
+      'QUIM'
+
+         4 4
+         Qu A  I  Qu 
+         Qu Qu Qu M  
+         Qu Qu Qu A  
+         M  A  Qu Qu
+
+  * dictionary = dictionary-yawl.txt; board = board-aqua.txt
+  * dictionary = dictionary-yawl.txt; board = 100 random Hasbro boards
+    - number of entries in student   solution: 15
+    - number of entries in reference solution: 90
+    - 4 extra entries in student solution, including:
+      'TITI'
+
+    - 79 missing entries in student solution, including:
+      'WITAN'
+
+    - failed on trial 1 of 100
+         4 4
+         L  U  N  I  
+         J  W  F  Qu 
+         L  I  A  N  
+         T  T  O  P
+
+  * dictionary = dictionary-16q.txt; board = board-9q.txt
+  * dictionary = dictionary-16q.txt; board = board-16q.txt
+==> FAILED
+
+Test 8: check getAllValidWords() on random m-by-n boards
+  * dictionary = dictionary-common.txt; board = 100 random 3-by-3 boards
+    - number of entries in student   solution: 4
+    - number of entries in reference solution: 19
+    - 1 extra entry in student solution:
+      'NEVER'
+
+    - 16 missing entries in student solution, including:
+      'YARN'
+
+    - failed on trial 49 of 100
+         3 3
+         E  V  Qu 
+         N  R  Y  
+         T  N  A
+
+  * dictionary = dictionary-common.txt; board = 100 random 4-by-4 boards
+    - number of entries in student   solution: 11
+    - number of entries in reference solution: 24
+    - 3 extra entries in student solution, including:
+      'MESS'
+
+    - 16 missing entries in student solution, including:
+      'SOME'
+
+    - failed on trial 24 of 100
+         4 4
+         E  S  A  O  
+         M  O  C  Qu 
+         L  S  D  I  
+         L  R  Y  H
+
+  * dictionary = dictionary-common.txt; board = 100 random 5-by-5 boards
+    - number of entries in student   solution: 64
+    - number of entries in reference solution: 136
+    - 10 extra entries in student solution, including:
+      'SLANT'
+
+    - 82 missing entries in student solution, including:
+      'TRAIL'
+
+    - failed on trial 12 of 100
+         5 5
+         P  E  P  S  N  
+         A  Y  L  T  A  
+         C  P  S  A  R  
+         M  E  O  B  A  
+         R  I  Qu L  I
+
+  * dictionary = dictionary-common.txt; board = 20 random 5-by-10 boards
+  * dictionary = dictionary-common.txt; board = 20 random 10-by-5 boards
+    - number of entries in student   solution: 171
+    - number of entries in reference solution: 229
+    - 8 extra entries in student solution, including:
+      'MINT'
+
+    - 66 missing entries in student solution, including:
+      'TOTEM'
+
+    - failed on trial 10 of 20
+         10 5
+         Qu O  J  O  C  
+         T  D  U  A  R  
+         D  I  E  T  H  
+         I  M  O  K  H  
+         H  T  N  B  D  
+         S  E  N  A  E  
+         I  H  U  T  A  
+         O  O  A  D  S  
+         T  E  E  C  L  
+         B  A  O  F  F
+
+==> FAILED
+
+Test 9: check getAllValidWords() on random m-by-n boards
+  * dictionary = dictionary-common.txt; board = 10 random 2-by-2 boards
+  * dictionary = dictionary-common.txt; board = 10 random 1-by-10 boards
+  * dictionary = dictionary-common.txt; board = 10 random 10-by-1 boards
+  * dictionary = dictionary-common.txt; board = 10 random 1-by-1 boards
+  * dictionary = dictionary-common.txt; board = 10 random 1-by-2 boards
+  * dictionary = dictionary-common.txt; board = 10 random 2-by-1 boards
+==> passed
+
+Test 10: check getAllValidWords() on boards with no valid words
+  * dictionary = dictionary-nursery.txt; board = board-points0.txt
+  * dictionary = dictionary-2letters.txt; board = board-points4410.txt
+==> passed
+
+Test 11: mutating dictionary[] after passing to BoggleSolver constructor
+  * dictionary = dictionary-algs4.txt
+  * dictionary = dictionary-algs4.txt; board = 10 random Hasbro boards
+==> passed
+
+Test 12: create more than one BoggleSolver object at a time
+         [ BoggleSolver object 1 uses dictionary-algs4.txt   ]
+         [ BoggleSolver object 2 uses dictionary-nursery.txt ]
+  * dictionary = dictionary-algs4.txt; board = 10 random Hasbro boards
+  * dictionary = dictionary-nursery.txt; board = 10 random Hasbro boards
+  * dictionary = dictionary-algs4.txt; board = 10 random Hasbro boards
+==> passed
+
+Test 13: check scoreOf() on various dictionaries
+  * dictionary = dictionary-algs4.txt
+    - word = 'PIN'
+    - student   score = 1
+    - reference score = 0
+    - failed on trial 5 of 1000
+
+  * dictionary = dictionary-common.txt
+    - word = 'LEADS'
+    - student   score = 2
+    - reference score = 0
+    - failed on trial 3 of 5000
+
+  * dictionary = dictionary-shakespeare.txt
+    - word = 'CHLORDANE'
+    - student   score = 11
+    - reference score = 0
+    - failed on trial 2 of 10000
+
+  * dictionary = dictionary-nursery.txt
+  * dictionary = dictionary-yawl.txt
+    - word = 'SMILEDST'
+    - student   score = 11
+    - reference score = 0
+    - failed on trial 2 of 20000
+
+==> FAILED
+
+
+Total: 9/13 tests passed!
+
+
+================================================================
+********************************************************************************
+*  MEMORY
+********************************************************************************
+
+Analyzing memory of BoggleSolver
+*-----------------------------------------------------------
+Running 3 total tests.
+
+Test 1: memory with dictionary-algs4.txt (must be <= 2x reference solution)
+  * memory of dictionary[]           = 450264 bytes
+  * memory of student   BoggleSolver = 4554952 bytes
+  * memory of reference BoggleSolver = 5091200 bytes
+  * student / reference              = 0.89
+==> passed
+
+Test 2: memory with dictionary-shakespeare.txt (must be <= 2x reference solution)
+  * memory of dictionary[]           = 1754288 bytes
+  * memory of student   BoggleSolver = 15289168 bytes
+  * memory of reference BoggleSolver = 17305200 bytes
+  * student / reference              = 0.88
+==> passed
+
+Test 3: memory with dictionary-yawl.txt (must be <= 2x reference solution)
+  * memory of dictionary[]           = 20260368 bytes
+  * memory of student   BoggleSolver = 147914456 bytes
+  * memory of reference BoggleSolver = 176821008 bytes
+  * student / reference              = 0.84
+==> passed
+
+
+Total: 3/3 tests passed!
+
+
+================================================================
+
+
+
+********************************************************************************
+*  TIMING
+********************************************************************************
+
+Timing BoggleSolver
+*-----------------------------------------------------------
+All timing tests are for random 4-by-4 boards (using the Hasbro dice).
+The dictionary is specified with each test.
+
+Running 9 total tests.
+
+Test 1: timing constructor (must be <= 5x reference solution)
+ *  dictionary-algs4.txt
+    - student   solution time (in seconds): 0.01
+    - reference solution time (in seconds): 0.00
+    - ratio:                                1.55
+
+==> passed
+
+ *  dictionary-enable2k.txt
+    - student   solution time (in seconds): 0.03
+    - reference solution time (in seconds): 0.03
+    - ratio:                                1.07
+
+==> passed
+
+ *  dictionary-yawl.txt
+    - student   solution time (in seconds): 0.05
+    - reference solution time (in seconds): 0.04
+    - ratio:                                1.12
+
+==> passed
+
+ *  dictionary-zingarelli2005.txt
+    - student   solution time (in seconds): 0.17
+    - reference solution time (in seconds): 0.06
+    - ratio:                                2.82
+
+==> passed
+
+Test 2: timing getAllValidWords() for 5.0 seconds using dictionary-yawl.txt
+        (must be <= 2x reference solution)
+    - reference solution calls per second: 8466.17
+    - student   solution calls per second: 3789.14
+    - reference / student ratio:           2.23
+
+=> passed    student <= 10000x reference
+=> passed    student <=    25x reference
+=> passed    student <=    10x reference
+=> passed    student <=     5x reference
+=> FAILED    student <=     2x reference
+
+
+Total: 8/9 tests passed!
+
+
+================================================================
+
+
+
+

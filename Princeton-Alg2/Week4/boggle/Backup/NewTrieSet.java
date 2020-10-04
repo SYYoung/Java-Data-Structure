@@ -25,9 +25,7 @@ import java.util.Iterator;
 
 
 public class NewTrieSet implements Iterable<String> {
-    private static final int R = 26;        // extended ASCII
-    private static final char START_LETTER = 'A';
-    private static final int START_VAL = 65; // it is the ascii value of 'A'
+    private static final int R = 100;        // extended ASCII
 
     private Node root;      // root of trie
     private int n;          // number of keys in trie
@@ -63,7 +61,7 @@ public class NewTrieSet implements Iterable<String> {
         if (x == null) return null;
         if (d == key.length()) return x;
         char c = key.charAt(d);
-        return get(x.next[c - START_LETTER], key, d + 1);
+        return get(x.next[c], key, d + 1);
     }
 
     /**
@@ -85,7 +83,7 @@ public class NewTrieSet implements Iterable<String> {
         }
         else {
             char c = key.charAt(d);
-            x.next[c - START_LETTER] = add(x.next[c - START_LETTER], key, d + 1);
+            x.next[c] = add(x.next[c], key, d + 1);
         }
         return x;
     }
@@ -143,9 +141,8 @@ public class NewTrieSet implements Iterable<String> {
                          Queue<String> results) {
         if (x == null) return;
         if (x.isString) results.enqueue(prefix.toString());
-        for (int c = 0; c < R; c++) {
-            char mapChar = (char) (c + START_VAL);
-            prefix.append(mapChar);
+        for (char c = 0; c < R; c++) {
+            prefix.append(c);
             collect(x.next[c], prefix, results);
             prefix.deleteCharAt(prefix.length() - 1);
         }
@@ -176,16 +173,15 @@ public class NewTrieSet implements Iterable<String> {
             return;
         char c = pattern.charAt(d);
         if (c == '.') {
-            for (int ch = 0; ch < R; ch++) {
-                char mapChar = (char) (ch + START_VAL);
-                prefix.append(mapChar);
+            for (char ch = 0; ch < R; ch++) {
+                prefix.append(ch);
                 collect(x.next[ch], prefix, pattern, results);
                 prefix.deleteCharAt(prefix.length() - 1);
             }
         }
         else {
             prefix.append(c);
-            collect(x.next[c - START_LETTER], prefix, pattern, results);
+            collect(x.next[c], prefix, pattern, results);
             prefix.deleteCharAt(prefix.length() - 1);
         }
     }
@@ -217,7 +213,7 @@ public class NewTrieSet implements Iterable<String> {
         if (x.isString) length = d;
         if (d == query.length()) return length;
         char c = query.charAt(d);
-        return longestPrefixOf(x.next[c - START_LETTER], query, d + 1, length);
+        return longestPrefixOf(x.next[c], query, d + 1, length);
     }
 
     /**
@@ -239,7 +235,7 @@ public class NewTrieSet implements Iterable<String> {
         }
         else {
             char c = key.charAt(d);
-            x.next[c - START_LETTER] = delete(x.next[c - START_LETTER], key, d + 1);
+            x.next[c] = delete(x.next[c], key, d + 1);
         }
 
         // remove subtrie rooted at x if it is completely empty

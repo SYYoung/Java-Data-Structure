@@ -46,7 +46,7 @@
     <configuration name="BoggleSolver" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="BoggleSolver" />
       <module name="Algorithms, Part II" />
-      <option name="PROGRAM_PARAMETERS" value="dictionary-nursery.txt board-q.txt" />
+      <option name="PROGRAM_PARAMETERS" value="dictionary-nursery.txt board4x4.txt" />
       <method v="2" />
     </configuration>
     <configuration name="NewTrieSet" type="Application" factoryName="Application">
@@ -69,49 +69,49 @@
     </todo-panel>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1405" height="317" key="GridCell.Tab.0.bottom" timestamp="1601801319308">
+    <state width="1405" height="298" key="GridCell.Tab.0.bottom" timestamp="1601805262173">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="317" key="GridCell.Tab.0.bottom/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601801319308" />
+    <state width="1405" height="298" key="GridCell.Tab.0.bottom/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601805262173" />
     <state width="1405" height="296" key="GridCell.Tab.0.bottom/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601709864177" />
     <state width="1405" height="296" key="GridCell.Tab.0.bottom/0.23.1440.822/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601737768478" />
-    <state width="1405" height="317" key="GridCell.Tab.0.center" timestamp="1601801319307">
+    <state width="1405" height="298" key="GridCell.Tab.0.center" timestamp="1601805262173">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="317" key="GridCell.Tab.0.center/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601801319307" />
+    <state width="1405" height="298" key="GridCell.Tab.0.center/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601805262173" />
     <state width="1405" height="296" key="GridCell.Tab.0.center/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601709864176" />
     <state width="1405" height="296" key="GridCell.Tab.0.center/0.23.1440.822/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601737768477" />
-    <state width="1405" height="317" key="GridCell.Tab.0.left" timestamp="1601801319306">
+    <state width="1405" height="298" key="GridCell.Tab.0.left" timestamp="1601805262172">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="317" key="GridCell.Tab.0.left/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601801319306" />
+    <state width="1405" height="298" key="GridCell.Tab.0.left/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601805262172" />
     <state width="1405" height="296" key="GridCell.Tab.0.left/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601709864175" />
     <state width="1405" height="296" key="GridCell.Tab.0.left/0.23.1440.822/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601737768476" />
-    <state width="1405" height="317" key="GridCell.Tab.0.right" timestamp="1601801319307">
+    <state width="1405" height="298" key="GridCell.Tab.0.right" timestamp="1601805262173">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="317" key="GridCell.Tab.0.right/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601801319307" />
+    <state width="1405" height="298" key="GridCell.Tab.0.right/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601805262173" />
     <state width="1405" height="296" key="GridCell.Tab.0.right/0.23.1440.821/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601709864177" />
     <state width="1405" height="296" key="GridCell.Tab.0.right/0.23.1440.822/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601737768478" />
-    <state width="1405" height="317" key="GridCell.Tab.1.bottom" timestamp="1601801313551">
+    <state width="1405" height="317" key="GridCell.Tab.1.bottom" timestamp="1601804553550">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="317" key="GridCell.Tab.1.bottom/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601801313551" />
+    <state width="1405" height="317" key="GridCell.Tab.1.bottom/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601804553550" />
     <state width="1405" height="317" key="GridCell.Tab.1.bottom/0.23.1440.822/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601737768464" />
-    <state width="1405" height="317" key="GridCell.Tab.1.center" timestamp="1601801313551">
+    <state width="1405" height="317" key="GridCell.Tab.1.center" timestamp="1601804553549">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="317" key="GridCell.Tab.1.center/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601801313551" />
+    <state width="1405" height="317" key="GridCell.Tab.1.center/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601804553549" />
     <state width="1405" height="317" key="GridCell.Tab.1.center/0.23.1440.822/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601737768463" />
-    <state width="1405" height="317" key="GridCell.Tab.1.left" timestamp="1601801313550">
+    <state width="1405" height="317" key="GridCell.Tab.1.left" timestamp="1601804553549">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="317" key="GridCell.Tab.1.left/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601801313550" />
+    <state width="1405" height="317" key="GridCell.Tab.1.left/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601804553549" />
     <state width="1405" height="317" key="GridCell.Tab.1.left/0.23.1440.822/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601737768463" />
-    <state width="1405" height="317" key="GridCell.Tab.1.right" timestamp="1601801313551">
+    <state width="1405" height="317" key="GridCell.Tab.1.right" timestamp="1601804553550">
       <screen x="1440" y="23" width="1920" height="1057" />
     </state>
-    <state width="1405" height="317" key="GridCell.Tab.1.right/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601801313551" />
+    <state width="1405" height="317" key="GridCell.Tab.1.right/0.23.1440.816/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601804553550" />
     <state width="1405" height="317" key="GridCell.Tab.1.right/0.23.1440.822/1440.23.1920.1057@1440.23.1920.1057" timestamp="1601737768464" />
   </component>
   <component name="XDebuggerManager">
@@ -121,6 +121,11 @@
           <url>file://$PROJECT_DIR$/BoggleSolver.java</url>
           <line>35</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/NewTrieSet.java</url>
+          <line>147</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
