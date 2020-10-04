@@ -120,8 +120,6 @@ public class BoggleSolver {
             theWord.append(ch);
         if (!dict.isPrefixValid(theWord.toString())) {
             theWord.deleteCharAt(theWord.length() - 1);
-            if (ch == 'Q')
-                theWord.deleteCharAt(theWord.length() - 1);
             return;
         }
         marked[row * totalCol + col] = true;
