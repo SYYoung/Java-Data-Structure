@@ -224,11 +224,13 @@ public class BaseballElimination {
         int s = startNode;
         int t = endNode;
         int totalGameVertex = 0;
-        for (int i = 1; i <= totalTeams; i++)
-            totalGameVertex += teamRec[i].remaining;
+        for (int i = 1; i <= totalTeams; i++) {
+            if (i == teamExclude) continue;
+            totalGameVertex += teamRec[i].remaining - games[i][teamExclude];
+        }
         totalGameVertex = totalGameVertex / 2;
         FlowNetwork baseNetwork = new FlowNetwork(totalGameVertex + 2 + numberOfTeams());
-        buildNode();
+        buildNode(teamExclude);
         // build the edge
         for (int i = 1; i <= totalTeams; i++) {
             if (i == teamExclude) continue;
@@ -253,13 +255,15 @@ public class BaseballElimination {
         return baseNetwork;
     }
 
-    private void buildNode() {
+    private void buildNode(int teamExclude) {
         // 1 for node s and 1 for node t
         int startIndex = totalTeams + 2;
-        for (int i = 1; i <= totalTeams; i++)
+        for (int i = 1; i <= totalTeams; i++) {
+            if (i == teamExclude) continue;
             for (int j = i; j <= totalTeams; j++)
-                if (games[i][j] > 0)
+                if ((games[i][j] > 0) && (j != teamExclude))
                     gameVertex[i][j] = startIndex++;
+        }
     }
 
     private class TeamRecord {

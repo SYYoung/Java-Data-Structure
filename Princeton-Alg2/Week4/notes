@@ -1,0 +1,39 @@
+1. Initialization:
+	for all i: tilt[i].valid = true
+	if the tilt is used, set tile[i].valid = false
+
+1. A valid word:
+	A. Postion of letter[i+1]:
+	a. letter[i+1].row = letter[i].row or
+	b. letter[i+1].col = letter[i].col or
+	c. abs(letter[i+1].row - letter[i].row) == 1 and 
+		ab(letter[i+1].col - letter[i].col) == 1
+
+	B. letter[i].valid == true
+		and after use this letter, set tilt[i].valid = false
+
+	C. word.length >= 3
+
+	D. dictionary.contains(word) == true
+2. Qu is a special case. It is treated as 2 letters.
+
+
+
+Process:
+1. initialize the board: tilt[i].valid = true
+2. set points: 
+		  length	points
+	points[0] 3		1
+	points[0] 4		1
+	points[0] 5		2
+	points[0] 6		3
+	points[0] 7		5
+	points[0] 8		11
+
+	MIN_LENGTH = 3
+	UPPER_LENGTH_THRESHOLD = 8
+	if word.length < MIN_LENGTH return 0;
+	else if word.length >= UPPER_LENGTH_THRESHOLD, 
+		score = points[UPPER_LENGTH_THRESHOLD-MIN_LENGTH]
+	else score = points[word.length-MIN_LENGTH] 
+
