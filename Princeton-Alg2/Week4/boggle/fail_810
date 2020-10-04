@@ -1,0 +1,16 @@
+1. getAllValidWords():
+	  * dictionary = dictionary-algs4.txt; board = board-q.txt
+    - number of entries in student   solution: 10
+    - number of entries in reference solution: 29
+    - 2 extra entries in student solution, including:
+      'SET'
+
+    - 21 missing entries in student solution, including:
+      'TRIES'
+
+         4 4
+         S  N  R  T
+         O  I  E  L
+         E  Qu T  T
+         R  S  A  T
+

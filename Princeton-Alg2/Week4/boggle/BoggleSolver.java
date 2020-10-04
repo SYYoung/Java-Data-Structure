@@ -79,6 +79,9 @@ public class BoggleSolver {
         }
         StdOut.println("Score = " + score);
 
+        String testStr = "CHLORDANE";
+        StdOut.println("Score of " + testStr + " : " + solver.scoreOf(testStr));
+
     }
 
     private void depthFirstSearch(BoggleBoard board, int row, int col, ArrayList<String> all) {
@@ -139,6 +142,8 @@ public class BoggleSolver {
     }
 
     private int calScore(String word) {
+        if (!dict.contains(word))
+            return 0;
         if (word.length() < MIN_WORD_LENGTH)
             return 0;
         else if (word.length() >= UPPER_LENGTH_THRESHOLD)
