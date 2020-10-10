@@ -7,7 +7,6 @@
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
 import edu.princeton.cs.algs4.Queue;
-import edu.princeton.cs.algs4.StdOut;
 
 import java.util.ArrayList;
 
@@ -43,12 +42,13 @@ public class BurrowsWheeler {
         // read the index of first
         int first;
         int N;
-
+        /*
         first = 3;
         String s = "ARD!RCAAAABB";
         char[] t = s.toCharArray();
         N = t.length;
-        /*
+         */
+
         first = BinaryStdIn.readInt();
         StringBuilder inputT = new StringBuilder();
         while (!BinaryStdIn.isEmpty()) {
@@ -57,8 +57,8 @@ public class BurrowsWheeler {
         }
         N = inputT.length();
         char[] t = new char[N];
-        s.getChars(0, N, t, 0);
-         */
+        inputT.getChars(0, N, t, 0);
+
 
         // sort the array t
         Queue<Integer>[] tQueue = (Queue<Integer>[]) new Queue[R];
@@ -95,13 +95,19 @@ public class BurrowsWheeler {
             nextOne = next[nextOne];
         }
         // for debugging
-
+        /*
         for (int i = 0; i < N; i++)
             StdOut.println(firstCol[i]);
         for (int i = 0; i < N; i++)
             StdOut.println(next[i]);
         for (int i = 0; i < N; i++)
             StdOut.print(original[i] + "\t");
+
+         */
+        for (int i = 0; i < N; i++)
+            BinaryStdOut.write(original[i]);
+        BinaryStdOut.flush();
+        BinaryStdOut.close();
     }
 
     // if args[0] is "-", apply Burrows-Wheeler transform

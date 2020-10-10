@@ -5,6 +5,7 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.BinaryStdIn;
+import edu.princeton.cs.algs4.BinaryStdOut;
 
 import java.util.ArrayList;
 
@@ -14,11 +15,13 @@ public class MoveToFront {
 
     // apply move-to-front encoding, reading from standard input and writing to standard output
     public static void encode() {
+        char[] charList = new char[R];
         // 0. init the sequence by making the ith character in the seq equal to the ith ASCII char
-
+        
         // 1. read each 8-bit character c from standard input
         while (!BinaryStdIn.isEmpty()) {
             char ch = BinaryStdIn.readChar();
+            BinaryStdOut.write(charList[ch]);
         }
         // 2. output 8-bit index in the seq where c appears
         // 3. move c to the front
