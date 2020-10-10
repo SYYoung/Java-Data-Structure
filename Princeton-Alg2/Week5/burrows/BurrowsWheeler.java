@@ -42,22 +42,25 @@ public class BurrowsWheeler {
     public static void inverseTransform() {
         // read the index of first
         int first;
-        /*
-        char[] t;
-        first = BinaryStdIn.readInt();
-        ArrayList<Character> inputT = new ArrayList<Character>();
-        while (!BinaryStdIn.isEmpty()) {
-            char ch = BinaryStdIn.readChar();
-            inputT.add(ch);
-        }
-        t = (char[])inputT.toArray();
-         */
+        int N;
+
         first = 3;
         String s = "ARD!RCAAAABB";
         char[] t = s.toCharArray();
+        N = t.length;
+        /*
+        first = BinaryStdIn.readInt();
+        StringBuilder inputT = new StringBuilder();
+        while (!BinaryStdIn.isEmpty()) {
+            char ch = BinaryStdIn.readChar();
+            inputT.append(ch);
+        }
+        N = inputT.length();
+        char[] t = new char[N];
+        s.getChars(0, N, t, 0);
+         */
 
         // sort the array t
-        int N = t.length;
         Queue<Integer>[] tQueue = (Queue<Integer>[]) new Queue[R];
         for (int i = 0; i < R; i++)
             tQueue[i] = new Queue<Integer>();
@@ -83,12 +86,22 @@ public class BurrowsWheeler {
             next[i] = pos;
         }
 
+        // Construct the original string
+        char[] original = new char[N];
+        original[0] = firstCol[first];
+        int nextOne = next[first];
+        for (int i = 1; i < N; i++) {
+            original[i] = firstCol[nextOne];
+            nextOne = next[nextOne];
+        }
         // for debugging
+
         for (int i = 0; i < N; i++)
             StdOut.println(firstCol[i]);
         for (int i = 0; i < N; i++)
             StdOut.println(next[i]);
-
+        for (int i = 0; i < N; i++)
+            StdOut.print(original[i] + "\t");
     }
 
     // if args[0] is "-", apply Burrows-Wheeler transform
