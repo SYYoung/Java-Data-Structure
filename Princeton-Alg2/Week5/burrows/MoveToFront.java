@@ -49,13 +49,33 @@ public class MoveToFront {
 
     // apply move-to-front decoding, reading from standard input and writing to standard output
     public static void decode() {
-        // 0. init the sequence
-        // 1. read each 8-bit character but treat it as an int between 0 and 255
-        while (!BinaryStdIn.isEmpty()) {
-            char ch = BinaryStdIn.readChar();
+        int[] indexList = new int[R];
+        char[] charList = new char[R];
+        // 0. init the sequence by making the ith character in the seq equal to the ith ASCII char
+        for (int i = 0; i < R; i++) {
+            indexList[i] = i;
+            charList[i] = (char) i;
         }
-        // 2. write the ith char in the sequence
-        // 3. move that char to the front
+        // 1. read each 8-bit character c from standard input
+        // 2. output 8-bit index in the seq where c appears
+        // 3. move c to the front
+        // 4. update the index of c, and all char before c
+        /*
+        int[] inputList = {
+                0x41, 0x42, 0x52, 0x02, 0x44, 0x01, 0x45, 0x01, 0x04, 0x04, 0x02, 0x26
+        };
+        //for (int j = 0; j < inputList.length; j++) {
+            //int pos = inputList[j];
+         */
+        while (!BinaryStdIn.isEmpty()) {
+            int pos = BinaryStdIn.readInt(8);
+            BinaryStdOut.write(charList[pos], 8);
+            char tmp = charList[pos];
+            System.arraycopy(charList, 0, charList, 1, pos);
+            charList[0] = tmp;
+        }
+        BinaryStdOut.flush();
+        BinaryStdOut.close();
     }
 
     // if args[0] is "-", apply move-to-front encoding
