@@ -39,7 +39,7 @@ public class CircularSuffixArray {
 
         public int compareTo(Suffix that) {
             if (this == that) return 0;
-            int n = this.text.length() / 2;
+            int n = this.text.length();
             for (int i = 0; i < n; i++) {
                 if (this.charAt(i) < that.charAt(i)) return -1;
                 if (this.charAt(i) > that.charAt(i)) return +1;
@@ -63,7 +63,8 @@ public class CircularSuffixArray {
 
     // unit testing (required)
     public static void main(String[] args) {
-        String originalS = "ABRACADABRA!";
+        // String originalS = "ABRACADABRA!";
+        String originalS = "BANANA";
         // correct result: 11, 10, 7, 0, 3, 5, 8, 1, 4,6, 9, 2
         CircularSuffixArray myCircularSArr = new CircularSuffixArray(originalS);
         StdOut.println("The index of string is: " + originalS);
