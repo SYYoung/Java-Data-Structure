@@ -13,11 +13,9 @@ public class MoveToFront {
 
     // apply move-to-front encoding, reading from standard input and writing to standard output
     public static void encode() {
-        int[] indexList = new int[R];
         char[] charList = new char[R];
         // 0. init the sequence by making the ith character in the seq equal to the ith ASCII char
         for (int i = 0; i < R; i++) {
-            indexList[i] = i;
             charList[i] = (char) i;
         }
 
@@ -25,9 +23,11 @@ public class MoveToFront {
         // 2. output 8-bit index in the seq where c appears
         // 3. move c to the front
         // 4. update the index of c, and all char before c
+        /*
         String s = "ABRACADABRA!";
-        //for (int j = 0; j < s.length(); j++) {
-        //char ch = s.charAt(j);
+        for (int j = 0; j < s.length(); j++) {
+        char ch = s.charAt(j);
+         */
         while (!BinaryStdIn.isEmpty()) {
             char ch = BinaryStdIn.readChar();
             int pos = search(ch, charList);
@@ -35,7 +35,7 @@ public class MoveToFront {
             System.arraycopy(charList, 0, charList, 1, pos);
             charList[0] = ch;
         }
-        BinaryStdOut.flush();
+        //BinaryStdOut.flush();
         BinaryStdOut.close();
     }
 
@@ -49,11 +49,9 @@ public class MoveToFront {
 
     // apply move-to-front decoding, reading from standard input and writing to standard output
     public static void decode() {
-        int[] indexList = new int[R];
         char[] charList = new char[R];
         // 0. init the sequence by making the ith character in the seq equal to the ith ASCII char
         for (int i = 0; i < R; i++) {
-            indexList[i] = i;
             charList[i] = (char) i;
         }
         // 1. read each 8-bit character c from standard input
@@ -74,7 +72,7 @@ public class MoveToFront {
             System.arraycopy(charList, 0, charList, 1, pos);
             charList[0] = tmp;
         }
-        BinaryStdOut.flush();
+        //BinaryStdOut.flush();
         BinaryStdOut.close();
     }
 
