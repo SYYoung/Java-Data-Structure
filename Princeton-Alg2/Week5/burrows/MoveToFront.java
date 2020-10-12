@@ -35,7 +35,7 @@ public class MoveToFront {
             System.arraycopy(charList, 0, charList, 1, pos);
             charList[0] = ch;
         }
-        //BinaryStdOut.flush();
+
         BinaryStdOut.close();
     }
 
@@ -72,7 +72,7 @@ public class MoveToFront {
             System.arraycopy(charList, 0, charList, 1, pos);
             charList[0] = tmp;
         }
-        //BinaryStdOut.flush();
+        
         BinaryStdOut.close();
     }
 
