@@ -12,25 +12,29 @@ public class CircularSuffixArray {
     private Suffix[] suffixes;
 
     public CircularSuffixArray(String text) {
+        if (text == null)
+            throw new IllegalArgumentException();
         int n = text.length();
         this.suffixes = new Suffix[n];
         // String inputText = new String(text + text);
         for (int i = 0; i < n; i++)
-            suffixes[i] = new Suffix(text + text, i);
+            suffixes[i] = new Suffix(text, i);
         Arrays.sort(suffixes);
     }
 
     private static class Suffix implements Comparable<Suffix> {
         private final String text;
         private final int index;
+        private final int len;
 
         private Suffix(String text, int index) {
             this.text = text;
             this.index = index;
+            this.len = text.length();
         }
 
         private char charAt(int i) {
-            return text.charAt(index + i);
+            return text.charAt((index + i) % len);
         }
 
         public int compareTo(Suffix that) {
