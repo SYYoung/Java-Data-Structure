@@ -50,18 +50,23 @@ public class BurrowsWheeler {
          */
 
         first = BinaryStdIn.readInt();
-        StringBuilder inputT = new StringBuilder();
+        Queue<Character> inputT = new Queue<Character>();
+        //StringBuilder inputT = new StringBuilder();
         while (!BinaryStdIn.isEmpty()) {
             char ch = BinaryStdIn.readChar();
-            inputT.append(ch);
+            inputT.enqueue(ch);
+            //inputT.append(ch);
         }
-        N = inputT.length();
+        //N = inputT.length();
+        N = inputT.size();
         char[] t = new char[N];
-        inputT.getChars(0, N, t, 0);
+        for (int i = 0; i < N; i++)
+            t[i] = inputT.dequeue();
+        //inputT.getChars(0, N, t, 0);
 
 
         // sort the array t
-        Queue<Integer>[] tQueue = (Queue<Integer>[]) new Queue[R];
+        Queue<Integer>[] tQueue = (Queue<Integer>[]) new Object[R];
         for (int i = 0; i < R; i++)
             tQueue[i] = new Queue<Integer>();
         int[] count1 = new int[R + 1];
